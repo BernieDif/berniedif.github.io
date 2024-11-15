@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>python作业：函数2 |  老夏十三行</title>
+      <title>python：类 |  老夏十三行</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -53,7 +53,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-python：函数2"
+  id="post-python：类"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -64,7 +64,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  python作业：函数2
+  python：类
 </h1>
  
 
@@ -72,15 +72,15 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2024/11/13/python%EF%BC%9A%E5%87%BD%E6%95%B02/" class="article-date">
-  <time datetime="2024-11-13T11:29:24.000Z" itemprop="datePublished">2024-11-13</time>
+      <a href="/2024/11/15/python%EF%BC%9A%E7%B1%BB/" class="article-date">
+  <time datetime="2024-11-15T08:06:06.000Z" itemprop="datePublished">2024-11-15</time>
 </a>   
 <div class="word_count">
     <span class="post-time">
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">1.2k</span>
+            <span class="post-count">696</span>
         </span>
     </span>
 
@@ -89,7 +89,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">4 min</span>
+            <span class="post-count">2 min</span>
         </span>
     </span>
 </div>
@@ -104,29 +104,20 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h3 id="Python编程练习——函数实现与解析"><a href="#Python编程练习——函数实现与解析" class="headerlink" title="Python编程练习——函数实现与解析"></a>Python编程练习——函数实现与解析</h3><p>在Python编程中，函数是组织代码、实现特定功能的重要工具。本文将通过四道程序题，展示如何编写并理解函数，同时提供详细的解析和代码解释。</p>
-<h4 id="1-字符串字符计数函数-my-count"><a href="#1-字符串字符计数函数-my-count" class="headerlink" title="1. 字符串字符计数函数 my_count"></a>1. 字符串字符计数函数 <code>my_count</code></h4><p><strong>题目要求</strong>：<br>编写一个函数<code>my_count</code>，用于计算传入字符串中数字、字母、空格以及其他字符的个数。</p>
-<p><strong>解析</strong>：<br>这个函数需要遍历字符串中的每个字符，并根据字符的类型（数字、字母、空格、其他）进行计数。我们可以使用条件语句（<code>if-elif-else</code>）来判断字符的类型。</p>
-<p><strong>代码实现</strong>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">my_count</span>(<span class="params">string</span>):</span><br><span class="line">    number_count = <span class="number">0</span>  <span class="comment"># 数字数量</span></span><br><span class="line">    alpha_count = <span class="number">0</span>   <span class="comment"># 字母数量</span></span><br><span class="line">    space_count = <span class="number">0</span>   <span class="comment"># 空格数量</span></span><br><span class="line">    other_count = <span class="number">0</span>   <span class="comment"># 其他字符数量</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> string:</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;0&#x27;</span> &lt;= char &lt;= <span class="string">&#x27;9&#x27;</span>:</span><br><span class="line">            number_count += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> <span class="string">&#x27;a&#x27;</span> &lt;= char &lt;= <span class="string">&#x27;z&#x27;</span> <span class="keyword">or</span> <span class="string">&#x27;A&#x27;</span> &lt;= char &lt;= <span class="string">&#x27;Z&#x27;</span>:</span><br><span class="line">            alpha_count += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> char == <span class="string">&#x27; &#x27;</span>:</span><br><span class="line">            space_count += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            other_count += <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 注意：原题目要求返回四个变量的值，但返回格式应为元组，而非字符串拼接</span></span><br><span class="line">    <span class="comment"># 下面的返回语句应修改为：</span></span><br><span class="line">    <span class="comment"># return number_count, alpha_count, space_count, other_count</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 但为了保持与题目中给出的答案一致（尽管该答案格式不符合题目要求的返回类型），</span></span><br><span class="line">    <span class="comment"># 这里仍保留原答案的返回格式。实际使用时，应使用元组返回。</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">f&quot;number_count:<span class="subst">&#123;number_count&#125;</span>\nalpha_count:<span class="subst">&#123;alpha_count&#125;</span>\nspace_count:<span class="subst">&#123;space_count&#125;</span>\nother_count:<span class="subst">&#123;other_count&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试函数</span></span><br><span class="line"><span class="built_in">print</span>(my_count(<span class="string">&quot;*ab134gz dget 3 1dgg *&quot;</span>))</span><br></pre></td></tr></table></figure>
-<p><strong>注意</strong>：原答案中的返回语句返回了一个字符串，而题目要求的返回类型应为四个独立的变量（通常通过元组返回）。在实际应用中，应使用<code>return number_count, alpha_count, space_count, other_count</code>。</p>
-<h4 id="2-找零函数-change"><a href="#2-找零函数-change" class="headerlink" title="2. 找零函数 change"></a>2. 找零函数 <code>change</code></h4><p><strong>题目要求</strong>：<br>设置函数<code>change</code>，输入整钱数和不定数量的物品价格，返回找零的数值并输出。</p>
-<p><strong>解析</strong>：<br>这个函数需要计算所有物品价格的总和，并从整钱数中减去这个总和，得到找零的数值。由于物品价格是不定数量的参数，我们可以使用Python的可变参数（<code>*args</code>）来处理。</p>
-<p><strong>代码实现</strong>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">change</span>(<span class="params">amount, *prices</span>):</span><br><span class="line">    total_price = <span class="built_in">sum</span>(prices)  <span class="comment"># 计算所有物品价格的总和</span></span><br><span class="line">    <span class="keyword">return</span> amount - total_price  <span class="comment"># 返回找零的数值</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试函数</span></span><br><span class="line"><span class="built_in">print</span>(change(<span class="number">100</span>, <span class="number">18</span>, <span class="number">17</span>, <span class="number">51</span>))  <span class="comment"># 输出：14</span></span><br></pre></td></tr></table></figure>
-<p>这段代码正确地实现了题目要求的功能。</p>
-<h4 id="3-匿名函数计算两倍值"><a href="#3-匿名函数计算两倍值" class="headerlink" title="3. 匿名函数计算两倍值"></a>3. 匿名函数计算两倍值</h4><p><strong>题目要求</strong>：<br>定义一个匿名函数，计算输入值<code>x</code>的两倍数值，并打印结果。</p>
-<p><strong>解析</strong>：<br>匿名函数可以使用Python的<code>lambda</code>表达式来定义。在这个问题中，我们需要一个接受一个参数<code>x</code>并返回<code>2*x</code>的函数。</p>
-<p><strong>代码实现</strong>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义一个匿名函数，计算输入值x的两倍</span></span><br><span class="line">a = <span class="keyword">lambda</span> x: <span class="number">2</span> * x</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印结果</span></span><br><span class="line"><span class="built_in">print</span>(a(<span class="number">5</span>))  <span class="comment"># 输出：10</span></span><br></pre></td></tr></table></figure>
-<p>这段代码使用了<code>lambda</code>表达式定义了一个匿名函数，并将其赋值给变量<code>a</code>。然后，我们调用了这个函数并打印了结果。</p>
-<h4 id="4-判断素数函数-is-prime"><a href="#4-判断素数函数-is-prime" class="headerlink" title="4. 判断素数函数 is_prime"></a>4. 判断素数函数 <code>is_prime</code></h4><p><strong>题目要求</strong>：<br>编写一个函数<code>is_prime</code>，判断传入的正整数是否为素数，并返回布尔值。</p>
-<p><strong>解析</strong>：<br>判断一个数是否为素数，需要检查它是否能被除了1和它本身以外的其他数整除。如果不能被整除，则是素数；否则，不是素数。为了优化性能，我们只需要检查到该数的平方根即可。但在这个问题中，我们先实现一个简单的版本，不进行优化。</p>
-<p><strong>代码实现</strong>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">is_prime</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="comment"># 检查n是否小于等于1，如果是，则不是素数</span></span><br><span class="line">    <span class="keyword">if</span> n &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 遍历从2到n-1的所有数，检查是否能整除n</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, n):</span><br><span class="line">        <span class="keyword">if</span> n % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span>  <span class="comment"># 如果能整除，则不是素数</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 如果不能被任何数整除，则是素数</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输入一个正整数并判断是否为素数</span></span><br><span class="line">positive_int = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入一个正整数: &quot;</span>))</span><br><span class="line"><span class="keyword">if</span> is_prime(positive_int):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;positive_int&#125;</span>是素数&#x27;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;positive_int&#125;</span>不是素数&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>这段代码实现了判断素数的基本逻辑。但需要注意的是，对于较大的数，这个算法的性能可能不够高效。在实际应用中，可以考虑使用更高效的素数判断算法，如埃拉托斯特尼筛法或试除法结合平方根优化。</p>
-<hr>
-<p>通过这四道程序题，我们学习了如何编写函数来解决实际问题，并理解了函数在Python编程中的重要性。希望这些解析和代码实现能够帮助你更好地掌握Python函数的使用。</p>
+  <h4 id="Python类定义与实例化详解"><a href="#Python类定义与实例化详解" class="headerlink" title="Python类定义与实例化详解"></a>Python类定义与实例化详解</h4><p>在Python中，类（Class）是一种用于创建对象的蓝图或模板。通过定义类，我们可以创建具有相同属性和方法的多个对象（实例）。本文将通过两个具体的例子来展示如何定义类、初始化实例变量以及调用类中的方法。</p>
+<h2 id="例子1：定义一个Car类"><a href="#例子1：定义一个Car类" class="headerlink" title="例子1：定义一个Car类"></a>例子1：定义一个Car类</h2><h3 id="1-1-定义Car类"><a href="#1-1-定义Car类" class="headerlink" title="1.1 定义Car类"></a>1.1 定义Car类</h3><p>首先，我们定义一个名为<code>Car</code>的类，该类包含一个实例变量<code>self.brand</code>和两个方法：<code>__init__()</code>和<code>print_brand_name()</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Car</span>:  <span class="comment"># 定义一个名为Car的类</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, brandname</span>):  <span class="comment"># 初始化方法，用于给实例变量赋值</span></span><br><span class="line">        <span class="variable language_">self</span>.brand = brandname  <span class="comment"># 定义实例变量self.brand，并将其值设置为传入的brandname参数</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">print_brand_name</span>(<span class="params">self</span>):  <span class="comment"># 定义一个方法，用于打印品牌名</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="variable language_">self</span>.brand)  <span class="comment"># 打印实例变量self.brand的值</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-实例化Car类并调用方法"><a href="#1-2-实例化Car类并调用方法" class="headerlink" title="1.2 实例化Car类并调用方法"></a>1.2 实例化Car类并调用方法</h3><p>接下来，我们实例化<code>Car</code>类，并调用<code>print_brand_name()</code>方法来打印品牌名。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CarA = Car(<span class="string">&quot;Benz&quot;</span>)  <span class="comment"># 实例化Car类，创建一个名为CarA的对象，并传入品牌名&quot;Benz&quot;</span></span><br><span class="line">CarA.print_brand_name()  <span class="comment"># 调用CarA对象的print_brand_name()方法，打印出&#x27;Benz&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="例子2：定义一个Student类"><a href="#例子2：定义一个Student类" class="headerlink" title="例子2：定义一个Student类"></a>例子2：定义一个Student类</h2><h3 id="2-1-定义Student类"><a href="#2-1-定义Student类" class="headerlink" title="2.1 定义Student类"></a>2.1 定义Student类</h3><p>然后，我们定义一个名为<code>Student</code>的类，该类包含三个实例变量：<code>self.name</code>，<code>self.age</code>和<code>self.score</code>，以及一个方法<code>get_max()</code>，用于返回成绩列表中的最大值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span>:  <span class="comment"># 定义一个名为Student的类</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name, age, score</span>):  <span class="comment"># 初始化方法，用于给实例变量赋值</span></span><br><span class="line">        <span class="variable language_">self</span>.name = name  <span class="comment"># 定义实例变量self.name，并将其值设置为传入的name参数</span></span><br><span class="line">        <span class="variable language_">self</span>.age = age  <span class="comment"># 定义实例变量self.age，并将其值设置为传入的age参数</span></span><br><span class="line">        <span class="variable language_">self</span>.score = score  <span class="comment"># 定义实例变量self.score，并将其值设置为传入的score参数（一个列表）</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_max</span>(<span class="params">self</span>):  <span class="comment"># 定义一个方法，用于返回成绩列表中的最大值</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(<span class="variable language_">self</span>.score)  <span class="comment"># 使用max函数找到self.score列表中的最大值，并返回</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-实例化Student类并调用方法"><a href="#2-2-实例化Student类并调用方法" class="headerlink" title="2.2 实例化Student类并调用方法"></a>2.2 实例化Student类并调用方法</h3><p>最后，我们实例化<code>Student</code>类，并调用<code>get_max()</code>方法来打印最高成绩。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Tony = Student(<span class="string">&#x27;Tony&#x27;</span>, <span class="number">20</span>, [<span class="number">69</span>, <span class="number">88</span>, <span class="number">100</span>])  <span class="comment"># 实例化Student类，创建一个名为Tony的对象，并传入姓名&#x27;Tony&#x27;，年龄20和成绩列表[69, 88, 100]</span></span><br><span class="line"><span class="built_in">print</span>(Tony.get_max())  <span class="comment"># 调用Tony对象的get_max()方法，打印出最高成绩100</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过这两个例子，我们可以看到如何定义类、初始化实例变量以及调用类中的方法。在Python中，类是面向对象编程（OOP）的核心概念之一，通过合理设计类，我们可以更好地组织代码，提高代码的可读性和可维护性。</p>
  
       <!-- reward -->
       
@@ -197,12 +188,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2024/11/13/python%EF%BC%9A%E5%87%BD%E6%95%B02/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2024/11/15/python%EF%BC%9A%E7%B1%BB/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%9C%E4%B8%9A/" rel="tag">作业</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0/" rel="tag">匿名函数</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/" rel="tag">定义函数</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%9C%E4%B8%9A/" rel="tag">作业</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB/" rel="tag">类</a></li></ul>
 
     </footer>
   </div>
@@ -210,19 +201,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2024/11/15/python%EF%BC%9A%E7%B1%BB/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            python：类
-          
-        </div>
-      </a>
     
-    
-      <a href="/2024/11/07/%E2%80%9Cpython%EF%BC%9A%E5%87%BD%E6%95%B01%E2%80%9D%E8%A7%A3%E6%9E%90/" class="article-nav-link">
+      <a href="/2024/11/13/python%EF%BC%9A%E5%87%BD%E6%95%B02/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">“python：函数1”解析</div>
+        <div class="article-nav-title">python作业：函数2</div>
       </a>
     
   </nav>
