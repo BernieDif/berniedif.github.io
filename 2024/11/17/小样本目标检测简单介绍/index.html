@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+
+
+<html lang="zh">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>小样本目标检测简单介绍 |  老夏十三行</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-小样本目标检测简单介绍"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  小样本目标检测简单介绍
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/11/17/%E5%B0%8F%E6%A0%B7%E6%9C%AC%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/" class="article-date">
+  <time datetime="2024-11-17T11:50:57.000Z" itemprop="datePublished">2024-11-17</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">4.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">14 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="文章目录"><a href="#文章目录" class="headerlink" title="文章目录"></a>文章目录</h2><ul>
+<li><a href="#%E5%B0%8F%E6%A0%B7%E6%9C%AC%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D">小样本目标检测简单介绍</a><ul>
+<li><a href="#1-%E5%BC%95%E8%A8%80">1. 引言</a></li>
+<li><a href="#2-%E5%B0%8F%E6%A0%B7%E6%9C%AC%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%9A%84%E6%8C%91%E6%88%98">2. 小样本目标检测的挑战</a></li>
+<li><a href="#3-%E4%B8%BB%E8%A6%81%E6%96%B9%E6%B3%95">3. 主要方法</a><ul>
+<li><a href="#31-%E5%85%83%E5%AD%A6%E4%B9%A0meta-learning">3.1 元学习（Meta-learning）</a></li>
+<li><a href="#32-%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BAdata-augmentation">3.2 数据增强（Data Augmentation）</a></li>
+<li><a href="#33-%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0transfer-learning">3.3 迁移学习（Transfer Learning）</a></li>
+<li><a href="#34-%E5%85%83%E5%AD%A6%E4%B9%A0%E5%92%8C%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E5%8C%BA%E5%88%AB">3.4 元学习和迁移学习区别</a></li>
+</ul>
+</li>
+<li><a href="#4-%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF">4. 应用场景</a></li>
+<li><a href="#5-%E6%80%BB%E7%BB%93">5. 总结</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="小样本目标检测简单介绍"><a href="#小样本目标检测简单介绍" class="headerlink" title="小样本目标检测简单介绍"></a>小样本目标检测简单介绍</h4><p>本文档将详细介绍小样本目标检测技术的基本概念、主要方法和应用场景。</p>
+<h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>在计算机视觉领域，目标检测是一项重要的任务，其目的是识别并定位图像中的特定物体。然而，在实际应用中，我们往往面临着训练样本不足的问题，这对于训练深度学习模型来说是一个巨大的挑战。小样本目标检测（Few-shot Object Detection, FSOD）应运而生，旨在解决这一问题。</p>
+<h4 id="小样本目标检测的挑战"><a href="#小样本目标检测的挑战" class="headerlink" title="小样本目标检测的挑战"></a>小样本目标检测的挑战</h4><p>小样本目标检测面临的主要挑战包括：</p>
+<p>数据不足：由于训练样本数量有限，很难有效地捕捉到目标类别的多样性和变化性。<br>过拟合：模型在有限的训练样本上容易陷入过拟合，导致在测试集上的泛化性能下降。<br>类别不平衡：在小样本场景下，目标类别和背景类别之间存在严重的不平衡问题，容易导致模型偏向于预测背景类别。</p>
+<h3 id="主要方法"><a href="#主要方法" class="headerlink" title="主要方法"></a>主要方法</h3><h4 id="3-1-元学习（Meta-learning）"><a href="#3-1-元学习（Meta-learning）" class="headerlink" title="3.1 元学习（Meta-learning）"></a>3.1 元学习（Meta-learning）</h4><p>元学习是机器学习领域的一个分支，它的目的是使机器学习算法能够更快、更有效地学习新的任务。元学习的核心思想是学习如何学习，通过学习如何快速适应新的任务，从而提高机器学习算法的效率和准确性。</p>
+<p>在传统的机器学习中，我们通常会训练一个模型来完成一个特定的任务。但是，当我们需要训练另一个模型来解决类似的任务时，我们通常需要重新收集数据、重新训练模型，并进行适当的微调。这个过程通常需要大量的时间和计算资源。在这种情况下，元学习可以提供一种解决方案。</p>
+<p>元学习的核心思想是利用已有的数据和模型来学习如何快速适应新的任务。具体来说，元学习通过学习如何学习来解决这个问题，它可以让机器学习算法在学习一个新任务时，更快地适应并且需要更少的数据。</p>
+<p>元学习可以应用于各种机器学习任务，包括图像分类、目标检测、自然语言处理等。其中，在小样本目标检测场景下，元学习通常会使用一个基础模型来对大量的训练数据进行预训练，然后使用很少的样本来微调模型以适应新的任务。</p>
+<p>具体来说，元学习的过程通常分为两个阶段。</p>
+<p>第一阶段是预训练阶段。在这个阶段，我们使用大量的训练数据来训练一个基础模型，以学习如何在各种情况下进行目标检测。这个过程通常需要大量的计算资源和时间，但只需要进行一次。</p>
+<p>第二阶段是微调阶段。在这个阶段，我们使用很少的样本（通常是几个或几十个）来微调预训练模型，以适应新的任务。这个过程比预训练阶段要快得多，因为我们已经让基础模型学习了如何进行目标检测，微调只需要让模型适应新的任务即可。这种方式可以在小样本目标检测场景下实现快速训练，节省时间和计算资源，并且可以提高模型的准确性和泛化能力。</p>
+<p>元学习的方法通常包括模型架构、损失函数、优化算法等方面的设计。其中，模型架构通常会采用递归神经网络、卷积神经网络等深度学习模型，以便更好地学习如何适应新的任务。损失函数通常会采用梯度下降等优化算法来寻找最优解。此外，元学习还可以结合强化学习、迁移学习等方法来进一步提高模型的性能。</p>
+<p>总之，元学习是一种非常有前途的机器学习方法，它的目标是使机器学习算法更快、更有效地学习新的任务。在小样本目标检测等场景下，元学习可以利用已有的大量样本来预训练模型，然后使用很少的样本进行微调，从而快速适应新的任务。通过学习如何学习，元学习可以提高机器学习算法的效率和准确性，减少训练时间和计算资源的消耗，同时也可以提高模型的泛化能力和适应性。元学习的方法和技术还在不断发展和完善，将来可能会在更广泛的领域得到应用。</p>
+<h4 id="3-2-数据增强（Data-Augmentation）"><a href="#3-2-数据增强（Data-Augmentation）" class="headerlink" title="3.2 数据增强（Data Augmentation）"></a>3.2 数据增强（Data Augmentation）</h4><p>数据增强是一种常用的数据预处理技术，它通过对训练样本进行变换来扩充数据集，从而提高模型的泛化性能。数据增强的目的是在不影响图像的基本特征和语义信息的前提下，增加数据集的样本数量和多样性，以提高模型的鲁棒性和泛化能力。</p>
+<p>在小样本目标检测场景下，由于训练数据的数量较少，数据增强尤为重要。通过数据增强可以有效地增加目标类别的样本数量和多样性，从而提高模型对目标的识别能力和鲁棒性。以下是一些常用的数据增强方法：</p>
+<p>随机裁剪：在图像中随机选择一个区域，并将其裁剪成一个新的图像。这种方法可以增加数据集的样本数量和多样性，同时可以减少过拟合的风险。</p>
+<p>随机缩放：将图像随机缩放到不同的大小，从而增加数据集的多样性。这种方法可以模拟不同尺度的目标出现在图像中的情况，提高模型对目标的检测能力。</p>
+<p>随机翻转：将图像随机水平或垂直翻转，从而增加数据集的多样性。这种方法可以模拟不同方向的目标出现在图像中的情况，提高模型对目标的检测能力。</p>
+<p>随机旋转：将图像随机旋转一个角度，从而增加数据集的多样性。这种方法可以模拟目标在不同方向上出现的情况，提高模型对目标的检测能力。</p>
+<p>随机亮度、对比度、色彩等变换：通过随机调整图像的亮度、对比度、色彩等参数来增加数据集的多样性。这种方法可以模拟不同环境下目标的外观变化，提高模型对目标的检测能力。</p>
+<p>Mixup：将两张不同的图像进行随机线性插值，获得一张新的图像。这种方法可以增加数据集的样本数量和多样性，同时可以减少模型对特定样本的过拟合风险。</p>
+<p>Cutout：在图像中随机选择一个区域，并将其像素值替换为0，从而增加数据集的多样性。这种方法可以模拟图像中部分目标缺失的情况，提高模型的鲁棒性。</p>
+<p>CutMix：将两张不同的图像进行随机裁剪，并将它们拼接到一起，获得一张新的图像。这种方法可以增加数据集的样本数量和多样性，同时可以减少模型对特定样本的过拟合风险。</p>
+<p>除了上述方法，还有一些其他的数据增强方法，如随机仿射变换、随机噪声等。不同的数据增强方法可以结合使用，从而进一步增加数据集的样本数量和多样性，提高模型的鲁棒性和泛化能力。</p>
+<p>需要注意的是，数据增强应该根据具体的应用场景和任务来选择合适的方法。例如，在目标检测任务中，裁剪、缩放、翻转、旋转等方法可以增加目标的多样性，从而提高模型的鲁棒性；而在图像分类任务中，颜色变换、扭曲变换等方法可以增加图像的多样性，从而提高模型的泛化能力。</p>
+<p>此外，数据增强也需要注意不要过度处理，否则会对图像的基本特征和语义信息产生影响，导致模型训练结果不准确。因此，需要根据实际情况，对数据增强的程度进行适当的控制。</p>
+<p>总之，数据增强是一种非常有效的数据预处理技术，可以通过对训练样本进行变换来增加数据集的样本数量和多样性，提高模型的鲁棒性和泛化能力。在小样本目标检测等场景下，数据增强尤为重要，可以通过旋转、缩放、翻转等方式增加目标类别的样本数量和多样性，提高模型的检测能力和鲁棒性。需要注意的是，数据增强的方法应该根据具体的应用场景和任务来选择合适的方法，并且需要适当控制处理的程度，以保证模型训练结果的准确性和可靠性。</p>
+<h4 id="3-3-迁移学习（Transfer-Learning）"><a href="#3-3-迁移学习（Transfer-Learning）" class="headerlink" title="3.3 迁移学习（Transfer Learning）"></a>3.3 迁移学习（Transfer Learning）</h4><p>迁移学习是一种利用已有知识来帮助解决新任务的方法。在机器学习领域，迁移学习通常指使用一个已经在一个任务上训练好的模型，将其应用于另一个相关的任务上。这种方法可以有效地缓解小样本问题，因为预训练模型已经学习了一些通用的特征，可以通过微调来适应新的任务。</p>
+<p>在小样本目标检测场景下，迁移学习可以通过使用在大规模数据集（如ImageNet、COCO等）上预训练好的模型作为基础模型，然后在小样本数据集上进行微调来解决小样本问题。这种方法可以利用预训练模型已经学习到的通用特征，来提高模型在小样本数据集上的性能。</p>
+<p>具体来说，迁移学习通常包括以下步骤：</p>
+<p>预训练模型：选择一个在大规模数据集上预训练好的模型（如VGG、ResNet、Inception等），并使用该模型在大规模数据集上进行训练。这个过程通常需要大量的计算资源和时间，但只需要进行一次。</p>
+<p>微调模型：将预训练模型应用于小样本数据集，并根据小样本数据集的特点进行微调。微调通常包括两个步骤：冻结预训练模型的参数，并在新任务上训练一些新的全连接层；然后解冻预训练模型的参数，并在新任务上进行微调。</p>
+<p>测试模型：使用微调后的模型在测试集上进行测试，评估模型的性能。</p>
+<p>需要注意的是，迁移学习的成功与否取决于预训练模型和新任务之间的相似性，以及微调的方法和技巧。如果预训练模型和新任务之间存在较大的差异，或者微调的方法不合适，可能会导致模型在新任务上的性能没有预期的好。</p>
+<p>在小样本目标检测场景下，迁移学习可以采用以下技巧来提高模型性能：</p>
+<p>选择合适的预训练模型：选择在大规模数据集上训练的预训练模型，例如在ImageNet上训练的ResNet、VGG等模型，因为这些模型已经学习到了通用的特征，可以通过微调来适应新任务。</p>
+<p>选择合适的微调策略：微调的策略可以根据具体的任务和数据集进行调整。例如，在小样本目标检测任务中，可以使用较小的学习率和较少的迭代次数来微调模型，并且可以仅微调部分预训练模型的层，以避免过拟合。</p>
+<p>数据增强：在微调模型时，可以使用数据增强技术来增加小样本数据集的样本数量和多样性，以提高模型的泛化能力和鲁棒性。</p>
+<p>相关性强的预训练模型：在小样本目标检测任务中，如果预训练模型和新任务之间存在较大的差异，可以考虑使用与新任务相关性更强的预训练模型。例如，如果新任务是针对某个特定的目标类别进行检测，可以使用在该目标类别上预训练过的模型来提高模型的性能。</p>
+<p>多任务学习：如果小样本数据集中存在多个相关任务，可以考虑使用多任务学习来共享模型的参数，从而提高每个任务的性能。</p>
+<p>总之，迁移学习是一种有效的方法，可以通过利用预训练模型的通用特征来解决小样本问题。在小样本目标检测场景下，可以选择合适的预训练模型和微调策略，并使用数据增强和多任务学习等技术来进一步提高模型的性能。</p>
+<h4 id="3-4-元学习和迁移学习区别"><a href="#3-4-元学习和迁移学习区别" class="headerlink" title="3.4 元学习和迁移学习区别"></a>3.4 元学习和迁移学习区别</h4><p>元学习（Meta Learning）和迁移学习（Transfer Learning）确实有一些相似之处，但它们的目标和方法略有不同。</p>
+<p>元学习的目标是帮助模型在学习新任务时更快地适应，通常使用一些元学习算法来学习如何学习，即在大量不同任务上训练模型，使其能够快速适应新任务。元学习的核心思想是将学习算法看作是一个黑盒子，通过学习黑盒子的参数，使得模型能够在新任务上更快地收敛。</p>
+<p>与之相比，迁移学习的目标是在已有知识的基础上，将预训练模型应用于新任务上，并通过微调来适应新任务。迁移学习的核心思想是利用预训练模型已经学习到的通用特征，来提高模型在新任务上的性能。</p>
+<p>因此，元学习和迁移学习的最大区别在于它们的目标和方法不同。元学习关注的是如何快速适应新任务，而迁移学习关注的是如何利用预训练模型的通用特征来提高模型性能。元学习通常需要大量的不同任务数据来训练模型，而迁移学习则可以使用在大规模数据集上预训练好的模型，然后在新任务上进行微调。另外，元学习通常涉及到对学习算法进行学习，而迁移学习则主要涉及到模型参数的调整和微调。</p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>小样本目标检测技术在许多实际应用场景中都具有重要价值，例如：</p>
+<p>医学图像分析：在医学图像中检测病变或异常结构，由于样本获取困难，通常需要使用小样本方法。<br>工业检测：在制造业中，检测零部件上的缺陷或故障，由于各种原因，有时只能获取到有限的样本数据。<br>无人驾驶：在无人驾驶场景中，检测罕见物体，如非机动车、行人等，通常需要使用小样本方法。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>小样本目标检测技术旨在解决训练样本不足的问题，通过元学习、数据增强、迁移学习等方法提高模型的泛化性能。在医学图像分析、工业检测、无人驾驶等领域中，小样本目标检测技术具有广泛的应用价值。</p>
+<p>目标检测深度学习机器学习小样本目标检测数据增强<br>来自专栏<br>目标检测入门<br> 百年孤独百年 13篇文章  3人订阅</p>
+<p>发布于2023-05-22<br>著作权归作者所有</p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2024/11/17/%E5%B0%8F%E6%A0%B7%E6%9C%AC%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E6%A0%B7%E6%9C%AC%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/" rel="tag">小样本目标检测</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2024/11/15/python%EF%BC%9A%E7%B1%BB/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">python：类</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "DAeOYIeCtfnPwFeKf96Drmpe-MdYXbMMI",
+    app_key: "kTYIzQjQl7fiwPZRR4NMuaEe#",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+  
+    
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2023-2024
+        <i class="ri-heart-fill heart_icon"></i> John Doe
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="老夏十三行"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags/%E6%97%85%E8%A1%8C/">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="http://shenyu-vip.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/2019/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯茶吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>
