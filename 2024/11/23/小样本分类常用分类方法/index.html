@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+
+
+<html lang="zh">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>小样本分类常用分类方法 |  老夏十三行</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-小样本分类常用分类方法"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  小样本分类常用分类方法
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/11/23/%E5%B0%8F%E6%A0%B7%E6%9C%AC%E5%88%86%E7%B1%BB%E5%B8%B8%E7%94%A8%E5%88%86%E7%B1%BB%E6%96%B9%E6%B3%95/" class="article-date">
+  <time datetime="2024-11-23T11:09:46.000Z" itemprop="datePublished">2024-11-23</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">13.4k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">53 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>小样本分类涵盖了多种技术，其中包括传统机器学习方法如朴素贝叶斯、支持向量机、k近邻算法以及逻辑回归；同时也涉及深度学习方法，例如迁移学习、少样本学习和嵌入式学习。本文主要介绍传统机器学习方法。</p>
+<h4 id="导入必要的库"><a href="#导入必要的库" class="headerlink" title="导入必要的库"></a>导入必要的库</h4><p>在开始之前我们需要安装必要的库</p>
+<h2 id="层次聚类"><a href="#层次聚类" class="headerlink" title="层次聚类"></a>层次聚类</h2><p>在数据分析与机器学习的领域中，聚类是一种无监督学习方法，旨在将相似的数据点分组到不同的簇中，而无需事先知道数据点的类别标签。层次聚类（Hierarchical Clustering）是聚类算法中的一种重要方法，它通过构建数据点的层次树（也称为树状图或树形图）来实现聚类。本文将介绍层次聚类的基本原理，并通过在鸢尾花数据集上的应用展示其效果。</p>
+<h4 id="层次聚类原理"><a href="#层次聚类原理" class="headerlink" title="层次聚类原理"></a>层次聚类原理</h4><p>层次聚类可以分为凝聚（agglomerative）和分裂（divisive）两种方法。凝聚层次聚类是自下而上的过程，初始时每个数据点被视为一个单独的簇，然后逐步合并最相似的簇，直到所有点都合并成一个簇或达到某个停止条件。相反，分裂层次聚类是自上而下的过程，它从包含所有数据点的一个簇开始，逐步分裂成更小的簇。</p>
+<p><strong>关键步骤</strong>：</p>
+<ol>
+<li><strong>计算相似度</strong>：常用的相似度度量包括欧氏距离、曼哈顿距离和夹角余弦等。</li>
+<li><strong>合并或分裂</strong>：根据相似度度量，选择最相似的簇进行合并或分裂。</li>
+<li><strong>停止条件</strong>：达到预定的簇数量、达到指定的最大或最小距离阈值，或树状图达到一定的深度。</li>
+</ol>
+<p>在凝聚层次聚类中，<code>linkage</code>函数用于计算簇之间的距离，并决定如何合并簇。常见的<code>linkage</code>方法包括：</p>
+<ul>
+<li><strong>单链法（Single Linkage）</strong>：计算两个簇中最近数据点之间的距离。</li>
+<li><strong>完全链法（Complete Linkage）</strong>：计算两个簇中最远数据点之间的距离。</li>
+<li><strong>平均链法（Average Linkage）</strong>：计算两个簇中所有数据点之间距离的平均值。</li>
+<li><strong>Ward方法</strong>：最小化合并后簇内的总方差。</li>
+</ul>
+<h4 id="在鸢尾花数据集上的应用"><a href="#在鸢尾花数据集上的应用" class="headerlink" title="在鸢尾花数据集上的应用"></a>在鸢尾花数据集上的应用</h4><p>下面，我们将通过Python代码展示如何在鸢尾花数据集上应用层次聚类，并评估其效果。</p>
+<p><strong>步骤</strong>：</p>
+<ol>
+<li><strong>加载数据集</strong>：使用<code>sklearn.datasets</code>加载鸢尾花数据集。</li>
+<li><strong>应用层次聚类</strong>：使用<code>scipy.cluster.hierarchy.linkage</code>函数进行层次聚类，选择Ward方法。</li>
+<li><strong>确定簇数量</strong>：由于鸢尾花数据集有三个真实类别，我们选择3个簇。</li>
+<li><strong>映射聚类标签</strong>：使用匈牙利算法（线性求和分配问题）将聚类标签映射到真实标签，以优化分类效果。</li>
+<li><strong>评估结果</strong>：通过混淆矩阵和分类报告评估聚类效果。</li>
+<li><strong>可视化</strong>：使用<code>matplotlib</code>和<code>seaborn</code>绘制散点图，展示聚类结果。</li>
+</ol>
+<p><strong>代码实现</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">from</span> scipy.cluster.hierarchy <span class="keyword">import</span> dendrogram, linkage, fcluster</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix, classification_report</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> LabelEncoder</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">from</span> scipy.optimize <span class="keyword">import</span> linear_sum_assignment</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载鸢尾花数据集</span></span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line">X = iris.data</span><br><span class="line">y = iris.target</span><br><span class="line"></span><br><span class="line"><span class="comment"># 应用层次聚类</span></span><br><span class="line">Z = linkage(X, <span class="string">&#x27;ward&#x27;</span>)  <span class="comment"># 使用Ward方法进行层次聚类</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 选择3个聚类</span></span><br><span class="line">num_clusters = <span class="number">3</span></span><br><span class="line">clusters = fcluster(Z, num_clusters, criterion=<span class="string">&#x27;maxclust&#x27;</span>) - <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 映射聚类标签到真实标签</span></span><br><span class="line">row_ind, col_ind = linear_sum_assignment(confusion_matrix(y, clusters).<span class="built_in">max</span>(axis=<span class="number">1</span>) - confusion_matrix(y, clusters))</span><br><span class="line">best_mapping = &#123;col_ind[i]: i <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_clusters)&#125;</span><br><span class="line">mapped_clusters = [best_mapping[c] <span class="keyword">for</span> c <span class="keyword">in</span> clusters]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出评估结果</span></span><br><span class="line">cm = confusion_matrix(y, mapped_clusters)</span><br><span class="line">cr = classification_report(y, mapped_clusters, target_names=iris.target_names)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Confusion Matrix:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(cm)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\nClassification Report:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(cr)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可视化分类结果</span></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">6</span>))</span><br><span class="line">sns.scatterplot(x=X[:, <span class="number">0</span>], y=X[:, <span class="number">1</span>], hue=mapped_clusters, palette=<span class="string">&#x27;viridis&#x27;</span>, legend=<span class="string">&#x27;full&#x27;</span>, s=<span class="number">100</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;Hierarchical Clustering of Iris Dataset&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Sepal Length&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Sepal Width&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/%E5%B1%82%E6%AC%A1%E8%81%9A%E7%B1%BB%E7%BB%93%E6%9E%9C.jpg" alt="层次聚类结果"></p>
+<p>注意，由于鸢尾花数据集有四个特征，而散点图只能展示两个特征，因此这里仅使用了花萼长度和宽度进行可视化。如果想使用更多特征进行聚类，可以考虑使用降维技术（如PCA）来可视化结果，或分别绘制每对特征的散点图。</p>
+<p>层次聚类是一种强大的聚类方法，能够揭示数据中的层次结构。通过在鸢尾花数据集上的应用，我们展示了层次聚类的基本原理和步骤，并通过混淆矩阵、分类报告和散点图评估了聚类效果。层次聚类不仅适用于鸢尾花数据集，还可以广泛应用于其他领域的数据分析任务中。</p>
+<h2 id="逻辑回归"><a href="#逻辑回归" class="headerlink" title="逻辑回归"></a>逻辑回归</h2><p>在机器学习的分类任务中，逻辑回归（Logistic Regression）是一种广泛应用于二分类问题的线性模型。尽管其名称中包含“回归”，但逻辑回归实际上是一种分类方法，它通过应用一个逻辑函数（通常是sigmoid函数）来预测二分类或多分类问题的概率。本文将介绍逻辑回归的基本原理，并通过在鸢尾花数据集上的应用展示其效果。</p>
+<h4 id="逻辑回归原理"><a href="#逻辑回归原理" class="headerlink" title="逻辑回归原理"></a>逻辑回归原理</h4><p>逻辑回归的核心在于使用一个线性模型来预测输入特征与目标变量之间的关系，并通过sigmoid函数将线性模型的输出转换为0到1之间的概率值。sigmoid函数的公式如下：</p>
+<p>$$ P(Y&#x3D;1|X) &#x3D; \frac{1}{1 + e^{-(\beta_0 + \beta_1X_1 + \beta_2X_2 + \ldots + \beta_nX_n)}} $$</p>
+<p>其中，$P(Y&#x3D;1|X)$表示给定输入特征$X$时，目标变量$Y$为1的概率；$\beta_0$是截距项，$\beta_1, \beta_2, \ldots, \beta_n$是回归系数，对应于输入特征$X_1, X_2, \ldots, X_n$。</p>
+<p>逻辑回归通过最大化似然函数来估计回归系数，从而找到最佳拟合模型。对于二分类问题，逻辑回归的目标是将输入特征映射到两个类别中的一个。</p>
+<p>对于多分类问题，逻辑回归通常使用一对多（One-vs-Rest, OvR）策略。在这种策略中，为每个类别训练一个二分类模型，每个模型将当前类别与其他所有类别区分开来。然后，通过比较每个模型的预测概率，选择具有最高概率的类别作为最终预测结果。</p>
+<h4 id="在鸢尾花数据集上的应用-1"><a href="#在鸢尾花数据集上的应用-1" class="headerlink" title="在鸢尾花数据集上的应用"></a>在鸢尾花数据集上的应用</h4><p>下面，我们将通过Python代码展示如何在鸢尾花数据集上应用逻辑回归，并评估其效果。由于鸢尾花数据集是一个三分类问题，我们将首先将其转换为一个二分类问题，然后展示逻辑回归的应用。</p>
+<p><strong>步骤</strong>：</p>
+<ol>
+<li><strong>加载数据集</strong>：使用<code>sklearn.datasets</code>加载鸢尾花数据集。</li>
+<li><strong>转换标签</strong>：将标签转换为二分类问题（例如，只区分类别0和类别1，忽略类别2）。</li>
+<li><strong>拆分数据集</strong>：将数据集拆分为训练集和测试集。</li>
+<li><strong>创建逻辑回归模型</strong>：为二分类问题创建逻辑回归模型。</li>
+<li><strong>训练模型</strong>：使用训练集训练模型。</li>
+<li><strong>进行预测</strong>：使用测试集进行预测。</li>
+<li><strong>评估结果</strong>：通过准确率、分类报告和混淆矩阵评估模型效果。</li>
+</ol>
+<p><strong>代码实现</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, classification_report, confusion_matrix</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载鸢尾花数据集</span></span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line">X = iris.data</span><br><span class="line">y = iris.target</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将标签转换为二分类问题（例如，只区分类别0和类别1）</span></span><br><span class="line">binary_target = (y != <span class="number">2</span>).astype(<span class="built_in">int</span>)  <span class="comment"># 将类别2转换为0，类别0和1转换为1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 拆分数据集为训练集和测试集</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, binary_target, test_size=<span class="number">0.3</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建逻辑回归模型</span></span><br><span class="line">model = LogisticRegression(max_iter=<span class="number">200</span>)  <span class="comment"># 增加迭代次数以确保收敛</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">model.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行预测</span></span><br><span class="line">y_pred = model.predict(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算准确率</span></span><br><span class="line">accuracy = accuracy_score(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Accuracy: <span class="subst">&#123;accuracy:<span class="number">.2</span>f&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印分类报告和混淆矩阵</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Classification Report:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(classification_report(y_test, y_pred))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Confusion Matrix:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(confusion_matrix(y_test, y_pred))</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%BB%93%E6%9E%9C.jpg" alt="逻辑回归结果"></p>
+<ul>
+<li>在处理多分类问题时，可以直接使用逻辑回归的默认设置（一对多策略），而无需手动转换标签。</li>
+<li>逻辑回归的性能受特征选择和模型参数的影响，因此在实际应用中可能需要进行特征工程和模型调优。</li>
+</ul>
+<p>逻辑回归是一种简单而有效的分类方法，特别适用于二分类问题。通过在鸢尾花数据集上的应用，我们展示了逻辑回归的基本原理和步骤，并通过准确率、分类报告和混淆矩阵评估了模型效果。逻辑回归不仅适用于二分类问题，还可以通过一对多策略扩展到多分类问题。然而，在实际应用中，可能需要结合特征工程和模型调优来提高模型的性能。</p>
+<h2 id="线性判别分析（LDA）"><a href="#线性判别分析（LDA）" class="headerlink" title="线性判别分析（LDA）"></a>线性判别分析（LDA）</h2><p>在机器学习和统计学领域，线性判别分析（Linear Discriminant Analysis, LDA）是一种广泛应用的分类方法，特别适用于具有高斯分布特征的数据集。LDA通过寻找能够最大化类别间差异同时最小化类别内差异的线性组合特征，来实现对数据的分类。本文将介绍LDA的基本原理，并通过在鸢尾花数据集上的应用展示其效果。</p>
+<h4 id="线性判别分析（LDA）原理"><a href="#线性判别分析（LDA）原理" class="headerlink" title="线性判别分析（LDA）原理"></a>线性判别分析（LDA）原理</h4><p>LDA的核心思想是基于类内方差最小化和类间方差最大化来找到一个线性决策边界。具体来说，LDA试图找到一个投影方向，使得投影后的数据点能够按照类别尽可能地分开。这通常涉及到计算每个类别的均值向量和协方差矩阵，然后利用这些信息来找到最佳的投影方向。</p>
+<p>LDA假设数据服从高斯分布，并且每个类别的协方差矩阵是相同的（这被称为LDA的“同协方差”假设）。在这些假设下，LDA能够找到一个线性变换，将数据从原始特征空间映射到一个新的低维空间，在这个空间中，类别之间的可分性最大化。</p>
+<p>对于多分类问题，LDA会计算每个类别的后验概率，并选择具有最高后验概率的类别作为预测结果。</p>
+<h4 id="在鸢尾花数据集上的应用-2"><a href="#在鸢尾花数据集上的应用-2" class="headerlink" title="在鸢尾花数据集上的应用"></a>在鸢尾花数据集上的应用</h4><p>下面，我们将通过Python代码展示如何在鸢尾花数据集上应用LDA，并评估其效果。鸢尾花数据集是一个经典的多分类数据集，包含150个样本，每个样本有4个特征，分别对应鸢尾花的萼片长度、萼片宽度、花瓣长度和花瓣宽度。</p>
+<p><strong>步骤</strong>：</p>
+<ol>
+<li><strong>加载数据集</strong>：使用<code>sklearn.datasets</code>加载鸢尾花数据集。</li>
+<li><strong>拆分数据集</strong>：将数据集拆分为训练集和测试集。</li>
+<li><strong>创建LDA模型</strong>：使用<code>sklearn.discriminant_analysis.LinearDiscriminantAnalysis</code>创建LDA模型。</li>
+<li><strong>训练模型</strong>：使用训练集训练LDA模型。</li>
+<li><strong>进行预测</strong>：使用测试集进行预测，并计算准确率。</li>
+<li><strong>可视化分类结果</strong>：使用LDA变换后的前两个主成分对测试集进行分类结果的可视化。</li>
+<li><strong>评估结果</strong>：通过混淆矩阵和分类报告评估模型效果。</li>
+</ol>
+<p><strong>代码实现</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.discriminant_analysis <span class="keyword">import</span> LinearDiscriminantAnalysis</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, classification_report, confusion_matrix</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载鸢尾花数据集</span></span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line">X = iris.data</span><br><span class="line">y = iris.target</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拆分数据集为训练集和测试集</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.3</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建LDA模型</span></span><br><span class="line">lda = LinearDiscriminantAnalysis()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">lda.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行预测</span></span><br><span class="line">y_pred = lda.predict(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算准确率</span></span><br><span class="line">accuracy = accuracy_score(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Accuracy: <span class="subst">&#123;accuracy:<span class="number">.2</span>f&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可视化分类结果</span></span><br><span class="line">lda_transformed_test = lda.transform(X_test)[:, :<span class="number">2</span>]  <span class="comment"># 对测试集进行LDA变换，取前两个主成分</span></span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">6</span>))</span><br><span class="line">sns.scatterplot(x=lda_transformed_test[:, <span class="number">0</span>], y=lda_transformed_test[:, <span class="number">1</span>], hue=y_test, palette=<span class="string">&#x27;viridis&#x27;</span>, edgecolor=<span class="string">&#x27;k&#x27;</span>, linewidth=<span class="number">0.5</span>, legend=<span class="string">&#x27;full&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;LDA Classification of Iris Dataset (Test Set)&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;LDA Component 1&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;LDA Component 2&#x27;</span>)</span><br><span class="line">plt.legend(title=<span class="string">&#x27;True Class&#x27;</span>)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算混淆矩阵和分类报告</span></span><br><span class="line">conf_matrix = confusion_matrix(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Confusion Matrix:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(conf_matrix)</span><br><span class="line"></span><br><span class="line">class_report = classification_report(y_test, y_pred, target_names=iris.target_names)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Classification Report:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(class_report)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/%E7%BA%BF%E6%80%A7%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90%E7%BB%93%E6%9E%9C.jpg" alt="线性判别分析结果"><br>线性判别分析（LDA）是一种简单而有效的分类方法，特别适用于具有高斯分布特征的数据集。通过在鸢尾花数据集上的应用，我们展示了LDA的基本原理和步骤，并通过准确率、可视化分类结果、混淆矩阵和分类报告评估了模型效果。LDA不仅能够提供分类结果，还能够通过降维技术实现数据的可视化，这对于理解数据的内在结构和分类器的性能非常有帮助。然而，在实际应用中，LDA的性能可能受到数据分布和特征选择的影响，因此在进行模型选择时需要进行充分的评估和比较。</p>
+<h2 id="支持向量机（SVM）"><a href="#支持向量机（SVM）" class="headerlink" title="支持向量机（SVM）"></a>支持向量机（SVM）</h2><p>在机器学习的广阔领域中，支持向量机（Support Vector Machine, SVM）以其强大的分类能力和坚实的理论基础，成为了众多分类任务中的首选算法之一。SVM通过寻找一个最优超平面，使得不同类别的样本在该超平面两侧尽可能分开，从而实现对数据的分类。本文将详细介绍SVM的基本原理，并通过在鸢尾花数据集上的应用，展示其分类效果。</p>
+<h4 id="支持向量机原理"><a href="#支持向量机原理" class="headerlink" title="支持向量机原理"></a>支持向量机原理</h4><p>SVM的核心思想是找到一个最优超平面，该超平面能够最大化两类样本之间的间隔（margin）。在二分类问题中，SVM试图找到一个线性决策边界，使得两类样本分别位于该边界的两侧，并且距离边界最近的样本（即支持向量）到边界的距离最大。对于非线性问题，SVM通过引入核函数（如高斯核、多项式核等），将输入数据映射到一个高维特征空间，在该空间中寻找最优线性超平面。</p>
+<p>SVM的决策函数可以表示为：</p>
+<p>$$ f(x) &#x3D; \text{sign}(\mathbf{w}^T \mathbf{x} + b) $$</p>
+<p>其中，$\mathbf{w}$ 是权重向量，$b$ 是偏置项，$\mathbf{x}$ 是输入样本。SVM的训练过程就是求解最优权重向量和偏置项的过程，使得分类间隔最大化。</p>
+<p>在SVM中，正则化参数 $C$ 用于控制模型的复杂度和分类间隔之间的权衡。较小的 $C$ 值会导致更大的间隔和更多的分类错误（即欠拟合），而较大的 $C$ 值则会减小间隔并减少分类错误（但可能导致过拟合）。</p>
+<p><strong>步骤</strong>：</p>
+<ol>
+<li><strong>加载数据集</strong>：使用<code>sklearn.datasets</code>加载鸢尾花数据集。</li>
+<li><strong>选择特征</strong>：为了可视化方便，我们选择前两个特征（花萼长度和花萼宽度）。</li>
+<li><strong>拆分数据集</strong>：将数据集拆分为训练集和测试集。</li>
+<li><strong>创建SVM模型</strong>：使用<code>sklearn.svm.SVC</code>创建SVM模型，并选择线性核。</li>
+<li><strong>训练模型</strong>：使用训练集训练SVM模型。</li>
+<li><strong>进行预测</strong>：使用测试集进行预测，并计算准确率。</li>
+<li><strong>评估结果</strong>：通过混淆矩阵和分类报告评估模型效果。</li>
+<li><strong>可视化分类结果</strong>：使用散点图展示测试集的分类结果，并为部分点添加注释以指示预测正确性。</li>
+</ol>
+<p><strong>代码实现</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, classification_report, confusion_matrix</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载鸢尾花数据集</span></span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line">X = iris.data</span><br><span class="line">y = iris.target</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为了可视化，我们选择前两个特征（花萼长度和花萼宽度）</span></span><br><span class="line">X_vis = X[:, :<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拆分数据集为训练集和测试集</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X_vis, y, test_size=<span class="number">0.3</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建SVM模型，使用线性核</span></span><br><span class="line">model = SVC(kernel=<span class="string">&#x27;linear&#x27;</span>, C=<span class="number">1.0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">model.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行预测</span></span><br><span class="line">y_pred = model.predict(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算准确率</span></span><br><span class="line">accuracy = accuracy_score(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Accuracy: <span class="subst">&#123;accuracy:<span class="number">.2</span>f&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算混淆矩阵和分类报告</span></span><br><span class="line">conf_matrix = confusion_matrix(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Confusion Matrix:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(conf_matrix)</span><br><span class="line"></span><br><span class="line">class_report = classification_report(y_test, y_pred, target_names=iris.target_names)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Classification Report:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(class_report)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可视化分类结果</span></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">6</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用seaborn的scatterplot进行可视化</span></span><br><span class="line">palette = sns.color_palette(<span class="string">&quot;hsv&quot;</span>, <span class="number">3</span>)  <span class="comment"># 生成一个包含3种颜色的调色板</span></span><br><span class="line">scatter = sns.scatterplot(x=X_test[:, <span class="number">0</span>], y=X_test[:, <span class="number">1</span>], hue=y_test, palette=palette, legend=<span class="string">&#x27;full&#x27;</span>, s=<span class="number">100</span>, edgecolor=<span class="string">&#x27;k&#x27;</span>, linewidth=<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为部分点添加注释以指示预测正确性</span></span><br><span class="line">np.random.seed(<span class="number">42</span>)</span><br><span class="line">indices_to_annotate = np.random.choice(<span class="built_in">range</span>(<span class="built_in">len</span>(y_test)), size=<span class="number">10</span>, replace=<span class="literal">False</span>)  <span class="comment"># 选择10个随机点</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> idx <span class="keyword">in</span> indices_to_annotate:</span><br><span class="line">    true_label = y_test[idx]</span><br><span class="line">    pred_label = y_pred[idx]</span><br><span class="line">    <span class="keyword">if</span> true_label == pred_label:</span><br><span class="line">        text = <span class="string">f&#x27;True: <span class="subst">&#123;true_label&#125;</span>\nPred: <span class="subst">&#123;pred_label&#125;</span> (Correct)&#x27;</span></span><br><span class="line">        color = <span class="string">&#x27;green&#x27;</span>  <span class="comment"># 使用绿色表示正确预测</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        text = <span class="string">f&#x27;True: <span class="subst">&#123;true_label&#125;</span>\nPred: <span class="subst">&#123;pred_label&#125;</span> (Incorrect)&#x27;</span></span><br><span class="line">        color = <span class="string">&#x27;red&#x27;</span>  <span class="comment"># 使用红色表示错误预测</span></span><br><span class="line">    </span><br><span class="line">    plt.text(X_test[idx, <span class="number">0</span>], X_test[idx, <span class="number">1</span>], text, fontsize=<span class="number">9</span>, color=color, ha=<span class="string">&#x27;right&#x27;</span>, va=<span class="string">&#x27;bottom&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加标题和标签</span></span><br><span class="line">plt.title(<span class="string">&#x27;SVM Classification of Iris Dataset (2 Features)&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Sepal Length&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Sepal Width&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示图例</span></span><br><span class="line">plt.legend(title=<span class="string">&#x27;True Label&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示图形</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%E7%BB%93%E6%9E%9C.jpg" alt="支持向量机结果"><br>支持向量机（SVM）是一种强大的分类算法，特别适用于高维数据的分类问题。通过在鸢尾花数据集上的应用，我们展示了SVM的基本原理和步骤，并通过准确率、混淆矩阵、分类报告和可视化分类结果评估了模型效果。SVM不仅能够提供分类结果，还能够通过核函数技术处理非线性问题，这使得它在众多分类任务中表现出色。然而，在实际应用中，SVM的性能可能受到数据分布、特征选择和核函数选择等因素的影响，因此在进行模型选择时需要进行充分的评估和比较。</p>
+<h2 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h2><p>决策树是一种直观且强大的机器学习算法，广泛应用于分类和回归任务中。它通过递归地分割特征空间来构建树形结构，每个内部节点代表一个特征上的测试，每个分支代表测试结果，而每个叶节点则代表一个类别或输出值。本文将介绍决策树的基本原理，并通过在鸢尾花数据集上的应用展示其效果。看剩饭，康密是狼，康熙是狗。</p>
+<h4 id="决策树原理"><a href="#决策树原理" class="headerlink" title="决策树原理"></a>决策树原理</h4><p>决策树的核心思想是通过一系列的问题（即特征上的测试）来将数据集分割成不同的子集，直到每个子集都属于同一个类别或满足某个停止条件。构建决策树的过程通常包括以下几个步骤：</p>
+<ol>
+<li><p><strong>特征选择</strong>：选择最优特征进行分割。常用的选择标准包括信息增益（ID3算法）、信息增益比（C4.5算法）和基尼指数（CART算法）。</p>
+</li>
+<li><p><strong>决策树生成</strong>：根据选择的最优特征，将数据集分割成子集，并递归地在每个子集上重复上述过程，直到满足停止条件（如子集为空、子集中所有样本属于同一类别、达到最大深度等）。</p>
+</li>
+<li><p><strong>决策树剪枝</strong>：为了防止过拟合，可以对生成的决策树进行剪枝，即去掉一些不必要的节点，使模型更加简洁。</p>
+</li>
+</ol>
+<p>决策树的优点包括易于理解和解释、能够处理非线性关系、不需要特征缩放等。然而，它也可能受到过拟合、对噪声敏感和缺乏平滑性等问题的困扰。</p>
+<p><strong>步骤</strong>：</p>
+<ol>
+<li><strong>加载数据集</strong>：使用<code>sklearn.datasets</code>加载鸢尾花数据集。</li>
+<li><strong>拆分数据集</strong>：将数据集拆分为训练集和测试集。</li>
+<li><strong>初始化决策树分类器</strong>：使用<code>sklearn.tree.DecisionTreeClassifier</code>创建决策树分类器。</li>
+<li><strong>训练模型</strong>：使用训练集训练决策树模型。</li>
+<li><strong>预测测试集</strong>：使用测试集进行预测，并计算准确率、分类报告和混淆矩阵。</li>
+<li><strong>可视化决策树</strong>：使用<code>sklearn.tree.plot_tree</code>可视化决策树的结构。</li>
+</ol>
+<p><strong>代码实现</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeClassifier, plot_tree</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, classification_report, confusion_matrix</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载鸢尾花数据集</span></span><br><span class="line">iris = load_iris()</span><br><span class="line">X = iris.data</span><br><span class="line">y = iris.target</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将数据集分为训练集和测试集</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.3</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化决策树分类器</span></span><br><span class="line">clf = DecisionTreeClassifier(random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">clf.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 预测测试集</span></span><br><span class="line">y_pred = clf.predict(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 评估模型</span></span><br><span class="line">accuracy = accuracy_score(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Accuracy: <span class="subst">&#123;accuracy:<span class="number">.2</span>f&#125;</span>&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Classification Report:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(classification_report(y_test, y_pred, target_names=iris.target_names))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Confusion Matrix:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(confusion_matrix(y_test, y_pred))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可视化决策树</span></span><br><span class="line">plt.figure(figsize=(<span class="number">20</span>,<span class="number">10</span>))</span><br><span class="line">plot_tree(clf, feature_names=iris.feature_names, class_names=iris.target_names, filled=<span class="literal">True</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/%E5%86%B3%E7%AD%96%E6%A0%91%E7%BB%93%E6%9E%9C.jpg" alt="决策树结果"><br><strong>补充实例</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> log</span><br><span class="line"><span class="keyword">import</span> operator</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">calcShannonEnt</span>(<span class="params">dataSet</span>):  <span class="comment"># 计算数据的熵(entropy)</span></span><br><span class="line">    numEntries=<span class="built_in">len</span>(dataSet)  <span class="comment"># 数据条数</span></span><br><span class="line">    labelCounts=&#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> featVec <span class="keyword">in</span> dataSet:</span><br><span class="line">        currentLabel=featVec[-<span class="number">1</span>] <span class="comment"># 每行数据的最后一个字（类别）</span></span><br><span class="line">        <span class="keyword">if</span> currentLabel <span class="keyword">not</span> <span class="keyword">in</span> labelCounts.keys():</span><br><span class="line">            labelCounts[currentLabel]=<span class="number">0</span></span><br><span class="line">        labelCounts[currentLabel]+=<span class="number">1</span>  <span class="comment"># 统计有多少个类以及每个类的数量</span></span><br><span class="line">    shannonEnt=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> labelCounts:</span><br><span class="line">        prob=<span class="built_in">float</span>(labelCounts[key])/numEntries <span class="comment"># 计算单个类的熵值</span></span><br><span class="line">        shannonEnt-=prob*log(prob,<span class="number">2</span>) <span class="comment"># 累加每个类的熵值</span></span><br><span class="line">    <span class="keyword">return</span> shannonEnt</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">createDataSet1</span>():    <span class="comment"># 创造示例数据</span></span><br><span class="line">    dataSet = [[<span class="string">&#x27;长&#x27;</span>, <span class="string">&#x27;粗&#x27;</span>, <span class="string">&#x27;男&#x27;</span>],</span><br><span class="line">               [<span class="string">&#x27;短&#x27;</span>, <span class="string">&#x27;粗&#x27;</span>, <span class="string">&#x27;男&#x27;</span>],</span><br><span class="line">               [<span class="string">&#x27;短&#x27;</span>, <span class="string">&#x27;粗&#x27;</span>, <span class="string">&#x27;男&#x27;</span>],</span><br><span class="line">               [<span class="string">&#x27;长&#x27;</span>, <span class="string">&#x27;细&#x27;</span>, <span class="string">&#x27;女&#x27;</span>],</span><br><span class="line">               [<span class="string">&#x27;短&#x27;</span>, <span class="string">&#x27;细&#x27;</span>, <span class="string">&#x27;女&#x27;</span>],</span><br><span class="line">               [<span class="string">&#x27;短&#x27;</span>, <span class="string">&#x27;粗&#x27;</span>, <span class="string">&#x27;女&#x27;</span>],</span><br><span class="line">               [<span class="string">&#x27;长&#x27;</span>, <span class="string">&#x27;粗&#x27;</span>, <span class="string">&#x27;女&#x27;</span>],</span><br><span class="line">               [<span class="string">&#x27;长&#x27;</span>, <span class="string">&#x27;粗&#x27;</span>, <span class="string">&#x27;女&#x27;</span>]]</span><br><span class="line">    labels = [<span class="string">&#x27;头发&#x27;</span>,<span class="string">&#x27;声音&#x27;</span>]  <span class="comment">#两个特征</span></span><br><span class="line">    <span class="keyword">return</span> dataSet,labels</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">splitDataSet</span>(<span class="params">dataSet,axis,value</span>): <span class="comment"># 按某个特征分类后的数据</span></span><br><span class="line">    retDataSet=[]</span><br><span class="line">    <span class="keyword">for</span> featVec <span class="keyword">in</span> dataSet:</span><br><span class="line">        <span class="keyword">if</span> featVec[axis]==value:</span><br><span class="line">            reducedFeatVec =featVec[:axis]</span><br><span class="line">            reducedFeatVec.extend(featVec[axis+<span class="number">1</span>:])</span><br><span class="line">            retDataSet.append(reducedFeatVec)</span><br><span class="line">    <span class="keyword">return</span> retDataSet</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">chooseBestFeatureToSplit</span>(<span class="params">dataSet</span>):  <span class="comment"># 选择最优的分类特征</span></span><br><span class="line">    numFeatures = <span class="built_in">len</span>(dataSet[<span class="number">0</span>])-<span class="number">1</span></span><br><span class="line">    baseEntropy = calcShannonEnt(dataSet)  <span class="comment"># 原始的熵</span></span><br><span class="line">    bestInfoGain = <span class="number">0</span></span><br><span class="line">    bestFeature = -<span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(numFeatures):</span><br><span class="line">        featList = [example[i] <span class="keyword">for</span> example <span class="keyword">in</span> dataSet]</span><br><span class="line">        uniqueVals = <span class="built_in">set</span>(featList)</span><br><span class="line">        newEntropy = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> value <span class="keyword">in</span> uniqueVals:</span><br><span class="line">            subDataSet = splitDataSet(dataSet,i,value)</span><br><span class="line">            prob =<span class="built_in">len</span>(subDataSet)/<span class="built_in">float</span>(<span class="built_in">len</span>(dataSet))</span><br><span class="line">            newEntropy +=prob*calcShannonEnt(subDataSet)  <span class="comment"># 按特征分类后的熵</span></span><br><span class="line">        infoGain = baseEntropy - newEntropy  <span class="comment"># 原始熵与按特征分类后的熵的差值</span></span><br><span class="line">        <span class="keyword">if</span> (infoGain&gt;bestInfoGain):   <span class="comment"># 若按某特征划分后，熵值减少的最大，则次特征为最优分类特征</span></span><br><span class="line">            bestInfoGain=infoGain</span><br><span class="line">            bestFeature = i</span><br><span class="line">    <span class="keyword">return</span> bestFeature</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">majorityCnt</span>(<span class="params">classList</span>):    <span class="comment">#按分类后类别数量排序，比如：最后分类为2男1女，则判定为男；</span></span><br><span class="line">    classCount=&#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> vote <span class="keyword">in</span> classList:</span><br><span class="line">        <span class="keyword">if</span> vote <span class="keyword">not</span> <span class="keyword">in</span> classCount.keys():</span><br><span class="line">            classCount[vote]=<span class="number">0</span></span><br><span class="line">        classCount[vote]+=<span class="number">1</span></span><br><span class="line">    sortedClassCount = <span class="built_in">sorted</span>(classCount.items(),key=operator.itemgetter(<span class="number">1</span>),reverse=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">return</span> sortedClassCount[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">createTree</span>(<span class="params">dataSet,labels</span>):</span><br><span class="line">    classList=[example[-<span class="number">1</span>] <span class="keyword">for</span> example <span class="keyword">in</span> dataSet]  <span class="comment"># 类别：男或女</span></span><br><span class="line">    <span class="keyword">if</span> classList.count(classList[<span class="number">0</span>])==<span class="built_in">len</span>(classList):</span><br><span class="line">        <span class="keyword">return</span> classList[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(dataSet[<span class="number">0</span>])==<span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> majorityCnt(classList)</span><br><span class="line">    bestFeat=chooseBestFeatureToSplit(dataSet) <span class="comment">#选择最优特征</span></span><br><span class="line">    bestFeatLabel=labels[bestFeat]</span><br><span class="line">    myTree=&#123;bestFeatLabel:&#123;&#125;&#125; <span class="comment">#分类结果以字典形式保存</span></span><br><span class="line">    <span class="keyword">del</span>(labels[bestFeat])</span><br><span class="line">    featValues=[example[bestFeat] <span class="keyword">for</span> example <span class="keyword">in</span> dataSet]</span><br><span class="line">    uniqueVals=<span class="built_in">set</span>(featValues)</span><br><span class="line">    <span class="keyword">for</span> value <span class="keyword">in</span> uniqueVals:</span><br><span class="line">        subLabels=labels[:]</span><br><span class="line">        myTree[bestFeatLabel][value]=createTree(splitDataSet\</span><br><span class="line">                            (dataSet,bestFeat,value),subLabels)</span><br><span class="line">    <span class="keyword">return</span> myTree</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    dataSet, labels=createDataSet1()  <span class="comment"># 创造示列数据</span></span><br><span class="line"><span class="built_in">print</span>(createTree(dataSet, labels))  <span class="comment"># 输出决策树模型结果</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#x27;声音&#x27;: &#123;&#x27;粗&#x27;: &#123;&#x27;头发&#x27;: &#123;&#x27;短&#x27;: &#x27;男&#x27;, &#x27;长&#x27;: &#x27;女&#x27;&#125;&#125;, &#x27;细&#x27;: &#x27;女&#x27;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>决策树是一种直观且强大的机器学习算法，特别适用于分类任务。通过在鸢尾花数据集上的应用，我们展示了决策树的基本原理和步骤，并通过准确率、分类报告、混淆矩阵和可视化决策树评估了模型效果。决策树不仅能够提供分类结果，还能够通过可视化技术展示模型的决策过程，这对于理解数据的内在结构和分类器的性能非常有帮助。然而，在实际应用中，我们还需要注意决策树的过拟合问题，并尝试通过剪枝、限制树的最大深度等方法来提高模型的泛化能力。</p>
+<h2 id="随机森林"><a href="#随机森林" class="headerlink" title="随机森林"></a>随机森林</h2><p>随机森林是一种集成学习方法，通过构建多个决策树并综合它们的预测结果来提高模型的准确性和鲁棒性。本文将详细介绍随机森林的基本原理，并通过在鸢尾花数据集上的应用来展示其效果。鸢尾花数据集是一个经典的多分类数据集，包含150个样本，每个样本有4个特征，分别对应鸢尾花的萼片长度、萼片宽度、花瓣长度和花瓣宽度。然而，为了可视化的目的，本文将仅使用前两个特征（萼片长度和萼片宽度）。</p>
+<h4 id="随机森林原理"><a href="#随机森林原理" class="headerlink" title="随机森林原理"></a>随机森林原理</h4><p>随机森林的核心思想是利用多个决策树的预测结果进行投票或平均，以减少单一模型的过拟合风险并提高整体预测性能。具体来说，随机森林的构建过程包括以下几个关键步骤：</p>
+<ol>
+<li><p><strong>样本抽样</strong>：从原始数据集中随机抽取多个子样本集，通常使用有放回的抽样方法（即Bootstrap抽样），以确保每个子样本集都是独立的。</p>
+</li>
+<li><p><strong>特征选择</strong>：在构建每棵决策树时，不是使用全部特征，而是从原始特征集中随机选择一部分特征作为候选特征。这种策略有助于增加模型的多样性，进一步减少过拟合。</p>
+</li>
+<li><p><strong>构建决策树</strong>：对每个子样本集，使用候选特征构建决策树。决策树的构建过程与标准决策树算法相同，但通常会限制树的最大深度、最小样本数等参数，以防止单棵树过于复杂。</p>
+</li>
+<li><p><strong>集成预测</strong>：对于分类任务，随机森林通过投票机制确定最终预测结果；对于回归任务，则通过平均各树的预测结果来得到最终输出。</p>
+</li>
+</ol>
+<p>随机森林的优点包括：能够处理高维数据、不易过拟合、对缺失数据不敏感、能够评估变量的重要性等。然而，它也可能受到计算量大、模型解释性较差等问题的困扰。</p>
+<h4 id="在鸢尾花数据集上的应用-3"><a href="#在鸢尾花数据集上的应用-3" class="headerlink" title="在鸢尾花数据集上的应用"></a>在鸢尾花数据集上的应用</h4><p>下面，我们将通过Python代码展示如何在鸢尾花数据集上应用随机森林，并评估其效果。</p>
+<p><strong>步骤</strong>：</p>
+<ol>
+<li><strong>加载数据集</strong>：使用<code>sklearn.datasets</code>加载鸢尾花数据集，并选择前两个特征进行可视化。</li>
+<li><strong>拆分数据集</strong>：将数据集拆分为训练集和测试集。</li>
+<li><strong>创建随机森林分类器</strong>：使用<code>sklearn.ensemble.RandomForestClassifier</code>创建随机森林分类器，并设置相关参数。</li>
+<li><strong>训练模型</strong>：使用训练集训练随机森林模型。</li>
+<li><strong>预测测试集</strong>：使用测试集进行预测，并计算准确率、混淆矩阵和分类报告。</li>
+<li><strong>可视化分类结果</strong>：使用<code>matplotlib</code>和<code>seaborn</code>可视化分类结果和决策边界（尽管随机森林是复杂的非线性分类器，通常不绘制决策边界，但为了演示目的，我们可以使用网格搜索和预测来近似边界）。</li>
+</ol>
+<p><strong>代码实现</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, classification_report, confusion_matrix</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载鸢尾花数据集</span></span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line">X = iris.data</span><br><span class="line">y = iris.target</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为了可视化，我们选择前两个特征（花萼长度和花萼宽度）</span></span><br><span class="line">X_vis = X[:, :<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拆分数据集为训练集和测试集</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X_vis, y, test_size=<span class="number">0.3</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建随机森林分类器</span></span><br><span class="line">model = RandomForestClassifier(n_estimators=<span class="number">100</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">model.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行预测</span></span><br><span class="line">y_pred = model.predict(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算准确率</span></span><br><span class="line">accuracy = accuracy_score(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Accuracy: <span class="subst">&#123;accuracy:<span class="number">.2</span>f&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算混淆矩阵</span></span><br><span class="line">conf_matrix = confusion_matrix(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Confusion Matrix:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(conf_matrix)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算分类报告</span></span><br><span class="line">class_report = classification_report(y_test, y_pred, target_names=iris.target_names)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Classification Report:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(class_report)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可视化分类结果</span></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">6</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用seaborn的scatterplot来可视化分类结果</span></span><br><span class="line">sns.scatterplot(x=X_test[:, <span class="number">0</span>], y=X_test[:, <span class="number">1</span>], hue=y_test, palette=<span class="string">&#x27;viridis&#x27;</span>, legend=<span class="string">&#x27;full&#x27;</span>, alpha=<span class="number">0.7</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在测试集上绘制预测结果的边界（近似表示）</span></span><br><span class="line">x_min, x_max = X_test[:, <span class="number">0</span>].<span class="built_in">min</span>() - <span class="number">1</span>, X_test[:, <span class="number">0</span>].<span class="built_in">max</span>() + <span class="number">1</span></span><br><span class="line">y_min, y_max = X_test[:, <span class="number">1</span>].<span class="built_in">min</span>() - <span class="number">1</span>, X_test[:, <span class="number">1</span>].<span class="built_in">max</span>() + <span class="number">1</span></span><br><span class="line">xx, yy = np.meshgrid(np.arange(x_min, x_max, <span class="number">0.01</span>), np.arange(y_min, y_max, <span class="number">0.01</span>))</span><br><span class="line">Z = model.predict(np.c_[xx.ravel(), yy.ravel()])</span><br><span class="line">Z = Z.reshape(xx.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制决策边界（近似）</span></span><br><span class="line">plt.contourf(xx, yy, Z, alpha=<span class="number">0.3</span>, cmap=<span class="string">&#x27;viridis&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加标题和标签</span></span><br><span class="line">plt.title(<span class="string">&#x27;Random Forest Classification of Iris Dataset&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Sepal Length&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Sepal Width&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示图例</span></span><br><span class="line">plt.legend(title=<span class="string">&#x27;Class&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示图形</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E7%BB%93%E6%9E%9C.jpg" alt="随机森林结果"></p>
+<p>随机森林是一种强大的集成学习方法，通过构建多个决策树并综合它们的预测结果来提高模型的准确性和鲁棒性。通过在鸢尾花数据集上的应用，我们展示了随机森林的基本原理和步骤，并通过准确率、混淆矩阵、分类报告和可视化分类结果评估了模型效果。随机森林不仅能够提供分类结果，还能够通过可视化技术展示模型的分类效果（尽管决策边界是近似表示的）。然而，在实际应用中，我们还需要注意随机森林的计算量问题，并尝试通过调整参数（如树的数量、最大深度等）来优化模型的性能。</p>
+<h2 id="K近邻"><a href="#K近邻" class="headerlink" title="K近邻"></a>K近邻</h2><p>K近邻（K-Nearest Neighbors，简称KNN）是一种简单而直观的监督学习算法，广泛应用于分类和回归任务中。其核心思想是，给定一个待分类的样本，通过计算它与训练集中所有样本的距离，找出距离它最近的K个样本（即邻居），然后根据这些邻居的类别来预测待分类样本的类别（对于分类任务）或输出这些邻居的目标值的平均值（对于回归任务）。本文将介绍KNN的基本原理，并通过在鸢尾花数据集上的应用展示其效果。</p>
+<h4 id="KNN原理"><a href="#KNN原理" class="headerlink" title="KNN原理"></a>KNN原理</h4><p>KNN算法的核心步骤包括：</p>
+<ol>
+<li><p><strong>计算距离</strong>：选择一种距离度量方法（如欧氏距离、曼哈顿距离等），计算待分类样本与训练集中每个样本的距离。</p>
+</li>
+<li><p><strong>选择邻居</strong>：根据计算出的距离，选择距离待分类样本最近的K个样本作为邻居。</p>
+</li>
+<li><p><strong>预测类别</strong>：对于分类任务，根据邻居的类别进行投票，选择出现次数最多的类别作为待分类样本的预测类别；对于回归任务，则计算邻居目标值的平均值作为预测结果。</p>
+</li>
+</ol>
+<p>KNN算法的优点包括简单易懂、易于实现、无需训练阶段等。然而，它也可能受到计算量大、对不平衡数据集敏感、选择K值困难等问题的困扰。</p>
+<h4 id="在鸢尾花数据集上的应用-4"><a href="#在鸢尾花数据集上的应用-4" class="headerlink" title="在鸢尾花数据集上的应用"></a>在鸢尾花数据集上的应用</h4><p>下面，我们将通过Python代码展示如何在鸢尾花数据集上应用KNN算法，并评估其效果。鸢尾花数据集是一个经典的多分类数据集，包含150个样本，每个样本有4个特征，分别对应鸢尾花的萼片长度、萼片宽度、花瓣长度和花瓣宽度。为了可视化方便，我们将仅使用前两个特征（萼片长度和萼片宽度）。</p>
+<p><strong>步骤</strong>：</p>
+<ol>
+<li><strong>加载数据集</strong>：使用<code>sklearn.datasets</code>加载鸢尾花数据集。</li>
+<li><strong>选择特征</strong>：为了可视化，选择前两个特征（萼片长度和萼片宽度）。</li>
+<li><strong>拆分数据集</strong>：将数据集拆分为训练集和测试集。</li>
+<li><strong>创建KNN模型</strong>：使用<code>sklearn.neighbors.KNeighborsClassifier</code>创建KNN分类器，并选择K值（例如，K&#x3D;3）。</li>
+<li><strong>训练模型</strong>：使用训练集训练KNN模型。</li>
+<li><strong>预测测试集</strong>：使用测试集进行预测，并计算准确率、混淆矩阵和分类报告。</li>
+<li><strong>可视化分类结果</strong>：使用<code>matplotlib</code>和<code>seaborn</code>可视化分类结果，包括散点图和预测错误的点。</li>
+</ol>
+<p><strong>代码实现</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, confusion_matrix, classification_report</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载鸢尾花数据集</span></span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line">X = iris.data</span><br><span class="line">y = iris.target</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为了可视化，我们选择前两个特征（花萼长度和花萼宽度）</span></span><br><span class="line">X_vis = X[:, :<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拆分数据集为训练集和测试集</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X_vis, y, test_size=<span class="number">0.3</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建KNN模型（选择k=3作为示例）</span></span><br><span class="line">knn = KNeighborsClassifier(n_neighbors=<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">knn.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行预测</span></span><br><span class="line">y_pred = knn.predict(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算准确率</span></span><br><span class="line">accuracy = accuracy_score(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Accuracy: <span class="subst">&#123;accuracy:<span class="number">.2</span>f&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算混淆矩阵和分类报告</span></span><br><span class="line">conf_matrix = confusion_matrix(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Confusion Matrix:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(conf_matrix)</span><br><span class="line"></span><br><span class="line">class_report = classification_report(y_test, y_pred, target_names=iris.target_names)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Classification Report:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(class_report)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可视化分类结果</span></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">6</span>))</span><br><span class="line">sns.scatterplot(x=X_test[:, <span class="number">0</span>], y=X_test[:, <span class="number">1</span>], hue=y_test, palette=<span class="string">&#x27;viridis&#x27;</span>, legend=<span class="string">&#x27;full&#x27;</span>, alpha=<span class="number">0.7</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 找出预测错误的点，并添加文本标签</span></span><br><span class="line">incorrect_indices = np.where(y_pred != y_test)[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">for</span> idx <span class="keyword">in</span> incorrect_indices[:<span class="number">5</span>]:  <span class="comment"># 限制为前5个错误预测，以避免图形过于拥挤</span></span><br><span class="line">    plt.text(X_test[idx, <span class="number">0</span>], X_test[idx, <span class="number">1</span>], <span class="string">f&#x27;Pred: <span class="subst">&#123;y_pred[idx]&#125;</span>\nTrue: <span class="subst">&#123;y_test[idx]&#125;</span>&#x27;</span>,</span><br><span class="line">             color=<span class="string">&#x27;red&#x27;</span>, fontsize=<span class="number">9</span>, ha=<span class="string">&#x27;right&#x27;</span>, va=<span class="string">&#x27;bottom&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加标题和标签</span></span><br><span class="line">plt.title(<span class="string">&#x27;KNN Classification of Iris Dataset&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Sepal Length&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Sepal Width&#x27;</span>)</span><br><span class="line">plt.legend(title=<span class="string">&#x27;True Class&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/knn%E7%BB%93%E6%9E%9C.jpg" alt="knn结果"></p>
+<p>KNN是一种简单而有效的监督学习算法，特别适用于分类任务。通过在鸢尾花数据集上的应用，我们展示了KNN的基本原理和步骤，并通过准确率、混淆矩阵、分类报告和可视化分类结果评估了模型效果。KNN不仅能够提供分类结果，还能够通过可视化技术展示模型的分类性能。然而，在实际应用中，我们还需要注意KNN的计算量大、对不平衡数据集敏感和选择K值困难等问题，并尝试通过优化距离度量方法、使用近似算法和进行交叉验证等方法来提高模型的性能和效率。</p>
+<h2 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h2><p>神经网络，作为深度学习的基础，是一种模仿生物神经网络结构和功能的计算模型。它通过多层神经元之间的连接，能够学习并提取数据中的复杂特征，进而实现分类、等任务回归。本文将介绍神经网络的基本原理，并通过在鸢尾花数据集上的应用展示其效果。鸢尾花数据集是一个经典的多分类数据集，包含150个样本，每个样本有4个特征，分别对应鸢尾花的萼片长度、萼片宽度、花瓣长度和花瓣宽度。</p>
+<h4 id="神经网络原理"><a href="#神经网络原理" class="headerlink" title="神经网络原理"></a>神经网络原理</h4><p>神经网络由输入层、隐藏层和输出层组成。每一层都包含多个神经元，神经元之间通过权重和偏置进行连接。在训练过程中，神经网络通过反向传播算法不断调整这些权重和偏置，以最小化损失函数，从而实现对输入数据的准确预测。</p>
+<ol>
+<li><p><strong>输入层</strong>：接收原始数据，并将其传递给下一层。</p>
+</li>
+<li><p><strong>隐藏层</strong>：对输入数据进行非线性变换，提取数据中的特征。隐藏层的数量和每层的神经元数量可以根据任务复杂度进行调整。</p>
+</li>
+<li><p><strong>输出层</strong>：根据提取的特征，输出预测结果。对于分类任务，输出层通常使用softmax激活函数，将输出转换为概率分布。</p>
+</li>
+<li><p><strong>激活函数</strong>：增加神经网络的非线性，常用的激活函数包括ReLU、sigmoid和tanh等。</p>
+</li>
+<li><p><strong>损失函数</strong>：衡量预测结果与真实结果之间的差异，常用的损失函数包括均方误差（MSE）、交叉熵损失等。</p>
+</li>
+<li><p><strong>优化器</strong>：根据损失函数的梯度，更新神经网络的权重和偏置，常用的优化器包括SGD、Adam等。</p>
+</li>
+</ol>
+<h4 id="在鸢尾花数据集上的应用-5"><a href="#在鸢尾花数据集上的应用-5" class="headerlink" title="在鸢尾花数据集上的应用"></a>在鸢尾花数据集上的应用</h4><p>下面，我们将通过Python代码展示如何在鸢尾花数据集上应用神经网络，并评估其效果。</p>
+<p><strong>步骤</strong>：</p>
+<ol>
+<li><p><strong>加载数据集</strong>：使用<code>sklearn.datasets</code>加载鸢尾花数据集。</p>
+</li>
+<li><p><strong>数据预处理</strong>：将标签转换为one-hot编码，标准化特征值。</p>
+</li>
+<li><p><strong>拆分数据集</strong>：将数据集拆分为训练集和测试集。</p>
+</li>
+<li><p><strong>初始化神经网络模型</strong>：使用<code>tensorflow.keras.models.Sequential</code>创建神经网络模型，并添加输入层、隐藏层和输出层。</p>
+</li>
+<li><p><strong>编译模型</strong>：指定优化器、损失函数和评估指标。</p>
+</li>
+<li><p><strong>训练模型</strong>：使用训练集训练神经网络模型。</p>
+</li>
+<li><p><strong>评估模型</strong>：使用测试集评估模型性能，并打印分类报告。</p>
+</li>
+<li><p><strong>可视化分类结果</strong>：选择前两个特征进行可视化，展示真实标签和预测标签的分类结果。</p>
+</li>
+</ol>
+<p><strong>代码实现</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> OneHotEncoder, StandardScaler</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.models <span class="keyword">import</span> Sequential</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.layers <span class="keyword">import</span> Dense</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.utils <span class="keyword">import</span> to_categorical</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> classification_report</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载鸢尾花数据集</span></span><br><span class="line">iris = load_iris()</span><br><span class="line">X = iris.data</span><br><span class="line">y = iris.target</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将标签转换为one-hot编码</span></span><br><span class="line">y = to_categorical(y)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 标准化特征值</span></span><br><span class="line">scaler = StandardScaler()</span><br><span class="line">X = scaler.fit_transform(X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将数据集分为训练集和测试集</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.3</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化神经网络模型</span></span><br><span class="line">model = Sequential()</span><br><span class="line">model.add(Dense(<span class="number">10</span>, input_dim=<span class="number">4</span>, activation=<span class="string">&#x27;relu&#x27;</span>))  <span class="comment"># 输入层和第一个隐藏层，4个输入特征，10个神经元</span></span><br><span class="line">model.add(Dense(<span class="number">10</span>, activation=<span class="string">&#x27;relu&#x27;</span>))  <span class="comment"># 第二个隐藏层，10个神经元</span></span><br><span class="line">model.add(Dense(<span class="number">3</span>, activation=<span class="string">&#x27;softmax&#x27;</span>))  <span class="comment"># 输出层，3个类别，使用softmax激活函数</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译模型</span></span><br><span class="line">model.<span class="built_in">compile</span>(optimizer=<span class="string">&#x27;adam&#x27;</span>, loss=<span class="string">&#x27;categorical_crossentropy&#x27;</span>, metrics=[<span class="string">&#x27;accuracy&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">model.fit(X_train, y_train, epochs=<span class="number">100</span>, batch_size=<span class="number">5</span>, verbose=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 评估模型</span></span><br><span class="line">loss, accuracy = model.evaluate(X_test, y_test, verbose=<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Test Accuracy: <span class="subst">&#123;accuracy:<span class="number">.2</span>f&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 预测测试集</span></span><br><span class="line">y_pred = model.predict(X_test)</span><br><span class="line"><span class="comment"># 将预测结果转换为类别标签（argmax取最大值索引）</span></span><br><span class="line">y_pred_classes = np.argmax(y_pred, axis=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 将真实标签也转换为类别标签（因为y_test已经是one-hot编码，所以需要转换回来）</span></span><br><span class="line">y_true_classes = np.argmax(y_test, axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印分类报告</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Classification Report:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(classification_report(y_true_classes, y_pred_classes, target_names=iris.target_names))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可视化分类结果（选择前两个特征进行可视化）</span></span><br><span class="line"><span class="comment"># 提取前两个特征用于可视化</span></span><br><span class="line">X_test_vis = X_test[:, :<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取真实标签和预测标签的类别索引</span></span><br><span class="line">y_true_classes = np.argmax(y_test, axis=<span class="number">1</span>)</span><br><span class="line">y_pred_classes = np.argmax(y_pred, axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置颜色映射</span></span><br><span class="line">cmap = plt.cm.get_cmap(<span class="string">&#x27;viridis&#x27;</span>, <span class="number">3</span>)  <span class="comment"># 使用viridis颜色映射，并为3个类别分配颜色</span></span><br><span class="line">colors = cmap(np.arange(<span class="number">3</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个散点图，用于可视化真实标签的分类结果</span></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">6</span>))</span><br><span class="line"><span class="keyword">for</span> i, color <span class="keyword">in</span> <span class="built_in">enumerate</span>(colors):</span><br><span class="line">    idx = np.where(y_true_classes == i)[<span class="number">0</span>]</span><br><span class="line">    plt.scatter(X_test_vis[idx, <span class="number">0</span>], X_test_vis[idx, <span class="number">1</span>], c=color, label=iris.target_names[i], edgecolor=<span class="string">&#x27;k&#x27;</span>, s=<span class="number">50</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;True Labels Classification&#x27;</span>)</span><br><span class="line">plt.xlabel(iris.feature_names[<span class="number">0</span>])</span><br><span class="line">plt.ylabel(iris.feature_names[<span class="number">1</span>])</span><br><span class="line">plt.legend()</span><br><span class="line">plt.grid(<span class="literal">True</span>)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个散点图，用于可视化预测标签的分类结果</span></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">6</span>))</span><br><span class="line"><span class="keyword">for</span> i, color <span class="keyword">in</span> <span class="built_in">enumerate</span>(colors):</span><br><span class="line">    idx = np.where(y_pred_classes == i)[<span class="number">0</span>]</span><br><span class="line">    plt.scatter(X_test_vis[idx, <span class="number">0</span>], X_test_vis[idx, <span class="number">1</span>], c=color, label=iris.target_names[i], edgecolor=<span class="string">&#x27;w&#x27;</span>, linewidth=<span class="number">1.5</span>, s=<span class="number">50</span>, alpha=<span class="number">0.7</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;Predicted Labels Classification&#x27;</span>)</span><br><span class="line">plt.xlabel(iris.feature_names[<span class="number">0</span>])</span><br><span class="line">plt.ylabel(iris.feature_names[<span class="number">1</span>])</span><br><span class="line">plt.legend()</span><br><span class="line">plt.grid(<span class="literal">True</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%9C.jpg" alt="神经网络结果"><br><strong>注意</strong>：代码有一处内存泄漏，和两处可能是格式报错，均不影响正常运行</p>
+<p>神经网络作为一种强大的机器学习算法，特别适用于处理复杂的数据和任务。通过在鸢尾花数据集上的应用，我们展示了神经网络的基本原理和步骤，并通过测试准确率、分类报告和可视化分类结果评估了模型效果。神经网络不仅能够提供分类结果，还能够通过可视化技术展示模型的分类效果，这对于理解数据的内在结构和分类器的性能非常有帮助。然而，在实际应用中，我们还需要注意神经网络的过拟合问题，并尝试通过添加正则化项、使用dropout等技术来提高模型的泛化能力。</p>
+<h2 id="朴素贝叶斯"><a href="#朴素贝叶斯" class="headerlink" title="朴素贝叶斯"></a>朴素贝叶斯</h2><p>朴素贝叶斯是一种基于贝叶斯定理和特征条件独立假设的分类算法。它通过计算给定特征条件下各类别的概率来进行分类，具有计算高效、易于实现和解释性强等特点。本文将介绍朴素贝叶斯的基本原理，并通过在鸢尾花数据集上的应用展示其效果。</p>
+<h4 id="朴素贝叶斯原理"><a href="#朴素贝叶斯原理" class="headerlink" title="朴素贝叶斯原理"></a>朴素贝叶斯原理</h4><p>朴素贝叶斯算法的核心思想是：对于给定的输入特征向量，通过计算每个类别在该特征向量下的条件概率，并选择具有最大条件概率的类别作为预测结果。为了简化计算，朴素贝叶斯假设各个特征之间是相互独立的，即一个特征的出现概率不依赖于其他特征的出现概率。</p>
+<p>具体来说，假设我们有一个数据集，其中包含m个样本和n个特征，每个样本都有一个类别标签。朴素贝叶斯算法会计算每个类别在每个特征上的条件概率分布，然后根据这些概率分布和贝叶斯定理来计算给定特征向量下每个类别的后验概率。最后，选择具有最大后验概率的类别作为预测结果。</p>
+<p>在实际应用中，朴素贝叶斯算法有多种变体，如高斯朴素贝叶斯（适用于特征为连续值的情况）、多项式朴素贝叶斯（适用于特征为离散值且服从多项式分布的情况）和伯努利朴素贝叶斯（适用于特征为二值化的情况）。</p>
+<h4 id="在鸢尾花数据集上的应用-6"><a href="#在鸢尾花数据集上的应用-6" class="headerlink" title="在鸢尾花数据集上的应用"></a>在鸢尾花数据集上的应用</h4><p>下面，我们将通过Python代码展示如何在鸢尾花数据集上应用朴素贝叶斯算法，并评估其效果。鸢尾花数据集是一个经典的多分类数据集，包含150个样本，每个样本有4个特征，分别对应鸢尾花的萼片长度、萼片宽度、花瓣长度和花瓣宽度。</p>
+<p><strong>步骤</strong>：</p>
+<ol>
+<li><strong>加载数据集</strong>：使用<code>sklearn.datasets</code>加载鸢尾花数据集。</li>
+<li><strong>拆分数据集</strong>：将数据集拆分为训练集和测试集。</li>
+<li><strong>创建朴素贝叶斯模型</strong>：使用<code>sklearn.naive_bayes.GaussianNB</code>创建高斯朴素贝叶斯模型（因为鸢尾花数据集的特征为连续值）。</li>
+<li><strong>训练模型</strong>：使用训练集训练朴素贝叶斯模型。</li>
+<li><strong>预测测试集</strong>：使用测试集进行预测，并计算准确率、混淆矩阵和分类报告。</li>
+<li><strong>可视化分类结果</strong>：使用<code>matplotlib</code>和<code>seaborn</code>可视化分类后的数据点。</li>
+</ol>
+<p><strong>代码实现</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.naive_bayes <span class="keyword">import</span> GaussianNB</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, classification_report, confusion_matrix</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载鸢尾花数据集</span></span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line">X = iris.data</span><br><span class="line">y = iris.target</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为了可视化，我们选择前两个特征（花萼长度和花萼宽度）</span></span><br><span class="line">X_vis = X[:, :<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拆分数据集为训练集和测试集</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.3</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建朴素贝叶斯模型</span></span><br><span class="line">model = GaussianNB()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">model.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行预测</span></span><br><span class="line">y_pred = model.predict(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算准确率</span></span><br><span class="line">accuracy = accuracy_score(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Accuracy: <span class="subst">&#123;accuracy:<span class="number">.2</span>f&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算混淆矩阵和分类报告</span></span><br><span class="line">conf_matrix = confusion_matrix(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Confusion Matrix:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(conf_matrix)</span><br><span class="line"></span><br><span class="line">class_report = classification_report(y_test, y_pred, target_names=iris.target_names)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Classification Report:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(class_report)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可视化分类结果</span></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">6</span>))</span><br><span class="line">sns.scatterplot(x=X_test[:, <span class="number">0</span>], y=X_test[:, <span class="number">1</span>], hue=y_test, palette=<span class="string">&#x27;viridis&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意：style参数不适用于此处的预测结果可视化，因为它通常用于映射到少量的离散样式。</span></span><br><span class="line"><span class="comment"># 我们仅使用hue参数来区分不同的真实类别，并通过观察散点图的颜色来间接了解预测结果。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示标题和标签</span></span><br><span class="line">plt.title(<span class="string">&#x27;Naive Bayes Classification of Iris Dataset&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Sepal Length&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Sepal Width&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示图例（由于使用了hue参数，seaborn会自动添加图例）</span></span><br><span class="line">plt.legend(title=<span class="string">&#x27;Class&#x27;</span>, labels=iris.target_names)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示图形</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/%E6%9C%B4%E7%B4%A0.jpg" alt="朴素贝叶斯结果"></p>
+<p>朴素贝叶斯算法是一种简单而有效的分类算法，特别适用于特征之间相对独立且特征数量较多的情况。通过在鸢尾花数据集上的应用，我们展示了朴素贝叶斯算法的基本原理和步骤，并通过准确率、混淆矩阵、分类报告和可视化分类结果评估了模型效果。虽然朴素贝叶斯算法在某些复杂场景下可能不如其他算法（如支持向量机、神经网络等）表现优异，但在许多实际应用中，它仍然是一种值得尝试和考虑的算法。</p>
+<h2 id="感知机"><a href="#感知机" class="headerlink" title="感知机"></a>感知机</h2><p>感知机（Perceptron）是一种线性分类模型，起源于神经网络领域，是二分类问题的基本单元。它通过计算输入特征的线性组合并应用一个激活函数（在此为符号函数）来预测输出类别。本文将介绍感知机的基本原理，并通过在鸢尾花数据集上的应用展示其效果。鸢尾花数据集是一个经典的多分类数据集，但在此例中，我们将其转换为二分类问题以适配感知机模型。</p>
+<h4 id="感知机原理"><a href="#感知机原理" class="headerlink" title="感知机原理"></a>感知机原理</h4><p>感知机模型的核心思想是通过一个线性决策边界将特征空间划分为两个区域，每个区域对应一个类别。具体来说，感知机接收一个输入向量 $X$，并计算其加权和加上偏置 $b$，即 $z &#x3D; W^T \cdot X + b$。然后，应用符号函数（sign function）将 $z$ 映射到输出类别上，通常映射为 $-1$ 和 $1$（或 $0$ 和 $1$，取决于具体实现）。</p>
+<p>感知机的训练过程是一个迭代过程，旨在通过调整权重 $W$ 和偏置 $b$ 来最小化分类错误。在每次迭代中，感知机会遍历训练集中的所有样本，计算每个样本的预测输出，并根据预测错误更新权重和偏置。这种更新通常基于梯度下降法或其变体。</p>
+<h4 id="在鸢尾花数据集上的应用-7"><a href="#在鸢尾花数据集上的应用-7" class="headerlink" title="在鸢尾花数据集上的应用"></a>在鸢尾花数据集上的应用</h4><p>下面，我们将通过Python代码展示如何在鸢尾花数据集上应用感知机，并评估其效果。由于感知机是二分类模型，我们需要从鸢尾花数据集中选择两个类别进行训练。</p>
+<p><strong>步骤</strong>：</p>
+<ol>
+<li><strong>加载数据集</strong>：使用<code>sklearn.datasets</code>加载鸢尾花数据集。</li>
+<li><strong>预处理数据集</strong>：选择类别0和类别1，排除类别2，以适配二分类问题。</li>
+<li><strong>拆分数据集</strong>：将数据集拆分为训练集和测试集。</li>
+<li><strong>特征缩放</strong>：使用<code>StandardScaler</code>对特征进行缩放，以提高模型性能。</li>
+<li><strong>实现感知机算法</strong>：创建一个简单的感知机类，包括初始化、训练（fit）和预测（predict）方法。</li>
+<li><strong>训练模型</strong>：使用训练集训练感知机模型。</li>
+<li><strong>预测测试集</strong>：使用测试集进行预测，并计算准确率、混淆矩阵和分类报告。</li>
+<li><strong>可视化分类结果</strong>：使用前两个特征（花萼长度和花萼宽度）绘制散点图，并显示决策边界。</li>
+</ol>
+<p><strong>代码实现</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix, accuracy_score, classification_report</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载鸢尾花数据集</span></span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line">X = iris.data</span><br><span class="line">y = iris.target</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为了二分类问题，我们选择类别0和类别1，将类别2排除在外</span></span><br><span class="line">X = X[y != <span class="number">2</span>]</span><br><span class="line">y = y[y != <span class="number">2</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拆分数据集为训练集和测试集</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.3</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 特征缩放</span></span><br><span class="line">scaler = StandardScaler()</span><br><span class="line">X_train = scaler.fit_transform(X_train)</span><br><span class="line">X_test = scaler.transform(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 感知机算法实现（简单版本，不带权重衰减）</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Perceptron</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, learning_rate=<span class="number">0.01</span>, n_iters=<span class="number">1000</span></span>):</span><br><span class="line">        <span class="variable language_">self</span>.learning_rate = learning_rate</span><br><span class="line">        <span class="variable language_">self</span>.n_iters = n_iters</span><br><span class="line">        <span class="variable language_">self</span>.weights = <span class="literal">None</span></span><br><span class="line">        <span class="variable language_">self</span>.bias = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fit</span>(<span class="params">self, X, y</span>):</span><br><span class="line">        n_samples, n_features = X.shape</span><br><span class="line">        <span class="variable language_">self</span>.weights = np.zeros(n_features)</span><br><span class="line">        <span class="variable language_">self</span>.bias = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        y_ = np.where(y &lt;= <span class="number">0</span>, -<span class="number">1</span>, <span class="number">1</span>)  <span class="comment"># 将标签转换为-1和1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="variable language_">self</span>.n_iters):</span><br><span class="line">            <span class="keyword">for</span> idx, x_i <span class="keyword">in</span> <span class="built_in">enumerate</span>(X):</span><br><span class="line">                linear_output = np.dot(x_i, <span class="variable language_">self</span>.weights) + <span class="variable language_">self</span>.bias</span><br><span class="line">                y_predicted = np.sign(linear_output)</span><br><span class="line"></span><br><span class="line">                <span class="comment"># 更新权重和偏置</span></span><br><span class="line">                update = <span class="variable language_">self</span>.learning_rate * (y_[idx] - y_predicted)</span><br><span class="line">                <span class="variable language_">self</span>.weights += update * x_i</span><br><span class="line">                <span class="variable language_">self</span>.bias += update</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">predict</span>(<span class="params">self, X</span>):</span><br><span class="line">        linear_output = np.dot(X, <span class="variable language_">self</span>.weights) + <span class="variable language_">self</span>.bias</span><br><span class="line">        y_predicted = np.sign(linear_output)</span><br><span class="line">        <span class="keyword">return</span> np.where(y_predicted == <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>)  <span class="comment"># 将预测结果转换回0和1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建感知机模型实例</span></span><br><span class="line">perceptron = Perceptron(learning_rate=<span class="number">0.01</span>, n_iters=<span class="number">1000</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">perceptron.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行预测</span></span><br><span class="line">y_pred = perceptron.predict(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算准确率</span></span><br><span class="line">accuracy = accuracy_score(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Accuracy: <span class="subst">&#123;accuracy:<span class="number">.2</span>f&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算混淆矩阵</span></span><br><span class="line">cm = confusion_matrix(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Confusion Matrix:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(cm)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出分类报告，包括精确率、召回率和F1分数</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Classification Report:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(classification_report(y_test, y_pred, target_names=iris.target_names[:<span class="number">2</span>]))  <span class="comment"># 只包含前两个类别</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 可视化分类结果</span></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">6</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用不同的颜色表示不同的真实类别</span></span><br><span class="line">colors = [<span class="string">&#x27;blue&#x27;</span> <span class="keyword">if</span> label == <span class="number">0</span> <span class="keyword">else</span> <span class="string">&#x27;red&#x27;</span> <span class="keyword">for</span> label <span class="keyword">in</span> y_test]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制散点图</span></span><br><span class="line">plt.scatter(X_test[:, <span class="number">0</span>], X_test[:, <span class="number">1</span>], c=colors, edgecolor=<span class="string">&#x27;k&#x27;</span>, linewidth=<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制决策边界（线性分类器的直线）</span></span><br><span class="line"><span class="comment"># 决策边界的方程是 weights[0]*x1 + weights[1]*x2 + bias = 0</span></span><br><span class="line"><span class="comment"># 我们可以解出 x2 = -(weights[0]*x1 + bias) / weights[1]</span></span><br><span class="line">x_values = np.linspace(X_test[:, <span class="number">0</span>].<span class="built_in">min</span>() - <span class="number">1</span>, X_test[:, <span class="number">0</span>].<span class="built_in">max</span>() + <span class="number">1</span>, <span class="number">400</span>)</span><br><span class="line">y_values = -(perceptron.weights[<span class="number">0</span>] * x_values + perceptron.bias) / perceptron.weights[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制决策边界线</span></span><br><span class="line">plt.plot(x_values, y_values, <span class="string">&#x27;k--&#x27;</span>, label=<span class="string">&#x27;Decision Boundary&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加标题和标签</span></span><br><span class="line">plt.title(<span class="string">&#x27;Perceptron Classification of Iris Dataset (Binary Target)&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Sepal Length&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Sepal Width&#x27;</span>)</span><br><span class="line">plt.legend()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示图形</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/%E6%84%9F%E7%9F%A5%E6%9C%BA.jpg" alt="感知机结果"></p>
+<p>感知机是一种简单而有效的线性分类模型，特别适用于二分类问题。通过在鸢尾花数据集上的应用，我们展示了感知机的基本原理和步骤，并通过准确率、混淆矩阵、分类报告和可视化分类结果评估了模型效果。尽管感知机在处理非线性问题时表现不佳，但它在理解线性分类器的基本原理和构建更复杂的神经网络模型时具有重要意义。在实际应用中，我们可以考虑使用支持向量机（SVM）等更高级的线性分类器或神经网络来处理复杂的分类任务。</p>
+<h2 id="最大熵"><a href="#最大熵" class="headerlink" title="最大熵"></a>最大熵</h2><p>作为最后一个方法，我懒得弄了。故此方法只提供代码不附介绍。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">用相同的格式根据以下代码写一篇博客介绍最大熵原理：<span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score, classification_report, confusion_matrix, ConfusionMatrixDisplay</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载鸢尾花数据集</span></span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line">X = iris.data</span><br><span class="line">y = iris.target</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将数据集拆分为训练集和测试集</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.3</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建最大熵（多项逻辑斯蒂回归）模型</span></span><br><span class="line">model = LogisticRegression(multi_class=<span class="string">&#x27;multinomial&#x27;</span>, solver=<span class="string">&#x27;lbfgs&#x27;</span>, max_iter=<span class="number">200</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">model.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行预测</span></span><br><span class="line">y_pred = model.predict(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 评估模型性能</span></span><br><span class="line">accuracy = accuracy_score(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Accuracy: <span class="subst">&#123;accuracy:<span class="number">.2</span>f&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出分类报告</span></span><br><span class="line"><span class="built_in">print</span>(classification_report(y_test, y_pred, target_names=iris.target_names))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出混淆矩阵</span></span><br><span class="line">conf_matrix = confusion_matrix(y_test, y_pred)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Confusion Matrix:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(conf_matrix)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可视化分类结果（混淆矩阵）</span></span><br><span class="line">disp = ConfusionMatrixDisplay(confusion_matrix=conf_matrix, display_labels=iris.target_names)</span><br><span class="line">disp.plot(cmap=plt.cm.Blues)  <span class="comment"># 使用蓝色系热图展示混淆矩阵</span></span><br><span class="line">plt.title(<span class="string">&#x27;Confusion Matrix for Maximum Entropy Classification of Iris Dataset&#x27;</span>)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可视化分类结果的另一种方式（散点图结合真实标签与预测标签）</span></span><br><span class="line"><span class="comment"># 由于鸢尾花数据集有四个特征，我们选择前两个特征进行可视化</span></span><br><span class="line">X_vis = X[:, :<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为了在散点图上展示分类结果，我们根据预测标签为测试集样本着色</span></span><br><span class="line">colors = [<span class="string">&#x27;red&#x27;</span>, <span class="string">&#x27;green&#x27;</span>, <span class="string">&#x27;blue&#x27;</span>]  <span class="comment"># 对应鸢尾花的三个类别：setosa, versicolor, virginica</span></span><br><span class="line">test_colors = [colors[pred] <span class="keyword">for</span> pred <span class="keyword">in</span> y_pred]</span><br><span class="line">true_colors = [colors[label] <span class="keyword">for</span> label <span class="keyword">in</span> y_test]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制散点图，展示前两个特征（花萼长度与花萼宽度）</span></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">6</span>))</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(X_test)):</span><br><span class="line">    <span class="comment"># 使用较小的透明度来区分重叠的点</span></span><br><span class="line">    plt.scatter(X_test[i, <span class="number">0</span>], X_test[i, <span class="number">1</span>], c=test_colors[i], alpha=<span class="number">0.6</span>, edgecolor=<span class="string">&#x27;k&#x27;</span>, linewidth=<span class="number">0.5</span>, label=<span class="string">f&#x27;Pred: <span class="subst">&#123;iris.target_names[y_pred[i]]&#125;</span>&#x27;</span> <span class="keyword">if</span> i == <span class="number">0</span> <span class="keyword">else</span> <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    <span class="comment"># 为了展示真实标签，我们在每个点旁边添加一个小文本注释（仅对部分点进行注释以避免过于拥挤）</span></span><br><span class="line">    <span class="keyword">if</span> i % <span class="number">10</span> == <span class="number">0</span>:  <span class="comment"># 例如，每10个点注释一个</span></span><br><span class="line">        plt.text(X_test[i, <span class="number">0</span>] + <span class="number">0.1</span>, X_test[i, <span class="number">1</span>] + <span class="number">0.1</span>, <span class="string">f&#x27;True: <span class="subst">&#123;iris.target_names[y_test[i]]&#125;</span>&#x27;</span>, fontsize=<span class="number">9</span>, color=<span class="string">&#x27;black&#x27;</span>, ha=<span class="string">&#x27;left&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加图例、标题和标签</span></span><br><span class="line">plt.legend(loc=<span class="string">&#x27;upper left&#x27;</span>, bbox_to_anchor=(<span class="number">1</span>, <span class="number">1</span>), bbox_transform=plt.gcf().transFigure)</span><br><span class="line">plt.title(<span class="string">&#x27;Maximum Entropy Classification of Iris Dataset (Visualized with Sepal Length and Width)&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Sepal Length&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Sepal Width&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示图形</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/%E6%9C%80%E5%A4%A7%E7%86%B5.jpg" alt="最大熵结果"></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2024/11/23/%E5%B0%8F%E6%A0%B7%E6%9C%AC%E5%88%86%E7%B1%BB%E5%B8%B8%E7%94%A8%E5%88%86%E7%B1%BB%E6%96%B9%E6%B3%95/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E6%A0%B7%E6%9C%AC%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/" rel="tag">小样本目标检测</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2024/11/17/%E5%B0%8F%E6%A0%B7%E6%9C%AC%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">小样本目标检测简单介绍</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "DAeOYIeCtfnPwFeKf96Drmpe-MdYXbMMI",
+    app_key: "kTYIzQjQl7fiwPZRR4NMuaEe#",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+  
+    
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2023-2024
+        <i class="ri-heart-fill heart_icon"></i> John Doe
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="老夏十三行"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯茶吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>
