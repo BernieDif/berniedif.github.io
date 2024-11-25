@@ -80,7 +80,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">13.4k</span>
+            <span class="post-count">14.1k</span>
         </span>
     </span>
 
@@ -89,7 +89,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">53 min</span>
+            <span class="post-count">55 min</span>
         </span>
     </span>
 </div>
@@ -105,7 +105,60 @@
     <div class="article-entry" itemprop="articleBody">
        
   <p>小样本分类涵盖了多种技术，其中包括传统机器学习方法如朴素贝叶斯、支持向量机、k近邻算法以及逻辑回归；同时也涉及深度学习方法，例如迁移学习、少样本学习和嵌入式学习。本文主要介绍传统机器学习方法。</p>
-<h4 id="导入必要的库"><a href="#导入必要的库" class="headerlink" title="导入必要的库"></a>导入必要的库</h4><p>在开始之前我们需要安装必要的库</p>
+<h3 id="导入必要的库"><a href="#导入必要的库" class="headerlink" title="导入必要的库"></a>导入必要的库</h3><p>在开始之前我们需要安装必要的库<br>要安装numpy、pandas、sklearn（scikit-learn）和seaborn，你可以使用Python的包管理工具pip或conda。以下是详细的安装步骤：</p>
+<h4 id="使用pip安装"><a href="#使用pip安装" class="headerlink" title="使用pip安装"></a>使用pip安装</h4><ol>
+<li><p><strong>安装numpy</strong></p>
+<p>打开命令行工具（在Windows上是命令提示符CMD或PowerShell，在macOS或Linux上是终端Terminal），然后输入以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install numpy</span><br></pre></td></tr></table></figure>
+
+<p>这将从Python官方的包索引（PyPI）下载并安装最新版的numpy。</p>
+</li>
+<li><p><strong>安装pandas</strong></p>
+<p>同样在命令行工具中，输入以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pandas</span><br></pre></td></tr></table></figure>
+
+<p>这将下载并安装最新版的pandas。</p>
+</li>
+<li><p><strong>安装sklearn（scikit-learn）</strong></p>
+<p>输入以下命令来安装scikit-learn：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scikit-learn</span><br></pre></td></tr></table></figure>
+
+<p>或者，由于scikit-learn通常简称为sklearn，你也可以使用以下命令（尽管两者在功能上是等价的）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install sklearn</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>安装seaborn</strong></p>
+<p>输入以下命令来安装seaborn：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install seaborn</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="使用conda安装"><a href="#使用conda安装" class="headerlink" title="使用conda安装"></a>使用conda安装</h4><p>如果你使用的是Anaconda或Miniconda这样的科学计算平台，你可以使用conda包管理器来安装这些库。</p>
+<ol>
+<li><p><strong>安装numpy</strong></p>
+<p>在命令行工具（如Anaconda Prompt）中，输入以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install numpy</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>安装pandas</strong></p>
+<p>输入以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install pandas</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>安装sklearn（scikit-learn）</strong></p>
+<p>输入以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install scikit-learn</span><br></pre></td></tr></table></figure>
+
+<p>或者，由于scikit-learn在conda中的包名可能也是sklearn（尽管这取决于具体的conda版本和仓库设置），你也可以尝试使用以下命令（但建议首先检查conda仓库中的包名）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install sklearn</span><br></pre></td></tr></table></figure>
+
+<p>然而，为了准确性，通常推荐使用<code>scikit-learn</code>作为包名。</p>
+</li>
+<li><p><strong>安装seaborn</strong></p>
+<p>输入以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install seaborn</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>在安装这些库之前，请确保你的Python环境已经正确配置，并且pip或conda已经安装在你的系统上。</li>
+<li>如果你在中国大陆等网络访问受限的地区，可能需要使用国内的镜像源来加速下载过程。例如，你可以使用清华大学的PyPI镜像源：<code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple &lt;包名&gt;</code>（将<code>&lt;包名&gt;</code>替换为你要安装的库的名称）。</li>
+<li>安装完成后，你可以通过导入这些库并打印其版本来验证是否安装成功。例如，对于numpy，你可以在Python解释器中输入<code>import numpy as np; print(np.__version__)</code>来查看安装的版本。</li>
+</ul>
+<p>通过以上步骤，你应该能够成功地安装numpy、pandas、scikit-learn和seaborn这些Python数据分析与科学计算中常用的库。</p>
 <h2 id="层次聚类"><a href="#层次聚类" class="headerlink" title="层次聚类"></a>层次聚类</h2><p>在数据分析与机器学习的领域中，聚类是一种无监督学习方法，旨在将相似的数据点分组到不同的簇中，而无需事先知道数据点的类别标签。层次聚类（Hierarchical Clustering）是聚类算法中的一种重要方法，它通过构建数据点的层次树（也称为树状图或树形图）来实现聚类。本文将介绍层次聚类的基本原理，并通过在鸢尾花数据集上的应用展示其效果。</p>
 <h4 id="层次聚类原理"><a href="#层次聚类原理" class="headerlink" title="层次聚类原理"></a>层次聚类原理</h4><p>层次聚类可以分为凝聚（agglomerative）和分裂（divisive）两种方法。凝聚层次聚类是自下而上的过程，初始时每个数据点被视为一个单独的簇，然后逐步合并最相似的簇，直到所有点都合并成一个簇或达到某个停止条件。相反，分裂层次聚类是自上而下的过程，它从包含所有数据点的一个簇开始，逐步分裂成更小的簇。</p>
 <p><strong>关键步骤</strong>：</p>
