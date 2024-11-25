@@ -109,8 +109,9 @@
     <div class="article-entry" itemprop="articleBody">
        
   <p>小样本分类涵盖了多种技术，其中包括传统机器学习方法如朴素贝叶斯、支持向量机、k近邻算法以及逻辑回归；同时也涉及深度学习方法，例如迁移学习、少样本学习和嵌入式学习。本文主要介绍传统机器学习方法。</p>
-<h3 id="安装必要的库"><a href="#安装必要的库" class="headerlink" title="安装必要的库"></a>安装必要的库</h3><p>在开始之前我们需要安装必要的库<br>要安装numpy、pandas、sklearn（scikit-learn）和seaborn，你可以使用Python的包管理工具pip或conda。以下是详细的安装步骤：</p>
-<h4 id="使用pip安装"><a href="#使用pip安装" class="headerlink" title="使用pip安装"></a>使用pip安装</h4><ol>
+<p><strong>安装必要的库</strong><br>在开始之前我们需要安装必要的库<br>要安装numpy、pandas、sklearn（scikit-learn）和seaborn，你可以使用Python的包管理工具pip或conda。以下是详细的安装步骤：</p>
+<p><strong>使用pip安装</strong></p>
+<ol>
 <li><p><strong>安装numpy</strong></p>
 <p>打开命令行工具（在Windows上是命令提示符CMD或PowerShell，在macOS或Linux上是终端Terminal），然后输入以下命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install numpy</span><br></pre></td></tr></table></figure>
@@ -134,7 +135,8 @@
 <p>输入以下命令来安装seaborn：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install seaborn</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h4 id="使用conda安装"><a href="#使用conda安装" class="headerlink" title="使用conda安装"></a>使用conda安装</h4><p>如果你使用的是Anaconda或Miniconda这样的科学计算平台，你可以使用conda包管理器来安装这些库。</p>
+<p><strong>使用conda安装</strong></p>
+<p>如果你使用的是Anaconda或Miniconda这样的科学计算平台，你可以使用conda包管理器来安装这些库。</p>
 <ol>
 <li><p><strong>安装numpy</strong></p>
 <p>在命令行工具（如Anaconda Prompt）中，输入以下命令：</p>
@@ -157,7 +159,8 @@
 <p>输入以下命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install seaborn</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<p><strong>注意事项</strong></p>
+<ul>
 <li>在安装这些库之前，请确保你的Python环境已经正确配置，并且pip或conda已经安装在你的系统上。</li>
 <li>如果你在中国大陆等网络访问受限的地区，可能需要使用国内的镜像源来加速下载过程。例如，你可以使用清华大学的PyPI镜像源：<code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple &lt;包名&gt;</code>（将<code>&lt;包名&gt;</code>替换为你要安装的库的名称）。</li>
 <li>安装完成后，你可以通过导入这些库并打印其版本来验证是否安装成功。例如，对于numpy，你可以在Python解释器中输入<code>import numpy as np; print(np.__version__)</code>来查看安装的版本。</li>
