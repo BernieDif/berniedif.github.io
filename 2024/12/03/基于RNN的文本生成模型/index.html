@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>python：NumPy基础操作与矩阵求和示例 |  老夏十三行</title>
+      <title>基于RNN的文本生成模型 |  老夏十三行</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -57,7 +57,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-python：NumPy矩阵求和示例"
+  id="post-基于RNN的文本生成模型"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -68,7 +68,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  python：NumPy基础操作与矩阵求和示例
+  基于RNN的文本生成模型
 </h1>
  
 
@@ -76,15 +76,15 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2024/12/02/python%EF%BC%9ANumPy%E7%9F%A9%E9%98%B5%E6%B1%82%E5%92%8C%E7%A4%BA%E4%BE%8B/" class="article-date">
-  <time datetime="2024-12-02T12:00:32.000Z" itemprop="datePublished">2024-12-02</time>
+      <a href="/2024/12/03/%E5%9F%BA%E4%BA%8ERNN%E7%9A%84%E6%96%87%E6%9C%AC%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/" class="article-date">
+  <time datetime="2024-12-03T07:47:20.000Z" itemprop="datePublished">2024-12-03</time>
 </a>   
 <div class="word_count">
     <span class="post-time">
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">757</span>
+            <span class="post-count">568</span>
         </span>
     </span>
 
@@ -93,52 +93,23 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">3 min</span>
+            <span class="post-count">2 min</span>
         </span>
     </span>
 </div>
  
     </div>
       
-    <div class="tocbot"></div>
-
 
 
 
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><p>NumPy 是 Python 中一个极为强大的库，主要用于进行大规模的数学计算。它提供了多维数组对象、一系列操作数组的函数，以及用于集成 C&#x2F;C++ 和 Fortran 代码的工具。今天，我们将通过一个简单的示例来展示如何使用 NumPy 创建数组、矩阵，并计算它们的和。</p>
-<h4 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h4><p>以下是一个简单的 Python 脚本，它使用了 NumPy 来创建一维数组、二维矩阵，并计算这些数组与矩阵的行和与总和。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设定矩阵的大小</span></span><br><span class="line">N = <span class="built_in">int</span>(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个长度为 N 的一维数组，所有元素均为 1</span></span><br><span class="line">array_1d = np.ones((N,))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 N x N 的二维矩阵，所有元素均为 0</span></span><br><span class="line">matrix = np.zeros((N, N))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用 0 到 N*N-1 的整数填充矩阵</span></span><br><span class="line">a = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(N):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(N):</span><br><span class="line">        matrix[i, j] = a</span><br><span class="line">        a += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印一维数组和矩阵</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;一维数组:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(array_1d)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;矩阵:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(matrix)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算矩阵每一行的和，并将结果存储在列表中</span></span><br><span class="line">new = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(N):</span><br><span class="line">    row_sum = np.<span class="built_in">sum</span>(matrix[i])</span><br><span class="line">    new.append(row_sum)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印每一行的和</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;矩阵每一行的和:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(new)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算矩阵所有元素的和，并将其转换为整数后打印</span></span><br><span class="line">matrix_sum = np.<span class="built_in">sum</span>(matrix)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;矩阵所有元素的和（整数）:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">int</span>(matrix_sum))</span><br></pre></td></tr></table></figure>
+  <p>在本文中，我们将介绍如何使用循环神经网络（RNN）来构建一个文本生成模型。这个模型能够基于给定的文本数据生成新的、类似的文本。我们将使用莎士比亚的文本作为训练数据，并展示如何加载数据、准备数据、构建模型、训练模型以及使用模型生成新的文本。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.models <span class="keyword">import</span> Sequential</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.layers <span class="keyword">import</span> SimpleRNN, Dense, Embedding</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.preprocessing.text <span class="keyword">import</span> Tokenizer</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.preprocessing.sequence <span class="keyword">import</span> pad_sequences</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.utils <span class="keyword">import</span> to_categorical</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load_data</span>(<span class="params">filepath, maxlen=<span class="number">100</span></span>):</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(filepath, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">        text = file.read()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 将文本转换为小写</span></span><br><span class="line">    text = text.lower()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> text, maxlen</span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备数据</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">prepare_data</span>(<span class="params">text, maxlen, step=<span class="number">3</span></span>):</span><br><span class="line">    tokenizer = Tokenizer(char_level=<span class="literal">True</span>)</span><br><span class="line">    tokenizer.fit_on_texts([text])</span><br><span class="line">    sequences = tokenizer.texts_to_sequences([text])[<span class="number">0</span>]</span><br><span class="line">    </span><br><span class="line">    dataX, dataY = [], []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(sequences) - maxlen, step):</span><br><span class="line">        seq_in = sequences[i:i + maxlen]</span><br><span class="line">        seq_out = sequences[i + maxlen]</span><br><span class="line">        dataX.append(seq_in)</span><br><span class="line">        dataY.append(seq_out)</span><br><span class="line">    </span><br><span class="line">    dataX = pad_sequences(dataX, maxlen=maxlen, padding=<span class="string">&#x27;pre&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 将输出转换为one-hot编码</span></span><br><span class="line">    num_classes = <span class="built_in">len</span>(tokenizer.word_index) + <span class="number">1</span></span><br><span class="line">    dataY = to_categorical(dataY, num_classes=num_classes)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> dataX, dataY, tokenizer</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置参数</span></span><br><span class="line">filepath = <span class="string">&#x27;D:\\XBY\\meaningway\\meaningway3\\shakespeare.txt&#x27;</span>  <span class="comment"># 替换为你的莎士比亚文本文件路径</span></span><br><span class="line">maxlen = <span class="number">40</span></span><br><span class="line">step = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载和准备数据</span></span><br><span class="line">text, maxlen = load_data(filepath, maxlen)</span><br><span class="line">dataX, dataY, tokenizer = prepare_data(text, maxlen, step)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建模型</span></span><br><span class="line">model = Sequential()</span><br><span class="line">model.add(Embedding(input_dim=<span class="built_in">len</span>(tokenizer.word_index) + <span class="number">1</span>,</span><br><span class="line">                    output_dim=<span class="number">50</span>))</span><br><span class="line">model.add(SimpleRNN(<span class="number">128</span>, return_sequences=<span class="literal">False</span>))</span><br><span class="line">model.add(Dense(<span class="built_in">len</span>(tokenizer.word_index) + <span class="number">1</span>, activation=<span class="string">&#x27;softmax&#x27;</span>))</span><br><span class="line"></span><br><span class="line">model.<span class="built_in">compile</span>(loss=<span class="string">&#x27;categorical_crossentropy&#x27;</span>, optimizer=<span class="string">&#x27;adam&#x27;</span>, metrics=[<span class="string">&#x27;accuracy&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">model.fit(dataX, dataY, epochs=<span class="number">200</span>, batch_size=<span class="number">128</span>, validation_split=<span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存模型</span></span><br><span class="line">model.save(<span class="string">&#x27;simple_char_rnn.keras&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试模型（生成文本）</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">generate_text</span>(<span class="params">model, tokenizer, seed_text, num_generate=<span class="number">100</span></span>):</span><br><span class="line">    result = <span class="built_in">list</span>(seed_text)</span><br><span class="line">    in_text = seed_text</span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num_generate):</span><br><span class="line">        sequence = tokenizer.texts_to_sequences([in_text])[<span class="number">0</span>]</span><br><span class="line">        sequence = pad_sequences([sequence], maxlen=maxlen, padding=<span class="string">&#x27;pre&#x27;</span>)</span><br><span class="line">        yhat = model.predict(sequence, verbose=<span class="number">0</span>)</span><br><span class="line">        yhat = np.argmax(yhat)</span><br><span class="line">        result.append(tokenizer.index_word[yhat])</span><br><span class="line">        in_text += tokenizer.index_word[yhat]</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>.join(result)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用模型生成文本</span></span><br><span class="line">seed_text = <span class="string">&quot;romeo: &quot;</span>  <span class="comment"># 你可以改变这个种子文本</span></span><br><span class="line">generated_text = generate_text(model, tokenizer, seed_text, num_generate=<span class="number">200</span>)</span><br><span class="line"><span class="built_in">print</span>(generated_text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h4 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析"></a>代码解析</h4><ol>
-<li><p><strong>导入 NumPy 库</strong>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure>
-<p>这行代码导入了 NumPy 库，并为其设置了别名 <code>np</code>，以便在后续代码中方便地调用。</p>
-</li>
-<li><p><strong>创建一维数组和矩阵</strong>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">array_1d = np.ones((N,))</span><br><span class="line">matrix = np.zeros((N, N))</span><br></pre></td></tr></table></figure>
-<p>这里，我们使用 <code>np.ones</code> 创建了一个长度为 <code>N</code> 的一维数组，数组中的所有元素均为 1。接着，使用 <code>np.zeros</code> 创建了一个 <code>N x N</code> 的二维矩阵，矩阵中的所有元素均为 0。</p>
-</li>
-<li><p><strong>填充矩阵</strong>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(N):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(N):</span><br><span class="line">        matrix[i, j] = a</span><br><span class="line">        a += <span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p>这段代码通过两层嵌套循环，用从 0 到 <code>N*N-1</code> 的整数填充了矩阵。</p>
-</li>
-<li><p><strong>打印一维数组和矩阵</strong>：<br>使用 <code>print</code> 函数打印了一维数组和矩阵。</p>
-</li>
-<li><p><strong>计算矩阵每一行的和</strong>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">new = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(N):</span><br><span class="line">    row_sum = np.<span class="built_in">sum</span>(matrix[i])</span><br><span class="line">    new.append(row_sum)</span><br></pre></td></tr></table></figure>
-<p>这段代码通过循环计算了矩阵每一行的和，并将结果存储在列表 <code>new</code> 中。</p>
-</li>
-<li><p><strong>打印每一行的和</strong>：<br>使用 <code>print</code> 函数打印了列表 <code>new</code> 中的内容。</p>
-</li>
-<li><p><strong>计算矩阵所有元素的和</strong>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">matrix_sum = np.<span class="built_in">sum</span>(matrix)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">int</span>(matrix_sum))</span><br></pre></td></tr></table></figure>
-<p>最后，我们使用 <code>np.sum</code> 函数计算了矩阵所有元素的和，并将其转换为整数后打印出来。</p>
-</li>
-</ol>
-<p>我们可以看到 NumPy 在处理数组和矩阵时的强大功能。无论是创建数组、填充矩阵，还是计算数组与矩阵的和，NumPy 都提供了简洁而高效的方法。如果你对大规模数学计算感兴趣，不妨深入学习一下 NumPy 这个库。</p>
+<p><img src="/images/rnn%E7%9A%84%E8%AE%AD%E7%BB%830.7.jpg" alt="运行结果"><br>通过运行上述代码，你将能够生成类似于莎士比亚风格的文本。你可以尝试改变种子文本或调整模型参数来生成不同的内容。然而，此代码的瓶颈出现在150步左右，正确率趋近于0.7附近。因此输出的结果并不如人意。</p>
  
       <!-- reward -->
       
@@ -209,12 +180,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2024/12/02/python%EF%BC%9ANumPy%E7%9F%A9%E9%98%B5%E6%B1%82%E5%92%8C%E7%A4%BA%E4%BE%8B/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2024/12/03/%E5%9F%BA%E4%BA%8ERNN%E7%9A%84%E6%96%87%E6%9C%AC%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/numpy/" rel="tag">numpy</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LLm/" rel="tag">LLm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RNN/" rel="tag">RNN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
 
     </footer>
   </div>
@@ -222,19 +193,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2024/12/03/%E5%9F%BA%E4%BA%8ERNN%E7%9A%84%E6%96%87%E6%9C%AC%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            基于RNN的文本生成模型
-          
-        </div>
-      </a>
     
-    
-      <a href="/2024/11/29/python%EF%BC%9A%E5%AE%9E%E9%AA%8C%E8%AF%BE2/" class="article-nav-link">
+      <a href="/2024/12/02/python%EF%BC%9ANumPy%E7%9F%A9%E9%98%B5%E6%B1%82%E5%92%8C%E7%A4%BA%E4%BE%8B/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">python：实验课2</div>
+        <div class="article-nav-title">python：NumPy基础操作与矩阵求和示例</div>
       </a>
     
   </nav>
