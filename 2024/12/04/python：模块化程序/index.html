@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>基于RNN的文本生成模型 |  老夏十三行</title>
+      <title>python：模块化程序 |  老夏十三行</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -57,7 +57,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-基于RNN的文本生成模型"
+  id="post-python：模块化程序"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -68,7 +68,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  基于RNN的文本生成模型
+  python：模块化程序
 </h1>
  
 
@@ -76,15 +76,15 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2024/12/03/%E5%9F%BA%E4%BA%8ERNN%E7%9A%84%E6%96%87%E6%9C%AC%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/" class="article-date">
-  <time datetime="2024-12-03T07:47:20.000Z" itemprop="datePublished">2024-12-03</time>
+      <a href="/2024/12/04/python%EF%BC%9A%E6%A8%A1%E5%9D%97%E5%8C%96%E7%A8%8B%E5%BA%8F/" class="article-date">
+  <time datetime="2024-12-04T14:17:37.000Z" itemprop="datePublished">2024-12-04</time>
 </a>   
 <div class="word_count">
     <span class="post-time">
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">568</span>
+            <span class="post-count">676</span>
         </span>
     </span>
 
@@ -93,23 +93,50 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">2 min</span>
+            <span class="post-count">3 min</span>
         </span>
     </span>
 </div>
  
     </div>
       
+    <div class="tocbot"></div>
+
 
 
 
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>在本文中，我们将介绍如何使用循环神经网络（RNN）来构建一个文本生成模型。这个模型能够基于给定的文本数据生成新的、类似的文本。我们将使用莎士比亚的文本作为训练数据，并展示如何加载数据、准备数据、构建模型、训练模型以及使用模型生成新的文本。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.models <span class="keyword">import</span> Sequential</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.layers <span class="keyword">import</span> SimpleRNN, Dense, Embedding</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.preprocessing.text <span class="keyword">import</span> Tokenizer</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.preprocessing.sequence <span class="keyword">import</span> pad_sequences</span><br><span class="line"><span class="keyword">from</span> tensorflow.keras.utils <span class="keyword">import</span> to_categorical</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load_data</span>(<span class="params">filepath, maxlen=<span class="number">100</span></span>):</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(filepath, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">        text = file.read()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 将文本转换为小写</span></span><br><span class="line">    text = text.lower()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> text, maxlen</span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备数据</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">prepare_data</span>(<span class="params">text, maxlen, step=<span class="number">3</span></span>):</span><br><span class="line">    tokenizer = Tokenizer(char_level=<span class="literal">True</span>)</span><br><span class="line">    tokenizer.fit_on_texts([text])</span><br><span class="line">    sequences = tokenizer.texts_to_sequences([text])[<span class="number">0</span>]</span><br><span class="line">    </span><br><span class="line">    dataX, dataY = [], []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(sequences) - maxlen, step):</span><br><span class="line">        seq_in = sequences[i:i + maxlen]</span><br><span class="line">        seq_out = sequences[i + maxlen]</span><br><span class="line">        dataX.append(seq_in)</span><br><span class="line">        dataY.append(seq_out)</span><br><span class="line">    </span><br><span class="line">    dataX = pad_sequences(dataX, maxlen=maxlen, padding=<span class="string">&#x27;pre&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 将输出转换为one-hot编码</span></span><br><span class="line">    num_classes = <span class="built_in">len</span>(tokenizer.word_index) + <span class="number">1</span></span><br><span class="line">    dataY = to_categorical(dataY, num_classes=num_classes)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> dataX, dataY, tokenizer</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置参数</span></span><br><span class="line">filepath = <span class="string">&#x27;D:\\XBY\\meaningway\\meaningway3\\shakespeare.txt&#x27;</span>  <span class="comment"># 替换为你的莎士比亚文本文件路径</span></span><br><span class="line">maxlen = <span class="number">40</span></span><br><span class="line">step = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载和准备数据</span></span><br><span class="line">text, maxlen = load_data(filepath, maxlen)</span><br><span class="line">dataX, dataY, tokenizer = prepare_data(text, maxlen, step)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建模型</span></span><br><span class="line">model = Sequential()</span><br><span class="line">model.add(Embedding(input_dim=<span class="built_in">len</span>(tokenizer.word_index) + <span class="number">1</span>,</span><br><span class="line">                    output_dim=<span class="number">50</span>))</span><br><span class="line">model.add(SimpleRNN(<span class="number">128</span>, return_sequences=<span class="literal">False</span>))</span><br><span class="line">model.add(Dense(<span class="built_in">len</span>(tokenizer.word_index) + <span class="number">1</span>, activation=<span class="string">&#x27;softmax&#x27;</span>))</span><br><span class="line"></span><br><span class="line">model.<span class="built_in">compile</span>(loss=<span class="string">&#x27;categorical_crossentropy&#x27;</span>, optimizer=<span class="string">&#x27;adam&#x27;</span>, metrics=[<span class="string">&#x27;accuracy&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">model.fit(dataX, dataY, epochs=<span class="number">200</span>, batch_size=<span class="number">128</span>, validation_split=<span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存模型</span></span><br><span class="line">model.save(<span class="string">&#x27;simple_char_rnn.keras&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试模型（生成文本）</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">generate_text</span>(<span class="params">model, tokenizer, seed_text, num_generate=<span class="number">100</span></span>):</span><br><span class="line">    result = <span class="built_in">list</span>(seed_text)</span><br><span class="line">    in_text = seed_text</span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num_generate):</span><br><span class="line">        sequence = tokenizer.texts_to_sequences([in_text])[<span class="number">0</span>]</span><br><span class="line">        sequence = pad_sequences([sequence], maxlen=maxlen, padding=<span class="string">&#x27;pre&#x27;</span>)</span><br><span class="line">        yhat = model.predict(sequence, verbose=<span class="number">0</span>)</span><br><span class="line">        yhat = np.argmax(yhat)</span><br><span class="line">        result.append(tokenizer.index_word[yhat])</span><br><span class="line">        in_text += tokenizer.index_word[yhat]</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>.join(result)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用模型生成文本</span></span><br><span class="line">seed_text = <span class="string">&quot;romeo: &quot;</span>  <span class="comment"># 你可以改变这个种子文本</span></span><br><span class="line">generated_text = generate_text(model, tokenizer, seed_text, num_generate=<span class="number">200</span>)</span><br><span class="line"><span class="built_in">print</span>(generated_text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  <h4 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h4><p>使用PyInstaller来打包Python脚本（如<code>main.py</code>和<code>calculator_module.py</code>）可以将其转换为独立的可执行文件exe</p>
+<ol>
+<li><p><strong>安装PyInstaller</strong>：<br>首先，你需要确保已经安装了PyInstaller。如果没有安装，可以使用pip进行安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pyinstaller</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>准备脚本</strong>：<br>确保你的<code>main.py</code>和<code>calculator_module.py</code>在同一个目录下，并且<code>main.py</code>正确地导入了<code>calculator_module.py</code>。例如，在<code>main.py</code>中：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> calculator_module</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>使用PyInstaller打包</strong>：<br>打开命令行或终端，导航到包含你的Python脚本的目录，然后运行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyinstaller --onefile main.py</span><br></pre></td></tr></table></figure>
+<p>这里，<code>--onefile</code>选项告诉PyInstaller将所有内容打包到一个单独的可执行文件中。</p>
+</li>
+<li><p><strong>生成的可执行文件</strong>：<br>运行上述命令后，PyInstaller将开始处理你的脚本并生成一个<code>dist</code>目录，其中包含一个名为<code>main</code>（在Windows上是<code>main.exe</code>，在macOS上是<code>main</code>，在Linux上是<code>main</code>或<code>main.bin</code>，具体取决于系统）的可执行文件。</p>
+</li>
+<li><p><strong>运行可执行文件</strong>：<br>你可以直接在命令行或双击（取决于操作系统）来运行生成的可执行文件。</p>
+</li>
+</ol>
+<p>注意事项</p>
+<ul>
+<li><strong>隐藏导入</strong>：如果你的脚本使用了动态导入或某些库以非标准方式导入模块，你可能需要在PyInstaller的spec文件中手动添加这些隐藏导入。</li>
+<li><strong>依赖项</strong>：确保所有脚本依赖的第三方库都已安装，并且可以通过<code>pip list</code>查看。</li>
+</ul>
+<p>main.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> calculator_module <span class="keyword">as</span> cm</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Simple Calculator&quot;</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;1. Add&quot;</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;2. Subtract&quot;</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;3. Multiply&quot;</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;4. Divide&quot;</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;5. Exit&quot;</span>)</span><br><span class="line"></span><br><span class="line">            choice = <span class="built_in">input</span>(<span class="string">&quot;Enter your choice (1/2/3/4/5): &quot;</span>)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> choice == <span class="string">&#x27;5&#x27;</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;Exiting the calculator.&quot;</span>)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                num1 = <span class="built_in">float</span>(<span class="built_in">input</span>(<span class="string">&quot;Enter first number: &quot;</span>))</span><br><span class="line">                num2 = <span class="built_in">float</span>(<span class="built_in">input</span>(<span class="string">&quot;Enter second number: &quot;</span>))</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> choice == <span class="string">&#x27;1&#x27;</span>:</span><br><span class="line">                    result = cm.add(num1, num2)</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">f&quot;The result is <span class="subst">&#123;result&#125;</span>&quot;</span>)</span><br><span class="line">                <span class="keyword">elif</span> choice == <span class="string">&#x27;2&#x27;</span>:</span><br><span class="line">                    result = cm.subtract(num1, num2)</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">f&quot;The result is <span class="subst">&#123;result&#125;</span>&quot;</span>)</span><br><span class="line">                <span class="keyword">elif</span> choice == <span class="string">&#x27;3&#x27;</span>:</span><br><span class="line">                    result = cm.multiply(num1, num2)</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">f&quot;The result is <span class="subst">&#123;result&#125;</span>&quot;</span>)</span><br><span class="line">                <span class="keyword">elif</span> choice == <span class="string">&#x27;4&#x27;</span>:</span><br><span class="line">                    result = cm.divide(num1, num2)</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">f&quot;The result is <span class="subst">&#123;result&#125;</span>&quot;</span>)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&quot;Invalid choice. Please try again.&quot;</span>)</span><br><span class="line">            <span class="keyword">except</span> ValueError <span class="keyword">as</span> ve:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">f&quot;Value Error: <span class="subst">&#123;ve&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;An unexpected error occurred: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p><img src="/images/rnn%E7%9A%84%E8%AE%AD%E7%BB%830.7.jpg" alt="运行结果"><br>通过运行上述代码，你将能够生成类似于莎士比亚风格的文本。你可以尝试改变种子文本或调整模型参数来生成不同的内容。然而，此代码的瓶颈出现在150步左右，正确率趋近于0.7附近。因此输出的结果并不如人意。</p>
+<p>calculator_module.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># calculator_module.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;返回两个数的和&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">subtract</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;返回两个数的差&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> a - b</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">multiply</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;返回两个数的积&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> a * b</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">divide</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;返回两个数的商，如果除数为0则抛出异常&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> b == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span>(<span class="string">&quot;除数不能为零&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> a / b</span><br></pre></td></tr></table></figure>
+
+<p>貌似这与库的差不多</p>
  
       <!-- reward -->
       
@@ -180,12 +207,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2024/12/03/%E5%9F%BA%E4%BA%8ERNN%E7%9A%84%E6%96%87%E6%9C%AC%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2024/12/04/python%EF%BC%9A%E6%A8%A1%E5%9D%97%E5%8C%96%E7%A8%8B%E5%BA%8F/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LLm/" rel="tag">LLm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RNN/" rel="tag">RNN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HBuilder/" rel="tag">HBuilder</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html/" rel="tag">html</a></li></ul>
 
     </footer>
   </div>
@@ -193,19 +220,19 @@
    
   <nav class="article-nav">
     
-      <a href="/2024/12/04/python%EF%BC%9A%E6%A8%A1%E5%9D%97%E5%8C%96%E7%A8%8B%E5%BA%8F/" class="article-nav-link">
+      <a href="/2024/12/04/%E5%89%8D%E7%AB%AF%EF%BC%9A%E7%AE%80%E6%98%93%E5%A4%87%E5%BF%98%E5%BD%95/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            python：模块化程序
+            前端：简易备忘录
           
         </div>
       </a>
     
     
-      <a href="/2024/12/02/python%EF%BC%9ANumPy%E7%9F%A9%E9%98%B5%E6%B1%82%E5%92%8C%E7%A4%BA%E4%BE%8B/" class="article-nav-link">
+      <a href="/2024/12/03/%E5%9F%BA%E4%BA%8ERNN%E7%9A%84%E6%96%87%E6%9C%AC%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">python：NumPy基础操作与矩阵求和示例</div>
+        <div class="article-nav-title">基于RNN的文本生成模型</div>
       </a>
     
   </nav>
