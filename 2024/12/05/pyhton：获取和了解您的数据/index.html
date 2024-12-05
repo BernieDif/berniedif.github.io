@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+
+
+<html lang="zh">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>pyhton：获取和了解您的数据 |  老夏十三行</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    <!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-pyhton：获取和了解您的数据"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  pyhton：获取和了解您的数据
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/12/05/pyhton%EF%BC%9A%E8%8E%B7%E5%8F%96%E5%92%8C%E4%BA%86%E8%A7%A3%E6%82%A8%E7%9A%84%E6%95%B0%E6%8D%AE/" class="article-date">
+  <time datetime="2024-12-05T10:30:52.000Z" itemprop="datePublished">2024-12-05</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">903</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">3 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>这个Jupyter笔记本单元格结构为使用<code>u.user</code>数据集提供了一个清晰的指南，该数据集可用于教授如何使用Python的pandas库进行数据操作和分析。这是常规的数据分析路径，其获取的信息可以为后续建立随机森林或者神经网络等预测模型提供参考。</p>
+<h3 id="步骤1：导入必要的库"><a href="#步骤1：导入必要的库" class="headerlink" title="步骤1：导入必要的库"></a>步骤1：导入必要的库</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤2和3：导入数据集并将其分配给users变量"><a href="#步骤2和3：导入数据集并将其分配给users变量" class="headerlink" title="步骤2和3：导入数据集并将其分配给users变量"></a>步骤2和3：导入数据集并将其分配给<code>users</code>变量</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 数据集的URL</span></span><br><span class="line">url = <span class="string">&#x27;https://raw.githubusercontent.com/justmarkham/DAT8/master/data/u.user&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 从URL读取数据，将user_id设置为索引</span></span><br><span class="line">users = pd.read_csv(url, sep=<span class="string">&#x27;|&#x27;</span>, index_col=<span class="string">&#x27;user_id&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤4：查看前25条记录"><a href="#步骤4：查看前25条记录" class="headerlink" title="步骤4：查看前25条记录"></a>步骤4：查看前25条记录</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(users.head(<span class="number">25</span>))</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤5：查看最后一条记录（假设你是指查看最后一条记录）"><a href="#步骤5：查看最后一条记录（假设你是指查看最后一条记录）" class="headerlink" title="步骤5：查看最后一条记录（假设你是指查看最后一条记录）"></a>步骤5：查看最后一条记录（假设你是指查看最后一条记录）</h3><p>要查看最后一条记录：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(users.tail(n=<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+
+<p>但是，如果只是想获取查看最后几条记录的一般命令：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(users.tail())</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤6-7：用户信息"><a href="#步骤6-7：用户信息" class="headerlink" title="步骤6-7：用户信息"></a>步骤6-7：用户信息</h3><p>可以通过以下方式获取关于用户DataFrame的信息：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">users.info()</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤8：职业频率"><a href="#步骤8：职业频率" class="headerlink" title="步骤8：职业频率"></a>步骤8：职业频率</h3><p>为了找出数据集中每个职业出现的次数，我们使用value_counts方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">occupation_frequency = users[<span class="string">&#x27;occupation&#x27;</span>].value_counts()</span><br><span class="line"><span class="built_in">print</span>(occupation_frequency)</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤9-10：总结DataFrame和所有列"><a href="#步骤9-10：总结DataFrame和所有列" class="headerlink" title="步骤9-10：总结DataFrame和所有列"></a>步骤9-10：总结DataFrame和所有列</h3><p>要获取包括平均值、中位数等统计信息在内的整个DataFrame的摘要，你可以对整个DataFrame使用describe：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">users.describe(include=<span class="string">&#x27;all&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>要仅总结数值列或特定数据类型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 所有数值摘要（平均值、最小值、最大值、计数、标准差等）</span></span><br><span class="line"><span class="built_in">print</span>(users.describe())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在摘要中包含非数值变量：</span></span><br><span class="line"><span class="built_in">print</span>(users.describe(include=[<span class="string">&#x27;object&#x27;</span>]))</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤11：职业摘要"><a href="#步骤11：职业摘要" class="headerlink" title="步骤11：职业摘要"></a>步骤11：职业摘要</h3><p>要仅对职业列进行频率计数总结：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">occupation_summary = users[<span class="string">&#x27;occupation&#x27;</span>].value_counts()</span><br><span class="line"><span class="built_in">print</span>(occupation_summary)</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤12：用户的平均年龄"><a href="#步骤12：用户的平均年龄" class="headerlink" title="步骤12：用户的平均年龄"></a>步骤12：用户的平均年龄</h3><p>要计算所有用户的平均年龄：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mean_age = users[<span class="string">&#x27;age&#x27;</span>].mean()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;平均年龄是 <span class="subst">&#123;mean_age:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤13：最常见的职业是什么？"><a href="#步骤13：最常见的职业是什么？" class="headerlink" title="步骤13：最常见的职业是什么？"></a>步骤13：最常见的职业是什么？</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">most_frequent_occupation = users[<span class="string">&#x27;occupation&#x27;</span>].value_counts().idxmax()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;最常见的职业是 <span class="subst">&#123;most_frequent_occupation&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤14：总结DataFrame。"><a href="#步骤14：总结DataFrame。" class="headerlink" title="步骤14：总结DataFrame。"></a>步骤14：总结DataFrame。</h3><p>要总结整个DataFrame，可以使用<code>describe()</code>，它为数值列提供统计摘要，并为分类变量提供基本计数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">summary = users.describe(include=<span class="string">&#x27;all&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(summary)</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤15：总结所有列"><a href="#步骤15：总结所有列" class="headerlink" title="步骤15：总结所有列"></a>步骤15：总结所有列</h3><p>如果你想分别获取特定数据类型的摘要或包括非数值类型的摘要，可以这样做：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 数值列摘要</span></span><br><span class="line">numerical_summary = users.describe()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对象类型（分类）摘要</span></span><br><span class="line">object_summary = users.describe(include=[<span class="string">&#x27;O&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;数值摘要:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(numerical_summary)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n分类摘要:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(object_summary)</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤16：仅总结职业列"><a href="#步骤16：仅总结职业列" class="headerlink" title="步骤16：仅总结职业列"></a>步骤16：仅总结职业列</h3><p>要仅获取<code>occupation</code>列的摘要，我们可以使用value_counts来查看每个职业出现的频率：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">occupations_summary = users[<span class="string">&#x27;occupation&#x27;</span>].value_counts()</span><br><span class="line"><span class="built_in">print</span>(occupations_summary)</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤17：用户的平均年龄是多少？"><a href="#步骤17：用户的平均年龄是多少？" class="headerlink" title="步骤17：用户的平均年龄是多少？"></a>步骤17：用户的平均年龄是多少？</h3><p>查找数据集中的平均年龄：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mean_age_users = users[<span class="string">&#x27;age&#x27;</span>].mean()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;用户的平均年龄是 <span class="subst">&#123;mean_age_users:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤18：出现次数最少的年龄是多少？"><a href="#步骤18：出现次数最少的年龄是多少？" class="headerlink" title="步骤18：出现次数最少的年龄是多少？"></a>步骤18：出现次数最少的年龄是多少？</h3><p>要找出哪个年龄出现的频率最低，可以使用<code>value_counts()</code>并获取最小计数的索引：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">least_common_age = users[<span class="string">&#x27;age&#x27;</span>].value_counts().idxmin()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;出现次数最少的年龄是 <span class="subst">&#123;least_common_age&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这些命令涵盖了从数据总结到查找特定统计细节（如平均年龄或最常见职业）的所有内容。这组操作提供了所提供用户数据集的全面概述和分析，从而能够更深入地了解人口统计特征和其他可能影响用户行为的因素。</p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2024/12/05/pyhton%EF%BC%9A%E8%8E%B7%E5%8F%96%E5%92%8C%E4%BA%86%E8%A7%A3%E6%82%A8%E7%9A%84%E6%95%B0%E6%8D%AE/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" rel="tag">数据分析</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2024/12/04/%E5%89%8D%E7%AB%AF%EF%BC%9A%E7%AE%80%E6%98%93%E5%A4%87%E5%BF%98%E5%BD%95/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">前端：简易备忘录</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "DAeOYIeCtfnPwFeKf96Drmpe-MdYXbMMI",
+    app_key: "kTYIzQjQl7fiwPZRR4NMuaEe#",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+  
+    
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2023-2024
+        <i class="ri-heart-fill heart_icon"></i> John Doe
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="老夏十三行"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯茶吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js"></script>
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/config/TeX-AMS-MML_HTMLorMML-full.js"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>
