@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">615</span>
+            <span class="post-count">603</span>
         </span>
     </span>
 
@@ -131,8 +131,7 @@
 
 <h3 id="步骤11：职业摘要"><a href="#步骤11：职业摘要" class="headerlink" title="步骤11：职业摘要"></a>步骤11：职业摘要</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">occupation_column = users[<span class="string">&#x27;occupation&#x27;</span>]</span><br><span class="line"><span class="built_in">print</span>(occupation_column)</span><br></pre></td></tr></table></figure>
 
-<h3 id="步骤12：职业数量"><a href="#步骤12：职业数量" class="headerlink" title="步骤12：职业数量"></a>步骤12：职业数量</h3><p>要计算所有用户的平均年龄：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">occupation_values = users[<span class="string">&#x27;occupation&#x27;</span>].value_counts().index.tolist()</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(occupation_values))</span><br></pre></td></tr></table></figure>
+<h3 id="步骤12：职业数量"><a href="#步骤12：职业数量" class="headerlink" title="步骤12：职业数量"></a>步骤12：职业数量</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">occupation_values = users[<span class="string">&#x27;occupation&#x27;</span>].value_counts().index.tolist()</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(occupation_values))</span><br></pre></td></tr></table></figure>
 
 <h3 id="步骤13：最常见的职业是什么？"><a href="#步骤13：最常见的职业是什么？" class="headerlink" title="步骤13：最常见的职业是什么？"></a>步骤13：最常见的职业是什么？</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">most_frequent_occupation = users[<span class="string">&#x27;occupation&#x27;</span>].value_counts().idxmax()</span><br><span class="line"><span class="built_in">print</span>(&#123;ost_frequent_occupation)</span><br></pre></td></tr></table></figure>
 
