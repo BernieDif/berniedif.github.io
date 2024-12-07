@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>Tag: python |  老夏十三行</title>
+      <title>常规密码硬解 |  老夏十三行</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -56,281 +56,202 @@
       
     <main class="content on">
       <section class="outer">
-  
-  
-  <article class="articles">
+  <article
+  id="post-常规密码硬解"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
-    
-    <h1 class="page-type-title">#&nbsppython</h1>
-    
-    
-  
-  
-  
-  
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2024" class="archive-year">2024</a>
-    </div>
-    <div class="archives">
-      
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/12/07/%E5%B8%B8%E8%A7%84%E5%AF%86%E7%A0%81%E7%A1%AC%E8%A7%A3/" class="archive-article-date">
-  <time datetime="2024-12-07T11:18:52.000Z" itemprop="datePublished">12/07</time>
-</a>
+    <header class="article-header">
        
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/12/07/%E5%B8%B8%E8%A7%84%E5%AF%86%E7%A0%81%E7%A1%AC%E8%A7%A3/"
-    >常规密码硬解</a> 
-</h2>
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  常规密码硬解
+</h1>
  
 
-    </header>
-    
-    
       
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/12/07/%E5%B8%B8%E8%A7%84%E5%AF%86%E7%A0%81%E7%A1%AC%E8%A7%A3/" class="article-date">
+  <time datetime="2024-12-07T11:18:52.000Z" itemprop="datePublished">2024-12-07</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">203</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">1 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>一种朴素的密码爆破方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"><span class="keyword">from</span> pynput.keyboard <span class="keyword">import</span> Controller, Key</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">doit</span>(<span class="params">string</span>):</span><br><span class="line">    <span class="built_in">print</span>(string)</span><br><span class="line">    keyboard = Controller()</span><br><span class="line">    input_string = string</span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> input_string:</span><br><span class="line">        keyboard.press(char)</span><br><span class="line">        keyboard.release(char)</span><br><span class="line">    keyboard.press(Key.enter)</span><br><span class="line">    keyboard.release(Key.enter)</span><br><span class="line">    time.sleep(<span class="number">0.1</span>) </span><br><span class="line">    keyboard.press(Key.enter)</span><br><span class="line">    keyboard.release(Key.enter)</span><br><span class="line">    time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dois</span>(<span class="params">i</span>):</span><br><span class="line">    combinations = itertools.product(split_list, repeat=<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">for</span> combo <span class="keyword">in</span> combinations:</span><br><span class="line">        doit(<span class="string">&#x27;&#x27;</span>.join(combo))</span><br><span class="line">        </span><br><span class="line">a = <span class="string">&#x27; A B C D E F G H I J K L M N O P Q R S T U V W X Y Z &#x27;</span></span><br><span class="line">b = <span class="string">&#x27; a b c d e f g h i j k l m n o p q r s t u v w x y z &#x27;</span></span><br><span class="line">c = <span class="string">&#x27; ! @ # $ % ^ &amp; * ( ) _ + &#123; &#125; | : &lt; &gt; ? ; , . - / &#x27;</span></span><br><span class="line">d =  <span class="string">&#x27; 0 1 2 3 4 5 6 7 8 9 &#x27;</span></span><br><span class="line"></span><br><span class="line">concatenated_string = a + b + c + d</span><br><span class="line">split_list = concatenated_string.split()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;wait&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="number">10</span>-i)</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(split_list)):  </span><br><span class="line">    key = split_list[i]</span><br><span class="line">    doit(key)</span><br><span class="line">    <span class="comment"># time.sleep(1)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">11</span>):</span><br><span class="line">    dois(i)</span><br></pre></td></tr></table></figure> 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2024/12/07/%E5%B8%B8%E8%A7%84%E5%AF%86%E7%A0%81%E7%A1%AC%E8%A7%A3/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%86%E7%A0%81/" rel="tag">密码</a></li></ul>
 
-    
+    </footer>
   </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/12/05/pyhton%EF%BC%9A%E8%8E%B7%E5%8F%96%E5%92%8C%E4%BA%86%E8%A7%A3%E6%82%A8%E7%9A%84%E6%95%B0%E6%8D%AE/" class="archive-article-date">
-  <time datetime="2024-12-05T10:30:52.000Z" itemprop="datePublished">12/05</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/12/05/pyhton%EF%BC%9A%E8%8E%B7%E5%8F%96%E5%92%8C%E4%BA%86%E8%A7%A3%E6%82%A8%E7%9A%84%E6%95%B0%E6%8D%AE/"
-    >pyhton：获取和了解您的数据</a> 
-</h2>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2024/12/05/pyhton%EF%BC%9A%E8%8E%B7%E5%8F%96%E5%92%8C%E4%BA%86%E8%A7%A3%E6%82%A8%E7%9A%84%E6%95%B0%E6%8D%AE/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">pyhton：获取和了解您的数据</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "DAeOYIeCtfnPwFeKf96Drmpe-MdYXbMMI",
+    app_key: "kTYIzQjQl7fiwPZRR4NMuaEe#",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
  
-
-    </header>
+   
+  
     
-    
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" rel="tag">数据分析</a></li></ul>
-
-    
-  </div>
 </article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/12/03/%E5%9F%BA%E4%BA%8ERNN%E7%9A%84%E6%96%87%E6%9C%AC%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/" class="archive-article-date">
-  <time datetime="2024-12-03T07:47:20.000Z" itemprop="datePublished">12/03</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/12/03/%E5%9F%BA%E4%BA%8ERNN%E7%9A%84%E6%96%87%E6%9C%AC%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/"
-    >基于RNN的文本生成模型</a> 
-</h2>
- 
 
-    </header>
-    
-    
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LLm/" rel="tag">LLm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RNN/" rel="tag">RNN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
-
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/12/02/python%EF%BC%9ANumPy%E7%9F%A9%E9%98%B5%E6%B1%82%E5%92%8C%E7%A4%BA%E4%BE%8B/" class="archive-article-date">
-  <time datetime="2024-12-02T12:00:32.000Z" itemprop="datePublished">12/02</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/12/02/python%EF%BC%9ANumPy%E7%9F%A9%E9%98%B5%E6%B1%82%E5%92%8C%E7%A4%BA%E4%BE%8B/"
-    >python：NumPy基础操作与矩阵求和示例</a> 
-</h2>
- 
-
-    </header>
-    
-    
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/numpy/" rel="tag">numpy</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a></li></ul>
-
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/11/29/python%EF%BC%9A%E5%AE%9E%E9%AA%8C%E8%AF%BE2/" class="archive-article-date">
-  <time datetime="2024-11-29T07:19:43.000Z" itemprop="datePublished">11/29</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/11/29/python%EF%BC%9A%E5%AE%9E%E9%AA%8C%E8%AF%BE2/"
-    >python：实验课2</a> 
-</h2>
- 
-
-    </header>
-    
-    
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" rel="tag">数据分析</a></li></ul>
-
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/11/27/python%EF%BC%9Acet4%E8%AF%8D%E9%A2%91%E7%BB%9F%E8%AE%A1/" class="archive-article-date">
-  <time datetime="2024-11-27T08:32:36.000Z" itemprop="datePublished">11/27</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/11/27/python%EF%BC%9Acet4%E8%AF%8D%E9%A2%91%E7%BB%9F%E8%AE%A1/"
-    >python：文本</a> 
-</h2>
- 
-
-    </header>
-    
-    
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%8D%E9%A2%91%E7%BB%9F%E8%AE%A1/" rel="tag">词频统计</a></li></ul>
-
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/11/15/python%EF%BC%9A%E7%B1%BB/" class="archive-article-date">
-  <time datetime="2024-11-15T08:06:06.000Z" itemprop="datePublished">11/15</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/11/15/python%EF%BC%9A%E7%B1%BB/"
-    >python：类</a> 
-</h2>
- 
-
-    </header>
-    
-    
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%9C%E4%B8%9A/" rel="tag">作业</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB/" rel="tag">类</a></li></ul>
-
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/11/13/python%EF%BC%9A%E5%87%BD%E6%95%B02/" class="archive-article-date">
-  <time datetime="2024-11-13T11:29:24.000Z" itemprop="datePublished">11/13</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/11/13/python%EF%BC%9A%E5%87%BD%E6%95%B02/"
-    >python作业：函数2</a> 
-</h2>
- 
-
-    </header>
-    
-    
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%9C%E4%B8%9A/" rel="tag">作业</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0/" rel="tag">匿名函数</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/" rel="tag">定义函数</a></li></ul>
-
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/11/07/%E2%80%9Cpython%EF%BC%9A%E5%87%BD%E6%95%B01%E2%80%9D%E8%A7%A3%E6%9E%90/" class="archive-article-date">
-  <time datetime="2024-11-07T06:38:27.000Z" itemprop="datePublished">11/07</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/11/07/%E2%80%9Cpython%EF%BC%9A%E5%87%BD%E6%95%B01%E2%80%9D%E8%A7%A3%E6%9E%90/"
-    >“python：函数1”解析</a> 
-</h2>
- 
-
-    </header>
-    
-    
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%9C%E4%B8%9A/" rel="tag">作业</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/" rel="tag">定义函数</a></li></ul>
-
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/11/06/%E2%80%9Cpython%EF%BC%9A%E5%AD%97%E5%85%B8%E7%9A%84%E7%BB%83%E4%B9%A0%E2%80%9D%E8%A7%A3%E6%9E%90/" class="archive-article-date">
-  <time datetime="2024-11-06T10:46:26.000Z" itemprop="datePublished">11/06</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2024/11/06/%E2%80%9Cpython%EF%BC%9A%E5%AD%97%E5%85%B8%E7%9A%84%E7%BB%83%E4%B9%A0%E2%80%9D%E8%A7%A3%E6%9E%90/"
-    >“python：字典的练习”解析</a> 
-</h2>
- 
-
-    </header>
-    
-    
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%9C%E4%B8%9A/" rel="tag">作业</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%97%E5%85%B8/" rel="tag">字典</a></li></ul>
-
-    
-  </div>
-</article>
-      
-      
-    </div>
-  </div>
-  
-  
-
-  
 </section>
       <footer class="footer">
   <div class="outer">
@@ -475,6 +396,22 @@
 <script src="/js/lazyload.min.js"></script>
 
 <!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
 
 <script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
 <link
