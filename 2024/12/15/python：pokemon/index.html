@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>常规密码硬解 |  老夏十三行</title>
+      <title>python:pokemon |  老夏十三行</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -57,7 +57,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-常规密码硬解"
+  id="post-python：pokemon"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -68,7 +68,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  常规密码硬解
+  python:pokemon
 </h1>
  
 
@@ -76,15 +76,15 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2024/12/07/%E5%B8%B8%E8%A7%84%E5%AF%86%E7%A0%81%E7%A1%AC%E8%A7%A3/" class="article-date">
-  <time datetime="2024-12-07T11:18:52.000Z" itemprop="datePublished">2024-12-07</time>
+      <a href="/2024/12/15/python%EF%BC%9Apokemon/" class="article-date">
+  <time datetime="2024-12-15T02:13:03.000Z" itemprop="datePublished">2024-12-15</time>
 </a>   
 <div class="word_count">
     <span class="post-time">
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">203</span>
+            <span class="post-count">367</span>
         </span>
     </span>
 
@@ -93,7 +93,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">1 min</span>
+            <span class="post-count">2 min</span>
         </span>
     </span>
 </div>
@@ -106,8 +106,9 @@
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>一种朴素的密码爆破方法</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"><span class="keyword">from</span> pynput.keyboard <span class="keyword">import</span> Controller, Key</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">doit</span>(<span class="params">string</span>):</span><br><span class="line">    <span class="built_in">print</span>(string)</span><br><span class="line">    keyboard = Controller()</span><br><span class="line">    input_string = string</span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> input_string:</span><br><span class="line">        keyboard.press(char)</span><br><span class="line">        keyboard.release(char)</span><br><span class="line">    keyboard.press(Key.enter)</span><br><span class="line">    keyboard.release(Key.enter)</span><br><span class="line">    time.sleep(<span class="number">0.1</span>) </span><br><span class="line">    keyboard.press(Key.enter)</span><br><span class="line">    keyboard.release(Key.enter)</span><br><span class="line">    time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dois</span>(<span class="params">i</span>):</span><br><span class="line">    combinations = itertools.product(split_list, repeat=<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">for</span> combo <span class="keyword">in</span> combinations:</span><br><span class="line">        doit(<span class="string">&#x27;&#x27;</span>.join(combo))</span><br><span class="line">        </span><br><span class="line">a = <span class="string">&#x27; A B C D E F G H I J K L M N O P Q R S T U V W X Y Z &#x27;</span></span><br><span class="line">b = <span class="string">&#x27; a b c d e f g h i j k l m n o p q r s t u v w x y z &#x27;</span></span><br><span class="line">c = <span class="string">&#x27; ! @ # $ % ^ &amp; * ( ) _ + &#123; &#125; | : &lt; &gt; ? ; , . - / &#x27;</span></span><br><span class="line">d =  <span class="string">&#x27; 0 1 2 3 4 5 6 7 8 9 &#x27;</span></span><br><span class="line"></span><br><span class="line">concatenated_string = a + b + c + d</span><br><span class="line">split_list = concatenated_string.split()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;wait&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="number">10</span>-i)</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(split_list)):  </span><br><span class="line">    key = split_list[i]</span><br><span class="line">    doit(key)</span><br><span class="line">    <span class="comment"># time.sleep(1)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">11</span>):</span><br><span class="line">    dois(i)</span><br></pre></td></tr></table></figure> 
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Step 1: Import the necessary libraries</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># Step 2: Create a data dictionary</span></span><br><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&#x27;evolution&#x27;</span>: [<span class="string">&#x27;Ivysaur&#x27;</span>, <span class="string">&#x27;Charmeleon&#x27;</span>, <span class="string">&#x27;Wartortle&#x27;</span>, <span class="string">&#x27;Metapod&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;hp&#x27;</span>: [<span class="number">45</span>, <span class="number">39</span>, <span class="number">44</span>, <span class="number">45</span>],</span><br><span class="line">    <span class="string">&#x27;name&#x27;</span>: [<span class="string">&#x27;Bulbasaur&#x27;</span>, <span class="string">&#x27;Charmander&#x27;</span>, <span class="string">&#x27;Squirtle&#x27;</span>, <span class="string">&#x27;Caterpie&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;pokedex&#x27;</span>: [<span class="string">&#x27;yes&#x27;</span>, <span class="string">&#x27;no&#x27;</span>, <span class="string">&#x27;yes&#x27;</span>, <span class="string">&#x27;no&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;type&#x27;</span>: [<span class="string">&#x27;grass&#x27;</span>, <span class="string">&#x27;fire&#x27;</span>, <span class="string">&#x27;water&#x27;</span>, <span class="string">&#x27;bug&#x27;</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Step 3: Assign it to a variable called df</span></span><br><span class="line">df = pd.DataFrame(data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Step 4: Reorder the DataFrame columns</span></span><br><span class="line">df = df[[<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;type&#x27;</span>, <span class="string">&#x27;hp&#x27;</span>, <span class="string">&#x27;evolution&#x27;</span>, <span class="string">&#x27;pokedex&#x27;</span>]]</span><br><span class="line"></span><br><span class="line"><span class="comment"># Step 5: Add another column called place</span></span><br><span class="line">df[<span class="string">&#x27;place&#x27;</span>] = [<span class="string">&#x27;Pallet Town&#x27;</span>, <span class="string">&#x27;Pallet Town&#x27;</span>, <span class="string">&#x27;Pallet Town&#x27;</span>, <span class="string">&#x27;Viridian Forest&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># Step 6: Present the type of each column</span></span><br><span class="line"><span class="built_in">print</span>(df.dtypes)</span><br><span class="line"></span><br><span class="line"><span class="comment"># BONUS: What is the average HP of the Pokemon in the DataFrame?</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Average HP:&quot;</span>, df[<span class="string">&#x27;hp&#x27;</span>].mean())</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Step 1. Import the necessary libraries</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># Step 3. Assign it to a variable called drinks</span></span><br><span class="line">drinks = pd.read_csv(<span class="string">&#x27;drinks.csv&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(drinks.head(<span class="number">5</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Step 4. Which continent drinks more beer on average</span></span><br><span class="line">beer_consumption = drinks.groupby(<span class="string">&#x27;continent&#x27;</span>)[<span class="string">&#x27;beer_servings&#x27;</span>].mean()</span><br><span class="line">continent_with_most_beer = beer_consumption.idxmax()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;大陆平均喝啤酒最多: <span class="subst">&#123;continent_with_most_beer&#125;</span>，平均消费量：<span class="subst">&#123;beer_consumption.<span class="built_in">max</span>()&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Step 5. For each continent print the statistics for wine consumption.</span></span><br><span class="line">wine_stats = drinks.groupby(<span class="string">&#x27;continent&#x27;</span>)[<span class="string">&#x27;wine_servings&#x27;</span>].describe()</span><br><span class="line"><span class="built_in">print</span>(wine_stats)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Step 6. Print the mean alcoohol consumption per continent for every column</span></span><br><span class="line">numeric_cols = drinks.select_dtypes(include=[<span class="string">&#x27;number&#x27;</span>]).columns</span><br><span class="line">mean_consumption_per_continent = drinks.groupby(<span class="string">&#x27;continent&#x27;</span>)[numeric_cols].mean().reset_index()</span><br><span class="line"><span class="built_in">print</span>(mean_consumption_per_continent)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Step 7. Print the median alcoohol consumption per continent for every column</span></span><br><span class="line">numeric_cols = drinks.select_dtypes(include=[<span class="string">&#x27;number&#x27;</span>]).columns</span><br><span class="line">median_consumption_per_continent = drinks.groupby(<span class="string">&#x27;continent&#x27;</span>)[numeric_cols].median().reset_index()</span><br><span class="line"><span class="built_in">print</span>(median_consumption_per_continent)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Step 8. Print the mean, min and max values for spirit consumption.</span></span><br><span class="line">spirit_stats = drinks.groupby(<span class="string">&#x27;continent&#x27;</span>)[<span class="string">&#x27;spirit_servings&#x27;</span>].agg([<span class="string">&#x27;mean&#x27;</span>, <span class="string">&#x27;min&#x27;</span>, <span class="string">&#x27;max&#x27;</span>]).reset_index()</span><br><span class="line"><span class="built_in">print</span>(spirit_stats)</span><br></pre></td></tr></table></figure> 
       <!-- reward -->
       
       <div id="reword-out">
@@ -177,12 +178,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2024/12/07/%E5%B8%B8%E8%A7%84%E5%AF%86%E7%A0%81%E7%A1%AC%E8%A7%A3/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2024/12/15/python%EF%BC%9Apokemon/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%86%E7%A0%81/" rel="tag">密码</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" rel="tag">数据分析</a></li></ul>
 
     </footer>
   </div>
@@ -190,19 +191,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2024/12/15/python%EF%BC%9Apokemon/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            python:pokemon
-          
-        </div>
-      </a>
     
-    
-      <a href="/2024/12/05/pyhton%EF%BC%9A%E8%8E%B7%E5%8F%96%E5%92%8C%E4%BA%86%E8%A7%A3%E6%82%A8%E7%9A%84%E6%95%B0%E6%8D%AE/" class="article-nav-link">
+      <a href="/2024/12/07/%E5%B8%B8%E8%A7%84%E5%AF%86%E7%A0%81%E7%A1%AC%E8%A7%A3/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">pyhton：获取和了解您的数据</div>
+        <div class="article-nav-title">常规密码硬解</div>
       </a>
     
   </nav>
