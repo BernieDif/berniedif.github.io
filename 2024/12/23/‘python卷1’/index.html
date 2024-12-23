@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+
+
+<html lang="zh">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>‘python卷1’ |  老夏十三行</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    <!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-‘python卷1’"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  ‘python卷1’
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/12/23/%E2%80%98python%E5%8D%B71%E2%80%99/" class="article-date">
+  <time datetime="2024-12-23T15:34:31.000Z" itemprop="datePublished">2024-12-23</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">4.3k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">17 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Python选择题解析"><a href="#Python选择题解析" class="headerlink" title="Python选择题解析"></a>Python选择题解析</h1><h2 id="一、单选题"><a href="#一、单选题" class="headerlink" title="一、单选题"></a>一、单选题</h2><h3 id="1-下列选项中-不能作为Python程序中变量名的是？"><a href="#1-下列选项中-不能作为Python程序中变量名的是？" class="headerlink" title="1. 下列选项中,不能作为Python程序中变量名的是？"></a>1. 下列选项中,不能作为Python程序中变量名的是？</h3><ul>
+<li><strong>A. N3sum</strong></li>
+<li><strong>B. for</strong></li>
+<li><strong>C. m_1</strong></li>
+<li><strong>D. info2</strong></li>
+</ul>
+<p><strong>【正确答案: B】</strong></p>
+<p>解析：在Python中，<code>for</code> 是一个关键字，不能用作变量名。</p>
+<h3 id="2-下列关于说法中，选项错误的是-。"><a href="#2-下列关于说法中，选项错误的是-。" class="headerlink" title="2. 下列关于说法中，选项错误的是________。"></a>2. 下列关于说法中，选项错误的是________。</h3><ul>
+<li><strong>A. 集合一旦创建就不可以改变其元素</strong></li>
+<li><strong>B. 元组是一种序列结构</strong></li>
+<li><strong>C. 可以对列表进行索引或者切片操作</strong></li>
+<li><strong>D. 列表中的元素可以为不同的数据类型</strong></li>
+</ul>
+<p><strong>【正确答案: A】</strong></p>
+<p>解析：集合是可变的，可以添加或删除元素。</p>
+<h3 id="3-元组的特征是？"><a href="#3-元组的特征是？" class="headerlink" title="3. 元组的特征是？"></a>3. 元组的特征是？</h3><ul>
+<li><strong>A. 有序，可变</strong></li>
+<li><strong>B. 有序，不可变</strong></li>
+<li><strong>C. 无序，可变</strong></li>
+<li><strong>D. 无序，不可变</strong></li>
+</ul>
+<p><strong>【正确答案: B】</strong></p>
+<p>解析：元组是有序且不可变的数据类型。</p>
+<h3 id="4-random库的seed-a-函数的作用是？"><a href="#4-random库的seed-a-函数的作用是？" class="headerlink" title="4. random库的seed(a)函数的作用是？"></a>4. random库的seed(a)函数的作用是？</h3><ul>
+<li><strong>A. 生成一个[0.0, 1.0)之间的随机小数</strong></li>
+<li><strong>B. 生成一个k比特长度的随机整数</strong></li>
+<li><strong>C. 生成一个随机整数</strong></li>
+<li><strong>D. 设置初始化随机数种子a</strong></li>
+</ul>
+<p><strong>【正确答案: D】</strong></p>
+<p>解析：<code>seed(a)</code> 函数用于设置随机数生成器的初始种子，以便生成可重复的随机数序列。</p>
+<h3 id="5-python3-版本内存的默认编码方式为？"><a href="#5-python3-版本内存的默认编码方式为？" class="headerlink" title="5. python3.*版本内存的默认编码方式为？"></a>5. python3.*版本内存的默认编码方式为？</h3><ul>
+<li><strong>A. ASCII码</strong></li>
+<li><strong>B. GBK</strong></li>
+<li><strong>C. UNICODE</strong></li>
+<li><strong>D. UTF-8</strong></li>
+</ul>
+<p><strong>【正确答案: C】</strong></p>
+<p>解析：Python 3 使用 Unicode 作为默认编码方式。</p>
+<h3 id="6-下面代码的输出结果是？"><a href="#6-下面代码的输出结果是？" class="headerlink" title="6. 下面代码的输出结果是？"></a>6. 下面代码的输出结果是？</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">z = <span class="number">12.12</span> + <span class="number">34j</span></span><br><span class="line"><span class="built_in">print</span>(z.real)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>A. 12.12</strong></li>
+<li><strong>B. 34.0</strong></li>
+<li><strong>C. 12</strong></li>
+<li><strong>D. 34</strong></li>
+</ul>
+<p><strong>【正确答案: A】</strong></p>
+<p>解析：<code>z.real</code> 返回复数的实部。</p>
+<h3 id="7-Python语言提供的3个基本数字类型是？"><a href="#7-Python语言提供的3个基本数字类型是？" class="headerlink" title="7. Python语言提供的3个基本数字类型是？"></a>7. Python语言提供的3个基本数字类型是？</h3><ul>
+<li><strong>A. 整数类型、浮点数类型</strong></li>
+<li><strong>B. 整数类型、浮点数类型、复数类型</strong></li>
+<li><strong>C. 整数类型、二进制类型、浮点数类型</strong></li>
+<li><strong>D. 整数类型、二进制类型、复数类型</strong></li>
+</ul>
+<p><strong>【正确答案: B】</strong></p>
+<p>解析：Python 提供三种基本数字类型：整数、浮点数和复数。</p>
+<h3 id="8-在读写文件之前，用于创建文件对象的函数是？"><a href="#8-在读写文件之前，用于创建文件对象的函数是？" class="headerlink" title="8. 在读写文件之前，用于创建文件对象的函数是？"></a>8. 在读写文件之前，用于创建文件对象的函数是？</h3><ul>
+<li><strong>A. open</strong></li>
+<li><strong>B. create</strong></li>
+<li><strong>C. file</strong></li>
+<li><strong>D. folder</strong></li>
+</ul>
+<p><strong>【正确答案: A】</strong></p>
+<p>解析：<code>open</code> 函数用于打开或创建文件并返回一个文件对象。</p>
+<h3 id="9-给出如下代码"><a href="#9-给出如下代码" class="headerlink" title="9. 给出如下代码"></a>9. 给出如下代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">&#x27;Python is beautiful!&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>可以输出“python”的是？</p>
+<ul>
+<li><strong>A. print(s[0:7])</strong></li>
+<li><strong>B. print(s[:–14])</strong></li>
+<li><strong>C. print(s[–21: –14].lower)</strong></li>
+<li><strong>D. print(s[0:7].lower())</strong></li>
+</ul>
+<p><strong>【正确答案: D】</strong></p>
+<p>解析：<code>s[0:7]</code> 提取字符串的前7个字符，然后使用 <code>lower()</code> 方法将其转换为小写。</p>
+<h3 id="10-以下选项中，不是建立字典的方式是？"><a href="#10-以下选项中，不是建立字典的方式是？" class="headerlink" title="10. 以下选项中，不是建立字典的方式是？"></a>10. 以下选项中，不是建立字典的方式是？</h3><ul>
+<li><strong>A. d &#x3D; {1:[1,2], 3:[3,4]}</strong></li>
+<li><strong>B. d &#x3D; {‘张三’:1, ‘李四’:2}</strong></li>
+<li><strong>C. d &#x3D; {(1,2):1, (3,4):3}</strong></li>
+<li><strong>D. d &#x3D; {[1,2]:1, [3,4]:3}</strong></li>
+</ul>
+<p><strong>【正确答案: D】</strong></p>
+<p>解析：字典的键必须是不可变类型，而列表是可变类型，因此不能作为字典的键。</p>
+<h2 id="11"><a href="#11" class="headerlink" title="11."></a>11.</h2><p>以下选项中，不是Python对文件的读操作方法的是(<br>D<br> 【 正确答案: D】)。</p>
+<p>A.  read</p>
+<p>B.  readline</p>
+<p>C.  readlines</p>
+<p>D.  readtext</p>
+<p>得分：1.00</p>
+<p><strong>解析</strong>: Python 文件读取方法主要有 <code>read</code>, <code>readline</code>, 和 <code>readlines</code>，而 <code>readtext</code> 不是 Python 的标准文件读取方法<br>。</p>
+<h2 id="12"><a href="#12" class="headerlink" title="12."></a>12.</h2><p>关于赋值语句，以下选项中描述错误的是(<br>D<br> 【 正确答案: D】)。</p>
+<p>A.  在Python语言中，“&#x3D;”表示赋值，即将“&#x3D;”右侧的计算结果赋值给左侧变量， 包含“&#x3D;”的语句称为赋值语句</p>
+<p>B.  在Python语言中，有一种赋值语句，可以同时给多个变量赋值</p>
+<p>C.  设x &#x3D; “alice”;y &#x3D; “kate” ，执行“x,y &#x3D; y,x”可以实现变量x和y 值的互换</p>
+<p>D.  设a &#x3D; 10;b &#x3D; 20，执行“a,b &#x3D; a,a + b;print(a,b)” 和 “a &#x3D; b;b &#x3D; a + b;print(a,b)”之后，得到同样的输出结果:10<br>30</p>
+<p>得分：1.00</p>
+<p><strong>解析</strong>: 在第二种情况中，<code>a, b = a, a + b</code> 的执行顺序是从右到左的，所以 <code>a</code> 不会改变为 <code>20</code>。</p>
+<h2 id="13"><a href="#13" class="headerlink" title="13."></a>13.</h2><p>关于Numpy的random模块，描述错误的是<br>A. np.random.random(100)生成100以内的随机小数。</p>
+<p>B. np.random.rand(10,5)生成服从均匀分布的10行5列的二维随机数</p>
+<p>C. np.random.randn(10,5)生成服从正态分布的10行5列的二维随机数</p>
+<p>D. random.randint(2,10,size &#x3D; [2,5]))创建一个最小值不低于 2、最大值不高于 10 的 2 行 5 列数组</p>
+<p>D<br> 【 正确答案: A】<br>得分：0.00</p>
+<p><strong>解析</strong>: <code>np.random.random(100)</code>生成的是在 <code>[0, 1)</code> 范围内的随机小数。</p>
+<h2 id="14"><a href="#14" class="headerlink" title="14."></a>14.</h2><p>以下选项中，不是Python对文件的读操作方法的是<br>A. readlines</p>
+<p>B. readline</p>
+<p>C. readtext</p>
+<p>D. read</p>
+<p>C<br> 【 正确答案: C】<br>得分：1.00</p>
+<p><strong>解析</strong>: Python 文件读取方法主要有 <code>read</code>, <code>readline</code>, 和 <code>readlines</code>，而 <code>readtext</code> 不是 Python 的标准文件读取方法<br>。</p>
+<h2 id="15"><a href="#15" class="headerlink" title="15."></a>15.</h2><p>已知通过“stu&#x3D;Student(‘1810101’,’李晓明’)”可以创建一个Student类对象并赋给stu，则创建该对象时所执行的构造方法的形参<br>个数（不考虑不定长参数的情况）为(<br>D<br> 【 正确答案: B】)。<br>A. 4</p>
+<p>B. 3</p>
+<p>C. 1</p>
+<p>D. 2</p>
+<p>得分：0.00</p>
+<p><strong>解析</strong>: 构造方法 <code>__init__</code> 接受两个参数 <code>&#39;1810101&#39;</code> 和 <code>&#39;李晓明&#39;</code>。</p>
+<p>让我们逐一解析这些题目：</p>
+<h3 id="题目16"><a href="#题目16" class="headerlink" title="题目16"></a>题目16</h3><p><strong>题目描述</strong>：<br><code>f=open(...)</code> 可以打开一个文件，关于 <code>f</code> 的描述错误的是______</p>
+<p><strong>选项解析</strong>：<br>A. 执行 <code>m=f</code> 后，<code>m</code> 和 <code>f</code> 同时表示所打开文件  </p>
+<ul>
+<li>正确。在Python中，变量 <code>m</code> 和 <code>f</code> 都会引用同一个文件对象。</li>
+</ul>
+<p>B. <code>f</code> 是一种特殊的 Python 变量，执行 <code>print(f)</code> 时会报错  </p>
+<ul>
+<li>错误。<code>f</code> 只是一个普通的变量，指向一个文件对象。执行 <code>print(f)</code> 会打印出文件对象的表示（例如 <code>&lt;_io.TextIOWrapper name=&#39;filename&#39; mode=&#39;r&#39; encoding=&#39;UTF-8&#39;&gt;</code>），而不会报错。</li>
+</ul>
+<p>C. 是文件对象引用，在程序中表示文件  </p>
+<ul>
+<li>正确。<code>f</code> 确实是一个文件对象的引用。</li>
+</ul>
+<p>D. <code>f.read()</code> 可以一次性读入文件全部信息  </p>
+<ul>
+<li>正确。<code>f.read()</code> 方法会读取文件的全部内容。</li>
+</ul>
+<p><strong>正确答案</strong>：B</p>
+<h3 id="题目17"><a href="#题目17" class="headerlink" title="题目17"></a>题目17</h3><p><strong>题目描述</strong>：<br>关于Numpy的random模块，描述错误的是</p>
+<p><strong>选项解析</strong>：<br>A. <code>np.random.random(100)</code> 生成100以内的随机小数。  </p>
+<ul>
+<li>错误。<code>np.random.random(100)</code> 生成的是100个在 <code>[0.0, 1.0)</code> 区间内的随机小数，而不是100以内的随机小数。</li>
+</ul>
+<p>B. <code>np.random.rand(10,5)</code> 生成服从均匀分布的10行5列的二维随机数  </p>
+<ul>
+<li>正确。<code>np.random.rand(10,5)</code> 生成的是10行5列的二维数组，元素值在 <code>[0.0, 1.0)</code> 区间内均匀分布。</li>
+</ul>
+<p>C. <code>np.random.randn(10,5)</code> 生成服从正态分布的10行5列的二维随机数  </p>
+<ul>
+<li>正确。<code>np.random.randn(10,5)</code> 生成的是10行5列的二维数组，元素值服从标准正态分布（均值为0，方差为1）。</li>
+</ul>
+<p>D. <code>np.random.randint(2,10,size=[2,5])</code> 创建一个最小值不低于2、最大值不高于10的2行5列数组  </p>
+<ul>
+<li>正确。<code>np.random.randint(2,10,size=[2,5])</code> 生成的是2行5列的二维数组，元素值在 <code>[2, 10)</code> 区间内随机整数。</li>
+</ul>
+<p><strong>正确答案</strong>：A</p>
+<h3 id="题目18"><a href="#题目18" class="headerlink" title="题目18"></a>题目18</h3><p><strong>题目描述</strong>：<br>以下选项中，不是Python对文件的读操作方法的是</p>
+<p><strong>选项解析</strong>：<br>A. <code>readlines</code>  </p>
+<ul>
+<li>正确。<code>readlines()</code> 方法读取文件中的所有行，并将它们作为一个列表返回。</li>
+</ul>
+<p>B. <code>readline</code>  </p>
+<ul>
+<li>正确。<code>readline()</code> 方法读取文件中的一行。</li>
+</ul>
+<p>C. <code>readtext</code>  </p>
+<ul>
+<li>错误。Python的文件对象没有 <code>readtext()</code> 方法。</li>
+</ul>
+<p>D. <code>read</code>  </p>
+<ul>
+<li>正确。<code>read()</code> 方法读取文件的全部内容。</li>
+</ul>
+<p><strong>正确答案</strong>：C</p>
+<h3 id="题目19"><a href="#题目19" class="headerlink" title="题目19"></a>题目19</h3><p><strong>题目描述</strong>：<br>已知通过 <code>stu=Student(&#39;1810101&#39;,&#39;李晓明&#39;)</code> 可以创建一个 <code>Student</code> 类对象并赋给 <code>stu</code>，则创建该对象时所执行的构造方法的形参个数（不考虑不定长参数的情况）为______</p>
+<p><strong>选项解析</strong>：</p>
+<ul>
+<li>构造方法 <code>__init__</code> 的形参个数可以通过观察实例化对象时传递的参数个数来确定。</li>
+<li><code>stu=Student(&#39;1810101&#39;,&#39;李晓明&#39;)</code> 传递了两个参数 <code>&#39;1810101&#39;</code> 和 <code>&#39;李晓明&#39;</code>，因此构造方法的形参个数为2（<code>self</code> 不算在内）。</li>
+</ul>
+<p><strong>选项</strong>：<br>A. 4<br>B. 3<br>C. 1<br>D. 2  </p>
+<p><strong>正确答案</strong>：D（但题目中给出的选项是D，但要求填写的是正确答案B的序号，这里应该是题目表述的问题，正确答案应为D对应的实际形参个数，即2个，但题目要求填选项序号，这里按题目要求填B表示选项D是正确的选择，即形参个数为2）。</p>
+<h3 id="题目20"><a href="#题目20" class="headerlink" title="题目20"></a>题目20</h3><p><strong>题目描述</strong>：<br>python不支持的数据类型有</p>
+<p><strong>选项解析</strong>：<br>A. <code>char</code>  </p>
+<ul>
+<li>正确。Python没有单独的字符类型（<code>char</code>），单字符字符串实际上是长度为1的字符串。</li>
+</ul>
+<p>B. <code>int</code>  </p>
+<ul>
+<li>错误。Python支持整数类型（<code>int</code>）。</li>
+</ul>
+<p>C. <code>float</code>  </p>
+<ul>
+<li>错误。Python支持浮点数类型（<code>float</code>）。</li>
+</ul>
+<p>D. <code>list</code>  </p>
+<ul>
+<li>错误。Python支持列表类型（<code>list</code>）。</li>
+</ul>
+<p><strong>正确答案</strong>：A</p>
+<h2 id="填空题"><a href="#填空题" class="headerlink" title="填空题"></a>填空题</h2><ol>
+<li><p><strong>print(1, 2, 3, sep&#x3D;’:’)</strong> 的输出结果为____________。</p>
+<ul>
+<li><strong>正确答案:</strong> <code>1:2:3</code></li>
+<li><strong>解析:</strong> <code>sep=&#39;:&#39;</code> 参数指定了元素之间的分隔符。</li>
+</ul>
+</li>
+<li><p><strong>查看变量类型的Python内置函数是________________。</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>type()</code></li>
+<li><strong>解析:</strong> <code>type()</code> 函数返回对象的类型。</li>
+</ul>
+</li>
+<li><p><strong>以3为实部4为虚部,Python复数的表达形式为___________</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>3+4j</code> 或 <code>3+4J</code></li>
+<li><strong>解析:</strong> Python中复数的表示方法是 <code>real + imag j</code>，其中 <code>j</code> 是虚数单位。</li>
+</ul>
+</li>
+<li><p><strong>在Python中__________表达空类型。</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>None</code></li>
+<li><strong>解析:</strong> None 在 Python 中代表空值或空对象。</li>
+</ul>
+</li>
+<li><p><strong>字典对象的___________方法可以获取指定“键”对应的“值”，并且可以在指定“键”不存在的时候返回指定值，如果不指定<br>则返回None</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>get</code> 或 <code>get()</code> 或 <code>get( )</code></li>
+<li><strong>解析:</strong> <code>get()</code> 方法用于从字典中获取值，并且可以提供默认值以防键不存在。</li>
+</ul>
+</li>
+<li><p><strong>del 命令既可以删除列表中的一个元素,也可以删除整个列表。</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>del</code></li>
+<li><strong>解析:</strong> <code>del</code> 关键字用于删除对象，可以是列表的单个元素或整个列表。</li>
+</ul>
+</li>
+<li><p><strong>表达式 len(range(1, 10)) 的值为___________。</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>9</code></li>
+<li><strong>解析:</strong> <code>range(1, 10)</code> 生成从1到9的整数序列，<code>len()</code> 函数返回这个序列的长度。</li>
+</ul>
+</li>
+<li><p><strong>Python 3.x语句 print(1, 2, 3, sep&#x3D;’:’) 的输出结果为____________。</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>1:2:3</code></li>
+<li><strong>解析:</strong> <code>sep=&#39;:&#39;</code> 参数指定了元素之间的分隔符。</li>
+</ul>
+</li>
+<li><p><strong>Python 3.0运算符中用来计算整商的是_________</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>//</code></li>
+<li><strong>解析:</strong> <code>//</code> 运算符用于整数除法，返回整商。</li>
+</ul>
+</li>
+<li><p><strong>以3为实部4为虚部,Python复数的表达形式为___________</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>3+4j</code> 或 <code>3+4J</code></li>
+<li><strong>解析:</strong> Python中复数的表示方法是 <code>real + imag j</code>，其中 <code>j</code> 是虚数单位。</li>
+</ul>
+</li>
+<li><p><strong>字典中每个元素的“键”与“值”之间使用________分隔开</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>:</code></li>
+<li><strong>解析:</strong> 在字典中，键和值之间用冒号 <code>:</code> 分隔。</li>
+</ul>
+</li>
+<li><p><strong>Python 3.x语句 print(1, 2, 3, sep&#x3D;’:’) 的输出结果为____________。</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>1:2:3</code></li>
+<li><strong>解析:</strong> <code>sep=&#39;:&#39;</code> 参数指定了元素之间的分隔符。</li>
+</ul>
+</li>
+<li><p><strong>del 命令既可以删除列表中的一个元素,也可以删除整个列表。</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>del</code></li>
+<li><strong>解析:</strong> <code>del</code> 关键字用于删除对象，可以是列表的单个元素或整个列表。</li>
+</ul>
+</li>
+<li><p><strong>字典对象的___________方法可以获取指定“键”对应的“值”，并且可以在指定“键”不存在的时候返回指定值，如果不指<br>定则返回None</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>get</code> 或 <code>get()</code> 或 <code>get( )</code></li>
+<li><strong>解析:</strong> <code>get()</code> 方法用于从字典中获取值，并且可以提供默认值以防键不存在。</li>
+</ul>
+</li>
+<li><p><strong>在Python中__________表达空类型。</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>None</code></li>
+<li><strong>解析:</strong> None 在 Python 中代表空值或空对象。</li>
+</ul>
+</li>
+<li><p><strong>Python中的列表通过________符号来创建。</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>[]</code></li>
+<li><strong>解析:</strong> 列表是用方括号 <code>[]</code> 来创建的，例如：<code>my_list = []</code>。</li>
+</ul>
+</li>
+<li><p><strong>在Python中，________是用于注释代码的方式。</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>#</code></li>
+<li><strong>解析:</strong> 单行注释使用井号 <code>#</code>，例如：<code># 这是一个注释</code>。</li>
+</ul>
+</li>
+<li><p><strong>Python中的字符串通过________符号来创建。</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>&#39;&#39;</code> 或 <code>&quot;&quot;</code></li>
+<li><strong>解析:</strong> 字符串可以用单引号 <code>&#39; &#39;</code> 或双引号 <code>&quot; &quot;</code> 来创建，例如：<code>my_string = &#39;Hello, World!&#39;</code>。</li>
+</ul>
+</li>
+<li><p><strong>在Python中，________是用于多行注释的方式。</strong></p>
+<ul>
+<li><strong>正确答案:</strong> <code>&#39;&#39;&#39; &#39;&#39;&#39;</code> 或 <code>&quot;&quot;&quot; &quot;&quot;&quot;</code></li>
+<li><strong>解析:</strong> 多行字符串或文档字符串使用三个单引号 <code>&#39;&#39;&#39; &#39;&#39;&#39;</code> 或三个双引号 <code>&quot;&quot;&quot; &quot;&quot;&quot;</code> 来创建，例如：<code>&#39;&#39;&#39;这是一个多行 注释&#39;&#39;&#39;</code>。</li>
+</ul>
+</li>
+</ol>
+<h2 id="二、编程题解析"><a href="#二、编程题解析" class="headerlink" title="二、编程题解析"></a>二、编程题解析</h2><h3 id="1-数据格式化输出"><a href="#1-数据格式化输出" class="headerlink" title="1. 数据格式化输出"></a>1. 数据格式化输出</h3><p><strong>题目要求</strong>：</p>
+<p>键盘输入正整数n，按要求把n输出到屏幕，格式要求:宽度为20个字符，数字中间对齐，不足部分用*填充，正整数按照科学计数法表示。</p>
+<p><strong>解析</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">format_number_with_padding</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="comment"># 将n转换为带逗号的字符串，便于后续处理</span></span><br><span class="line">    number_str = <span class="string">f&quot;<span class="subst">&#123;n:,&#125;</span>&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 设置总长度为20</span></span><br><span class="line">    total_length = <span class="number">20</span></span><br><span class="line">    <span class="comment"># 计算需要填充的字符数量</span></span><br><span class="line">    padding_length = total_length - <span class="built_in">len</span>(number_str)</span><br><span class="line">    <span class="comment"># 计算左填充和右填充的长度</span></span><br><span class="line">    left_padding = padding_length // <span class="number">2</span></span><br><span class="line">    right_padding = padding_length - left_padding</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 构造最终字符串</span></span><br><span class="line">    formatted_str = <span class="string">&#x27;*&#x27;</span> * left_padding + number_str + <span class="string">&#x27;*&#x27;</span> * right_padding</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 确保总长度正确</span></span><br><span class="line">    <span class="keyword">assert</span> <span class="built_in">len</span>(formatted_str) == total_length</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> formatted_str</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从键盘输入正整数n</span></span><br><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line"><span class="comment"># 输出格式化后的字符串</span></span><br><span class="line"><span class="built_in">print</span>(format_number_with_padding(n))</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-编程题-循环结构"><a href="#2-编程题-循环结构" class="headerlink" title="2. 编程题-循环结构"></a>2. 编程题-循环结构</h3><p><strong>题目要求</strong>：</p>
+<p>编写程序，实现从键盘输入正整数n，令m表示小于等于n的最大偶数，计算并输出2²+4²+ …… +m²的值。</p>
+<p><strong>解析</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sum_of_squares</span>(<span class="params">n</span>):</span><br><span class="line">    m = <span class="number">0</span></span><br><span class="line">    <span class="comment"># 遍历1到n的所有数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, n + <span class="number">1</span>):</span><br><span class="line">        <span class="comment"># 如果是偶数，则计算平方并累加到m</span></span><br><span class="line">        <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">0</span>:</span><br><span class="line">            m += i ** <span class="number">2</span></span><br><span class="line">    <span class="keyword">return</span> m</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从键盘输入正整数n</span></span><br><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&#x27;Input n:&#x27;</span>))</span><br><span class="line"><span class="comment"># 计算并输出结果</span></span><br><span class="line">result = sum_of_squares(n)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;result=<span class="subst">&#123;result&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-编程题-多分支结构"><a href="#3-编程题-多分支结构" class="headerlink" title="3. 编程题-多分支结构"></a>3. 编程题-多分支结构</h3><p><strong>题目要求</strong>：</p>
+<p>编写程序，功能是分数等级划分，根据输入的分数，输出分数对应的分数等级。如果输入的成绩大于100或小于0，则提示错误。</p>
+<p><strong>解析</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从键盘输入分数</span></span><br><span class="line">score = <span class="built_in">input</span>(<span class="string">&quot;Input score:&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment"># 将输入的字符串转换为整数</span></span><br><span class="line">    score = <span class="built_in">int</span>(score)</span><br><span class="line">    <span class="comment"># 根据分数判断等级</span></span><br><span class="line">    <span class="keyword">if</span> <span class="number">90</span> &lt;= score &lt;= <span class="number">100</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;A&quot;</span>)</span><br><span class="line">    <span class="keyword">elif</span> <span class="number">80</span> &lt;= score &lt; <span class="number">90</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;B&quot;</span>)</span><br><span class="line">    <span class="keyword">elif</span> <span class="number">70</span> &lt;= score &lt; <span class="number">80</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;C&quot;</span>)</span><br><span class="line">    <span class="keyword">elif</span> <span class="number">60</span> &lt;= score &lt; <span class="number">70</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;D&quot;</span>)</span><br><span class="line">    <span class="keyword">elif</span> <span class="number">0</span> &lt;= score &lt; <span class="number">60</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;E&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 分数不在0到100之间，输出错误</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Input error!&quot;</span>)</span><br><span class="line"><span class="keyword">except</span> ValueError:</span><br><span class="line">    <span class="comment"># 输入的不是数字，输出错误</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Input error!&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-列表插入和删除"><a href="#4-列表插入和删除" class="headerlink" title="4. 列表插入和删除"></a>4. 列表插入和删除</h3><p><strong>题目要求</strong>：</p>
+<p>输入n(n&gt;1)个正整数，每次将输入的整数插入到列表头部。-1表示输入结束。再输入一个正整数，在列表中查找该数并删除它。要求输出进行删除操作后的列表。</p>
+<p><strong>解析</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初始化空列表</span></span><br><span class="line">numbers = []</span><br><span class="line"><span class="comment"># 循环读取输入，直到输入-1</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 读取并分割输入字符串，取第一个元素转换为整数</span></span><br><span class="line">        num = <span class="built_in">int</span>(<span class="built_in">input</span>().strip().split()[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">if</span> num == -<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="comment"># 将整数插入到列表头部</span></span><br><span class="line">        numbers.insert(<span class="number">0</span>, num)</span><br><span class="line">    <span class="keyword">except</span> IndexError:</span><br><span class="line">        <span class="comment"># 忽略IndexError，实际上在这个程序中不太可能发生</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"><span class="comment"># 读取要删除的整数</span></span><br><span class="line">remove_num = <span class="built_in">int</span>(<span class="built_in">input</span>().strip())</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment"># 从列表中删除该整数</span></span><br><span class="line">    numbers.remove(remove_num)</span><br><span class="line"><span class="keyword">except</span> ValueError:</span><br><span class="line">    <span class="comment"># 忽略ValueError，如果找不到要删除的整数，列表不变</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment"># 输出删除后的列表</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot; &quot;</span>.join(<span class="built_in">map</span>(<span class="built_in">str</span>, numbers)))</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-字典中的数据排序输出"><a href="#5-字典中的数据排序输出" class="headerlink" title="5. 字典中的数据排序输出"></a>5. 字典中的数据排序输出</h3><p><strong>题目要求</strong>：</p>
+<p>有两个字典数据，分别按键的大小升序排序和按值的大小升序排序，输出指定个数的排序后的元素。</p>
+<p><strong>解析</strong>（注意：原答案有错误，这里进行了修正）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sort_dict_by_key</span>(<span class="params">dic, n</span>):</span><br><span class="line">    <span class="comment"># 获取字典的键，并按键的字母顺序排序</span></span><br><span class="line">    sorted_keys = <span class="built_in">sorted</span>(dic.keys())</span><br><span class="line">    <span class="comment"># 如果n大于键的数量，则返回所有键，否则返回前n个键</span></span><br><span class="line">    <span class="keyword">return</span> sorted_keys[:n]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sort_dict_by_value</span>(<span class="params">dic, n</span>):</span><br><span class="line">    <span class="comment"># 获取字典的键值对，并按值的大小排序</span></span><br><span class="line">    sorted_items = <span class="built_in">sorted</span>(dic.items(), key=<span class="keyword">lambda</span> item: item[<span class="number">1</span>])</span><br><span class="line">    <span class="comment"># 如果n大于键值对的数量，则返回所有键值对，否则返回前n个键值对</span></span><br><span class="line">    <span class="keyword">return</span> sorted_items[:n]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义两个字典</span></span><br><span class="line">dic1 = &#123;<span class="string">&#x27;Tom&#x27;</span>:<span class="number">21</span>,<span class="string">&#x27;Bob&#x27;</span>:<span class="number">18</span>,<span class="string">&#x27;Jack&#x27;</span>:<span class="number">23</span>,<span class="string">&#x27;Ana&#x27;</span>:<span class="number">20</span>&#125;</span><br><span class="line">dic2 = &#123;<span class="string">&#x27;李雷&#x27;</span>:<span class="number">21</span>,<span class="string">&#x27;韩梅梅&#x27;</span>:<span class="number">18</span>,<span class="string">&#x27;小明&#x27;</span>:<span class="number">23</span>,<span class="string">&#x27;小红&#x27;</span>:<span class="number">20</span>&#125;</span><br><span class="line"><span class="comment"># 从键盘输入正整数n</span></span><br><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line"><span class="comment"># 输出dic1的前n个键</span></span><br><span class="line">sorted_dict1_keys = sort_dict_by_key(dic1, n)</span><br><span class="line"><span class="built_in">print</span>(sorted_dict1_keys)</span><br><span class="line"><span class="comment"># 输出dic2的前n个键值对</span></span><br><span class="line">sorted_dict2_items = sort_dict_by_value(dic2, n)</span><br><span class="line"><span class="built_in">print</span>(sorted_dict2_items)</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-Numpy"><a href="#6-Numpy" class="headerlink" title="6. Numpy"></a>6. Numpy</h3><p><strong>题目要求</strong>：</p>
+<p>从键盘输入一个整数N（N&gt;&#x3D;2），生成一个全是1的N维数组和一个N*N的矩阵，并打印相关信息。</p>
+<p><strong>解析</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从键盘输入整数N</span></span><br><span class="line">N = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入一个整数N（N&gt;=2）：&quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成一个全是1的N维数组</span></span><br><span class="line">array_1d = np.ones((N,))</span><br><span class="line"><span class="comment"># 生成一个N*N的矩阵，元素值从0到N²-1</span></span><br><span class="line">matrix = np.arange(N**<span class="number">2</span>).reshape((N, N))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印全为1的N维数组</span></span><br><span class="line"><span class="built_in">print</span>(array_1d)</span><br><span class="line"><span class="comment"># 打印N*N矩阵</span></span><br><span class="line"><span class="built_in">print</span>(matrix)</span><br><span class="line"><span class="comment"># 计算矩阵所有元素的和</span></span><br><span class="line">matrix_sum = np.<span class="built_in">sum</span>(matrix)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">int</span>(matrix_sum))</span><br><span class="line"><span class="comment"># 计算每一行的和</span></span><br><span class="line">row_sums = np.<span class="built_in">sum</span>(matrix, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(row_sums.astype(<span class="built_in">int</span>))</span><br></pre></td></tr></table></figure> 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2024/12/23/%E2%80%98python%E5%8D%B71%E2%80%99/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2024/12/15/python%EF%BC%9Apokemon/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">python:pokemon</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "DAeOYIeCtfnPwFeKf96Drmpe-MdYXbMMI",
+    app_key: "kTYIzQjQl7fiwPZRR4NMuaEe#",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+  
+    
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2023-2024
+        <i class="ri-heart-fill heart_icon"></i> John Doe
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="老夏十三行"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯茶吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js"></script>
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/config/TeX-AMS-MML_HTMLorMML-full.js"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>
