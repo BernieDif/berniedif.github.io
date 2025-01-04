@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+
+
+<html lang="zh">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>python考试程序题 |  老夏十三行</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    <!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-python考试程序题"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  python考试程序题
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2025/01/04/python%E8%80%83%E8%AF%95%E7%A8%8B%E5%BA%8F%E9%A2%98/" class="article-date">
+  <time datetime="2025-01-04T13:58:00.000Z" itemprop="datePublished">2025-01-04</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">7.3k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">30 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输入三条边长</span></span><br><span class="line">a, b, c = <span class="built_in">map</span>(<span class="built_in">float</span>, <span class="built_in">input</span>().split(<span class="string">&#x27;,&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 判断是否能构成三角形</span></span><br><span class="line"><span class="keyword">if</span> a + b &gt; c <span class="keyword">and</span> a + c &gt; b <span class="keyword">and</span> b + c &gt; a:</span><br><span class="line">    p = (a + b + c) / <span class="number">2</span></span><br><span class="line">    area = math.sqrt(p * (p - a) * (p - b) * (p - c))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;area=<span class="subst">&#123;area:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;不能构成三角形&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code> 3,4,5
+
+
+area=6.00
+</code></pre>
+<ol>
+<li><p><code>import math</code></p>
+<ul>
+<li>功能：导入Python的<code>math</code>模块，该模块提供了许多数学函数和常量。</li>
+</ul>
+</li>
+<li><p><code>a, b, c = map(float, input().split(&#39;,&#39;))</code></p>
+<ul>
+<li>功能：从用户输入中读取三个值，并将它们转换为浮点数。具体步骤如下：<ul>
+<li><code>input()</code>：获取用户输入的字符串。</li>
+<li><code>.split(&#39;,&#39;)</code>：将输入的字符串按逗号分隔成多个子字符串，返回一个列表。</li>
+<li><code>map(float, ...)</code>：将列表中的每个子字符串转换为浮点数。</li>
+<li><code>a, b, c = ...</code>：将转换后的浮点数分别赋值给变量<code>a</code>、<code>b</code>和<code>c</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>if a + b &gt; c and a + c &gt; b and b + c &gt; a:</code></p>
+<ul>
+<li>功能：判断三条边长是否能构成一个三角形。根据三角不等式定理，如果任意两边之和大于第三边，则这三条边可以构成一个<br>三角形。</li>
+</ul>
+</li>
+<li><p><code>p = (a + b + c) / 2</code></p>
+<ul>
+<li>功能：计算三角形的半周长<code>p</code>。公式为<code>(a + b + c) / 2</code>。</li>
+</ul>
+</li>
+<li><p><code>area = math.sqrt(p * (p - a) * (p - b) * (p - c))</code></p>
+<ul>
+<li>功能：使用海伦公式计算三角形的面积。公式为<code>sqrt(p * (p - a) * (p - b) * (p - c))</code>，其中<code>sqrt</code>是<code>math</code>模块中的平<br>方根函数。</li>
+</ul>
+</li>
+<li><p><code>print(f&quot;area=&#123;area:.2f&#125;&quot;)</code></p>
+<ul>
+<li>功能：格式化输出三角形的面积。具体步骤如下：<ul>
+<li><code>f&quot;area=&#123;area:.2f&#125;&quot;</code>：使用Python的格式化字符串功能，将<code>area</code>保留两位小数。</li>
+<li><code>print(...)</code>：输出格式化后的字符串。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>else:</code></p>
+<ul>
+<li>功能：如果三条边长不能构成三角形，则执行这里的代码块。</li>
+</ul>
+</li>
+<li><p><code>print(&quot;不能构成三角形&quot;)</code></p>
+<ul>
+<li>功能：输出提示信息，表示输入的三条边长不能构成一个三角形。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;Input n:&quot;</span>))</span><br><span class="line">sum_squares = <span class="built_in">sum</span>(i**<span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, n + <span class="number">1</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;sum=<span class="subst">&#123;sum_squares&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>Input n: 2
+
+
+sum=5
+</code></pre>
+<ol>
+<li><p><code>n = int(input(&quot;Input n:&quot;))</code></p>
+<ul>
+<li>功能：从用户输入中读取一个字符串，并将其转换为整数。具体步骤如下：<ul>
+<li><code>input(&quot;Input n:&quot;)</code>：显示提示信息并    用户输入的字符串。</li>
+<li><code>int(...)</code>：将输入的字符串转换为整数。</li>
+<li><code>n = ...</code>：将转换后的整数赋值给变量<code>n</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>sum_squares = sum(i**2 for i in range(1, n + 1))</code></p>
+<ul>
+<li>功能：计算从1到<code>n</code>的所有整数的平方和。具体步骤如下：<ul>
+<li><code>range(1, n + 1)</code>：生成一个从1到<code>n</code>（包括<code>n</code>）的整数序列。</li>
+<li><code>i**2 for i in range(...)</code>：对每个整数<code>i</code>计算其平方，返回一个生成<br>器表达式。</li>
+<li><code>sum(...)</code>：将生成器表达式中的所有值求和，并将结果赋值给变量<br><code>sum_squares</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>print(f&quot;sum=&#123;sum_squares&#125;&quot;)</code></p>
+<ul>
+<li>功能：格式化输出平方和。具体步骤如下：<ul>
+<li><code>f&quot;sum=&#123;sum_squares&#125;&quot;</code>：使用Python的格式化字符串功能，将<br><code>sum_squares</code>插入到字符串中。</li>
+<li><code>print(...)</code>：输出格式化后的字符串。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;input n:&quot;</span>))</span><br><span class="line">scores = []</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">    score = <span class="built_in">float</span>(<span class="built_in">input</span>(<span class="string">&quot;input the score:&quot;</span>))</span><br><span class="line">    scores.append(score)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 去掉一个最高分和一个最低分</span></span><br><span class="line">scores.sort()</span><br><span class="line">final_score = <span class="built_in">sum</span>(scores[<span class="number">1</span>:-<span class="number">1</span>]) / (n - <span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;final score:<span class="subst">&#123;final_score:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>input n: 5
+input the score: 99.5
+input the score: 21.5
+input the score: 91
+input the score: 92
+input the score: 93
+
+
+final score:92.00
+</code></pre>
+<ol>
+<li><p><code>n = int(input(&quot;input n:&quot;))</code></p>
+<ul>
+<li>功能：从用户输入中读取一个字符串，并将其转换为整数。具体步骤如下：<ul>
+<li><code>input(&quot;input n:&quot;)</code>：显示提示信息并获取用户输入的字符串。</li>
+<li><code>int(...)</code>：将输入的字符串转换为整数。</li>
+<li><code>n = ...</code>：将转换后的整数赋值给变量<code>n</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>scores = []</code></p>
+<ul>
+<li>功能：初始化一个空列表<code>scores</code>，用于存储用户输入的分数。</li>
+</ul>
+</li>
+<li><p><code>for _ in range(n):</code></p>
+<ul>
+<li>功能：使用<code>for</code>循环从用户输入中读取<code>n</code>个分数。具体步骤如下：<ul>
+<li><code>range(n)</code>：生成一个从0到<code>n-1</code>的整数序列。</li>
+<li><code>_</code>：表示循环变量，这里不需要使用具体的值，所以用下划线表示。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>score = float(input(&quot;input the score:&quot;))</code></p>
+<ul>
+<li>功能：在每次循环中，从用户输入中读取一个字符串，并将其转换为浮点数。<br>具体步骤如下：<ul>
+<li><p><code>input(&quot;input the score:&quot;)</code>：显示提示信息并获取用户输入的字符串。</p>
+</li>
+<li><p><code>float(...)</code>：将输入的字符串转换为浮点数。</p>
+</li>
+<li><p><code>score = ...</code>：将转换后的浮点数赋值给变量<code>score</code>。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>scores.append(score)</code></p>
+<ul>
+<li>功能：将每次循环中读取的分数添加到列表<code>scores</code>中。具体步骤如下：<ul>
+<li><code>scores.append(...)</code>：将参数中的值添加到列表的末尾。</li>
+<li><code>score</code>：表示当前循环中读取的分数。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code># 去掉一个最高分和一个最低分</code></p>
+<ul>
+<li>功能：这是一个注释，说明接下来的代码将去掉一个最高分和一个最低分。</li>
+</ul>
+</li>
+<li><p><code>scores.sort()</code></p>
+<ul>
+<li>功能：对列表<code>scores</code>中的分数进行排序。具体步骤如下：<ul>
+<li><code>scores.sort()</code>：按照升序排列列表中的元素。</li>
+<li>排序后，第一个元素是最小值，最后一个元素是最大值。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>final_score = sum(scores[1:-1]) / (n - 2)</code></p>
+<ul>
+<li>功能：计算去掉一个最高分和一个最低分后的剩余分数的平均值。具体步骤如<br>下：<ul>
+<li><code>scores[1:-1]</code>：获取排序后列表中的第二个元素到倒数第二个元素（即去<br>掉第一个和最后一个元素）。</li>
+<li><code>sum(...)</code>：将这些剩余分数求和。</li>
+<li><code>(n - 2)</code>：计算剩余分数的数量。</li>
+<li><code>/</code>：将总和除以剩余分数的数量，得到平均值。</li>
+<li><code>final_score = ...</code>：将计算出的平均值赋值给变量<code>final_score</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>print(f&quot;final score:&#123;final_score:.2f&#125;&quot;)</code></p>
+<ul>
+<li>功能：格式化输出去掉一个最高分和一个最低分后的平均分数。具体步骤如下<br>：<ul>
+<li><code>f&quot;final score:&#123;final_score:.2f&#125;&quot;</code>：使用Python的格式化字符串功能，<br>将<code>final_score</code>保留两位小数。</li>
+<li><code>print(...)</code>：输出格式化后的字符串。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">N = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">arr = np.arange(<span class="number">1</span>, N*N + <span class="number">1</span>).reshape(N, N)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取出第2行第1列的元素</span></span><br><span class="line">element = arr[<span class="number">1</span>, <span class="number">0</span>]</span><br><span class="line"><span class="built_in">print</span>(element)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 取出第2列的元素</span></span><br><span class="line">column = arr[:, <span class="number">1</span>]</span><br><span class="line"><span class="built_in">print</span>(column.tolist())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 求该数组arr所有元素之和</span></span><br><span class="line">total_sum = np.<span class="built_in">sum</span>(arr)</span><br><span class="line"><span class="built_in">print</span>(total_sum)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 按列求最大值</span></span><br><span class="line">max_by_column = np.amax(arr, axis=<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(max_by_column.tolist())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 该数组减去每一行的平均值</span></span><br><span class="line">mean_by_row = np.mean(arr, axis=<span class="number">1</span>, keepdims=<span class="literal">True</span>)</span><br><span class="line">result = arr - mean_by_row</span><br><span class="line"><span class="built_in">print</span>(result.tolist())</span><br></pre></td></tr></table></figure>
+
+<pre><code> 3
+
+
+[[1 2 3]
+ [4 5 6]
+ [7 8 9]]
+4
+[2, 5, 8]
+45
+[7, 8, 9]
+[[-1.0, 0.0, 1.0], [-1.0, 0.0, 1.0], [-1.0, 0.0, 1.0]]
+</code></pre>
+<ol>
+<li><p><code>import numpy as np</code></p>
+<ul>
+<li>功能：导入NumPy库，并将其命名为<code>np</code>。NumPy是一个用于科学计算的强大库<br>，提供了大量的数组和矩阵操作功能。</li>
+</ul>
+</li>
+<li><p><code>N = int(input())</code></p>
+<ul>
+<li>功能：从用户输入中读取一个字符串，并将其转换为整数。具体步骤如下：<ul>
+<li><code>input()</code>：显示提示信息并获取用户输入的字符串。</li>
+<li><code>int(...)</code>：将输入的字符串转换为整数。</li>
+<li><code>N = ...</code>：将转换后的整数赋值给变量<code>N</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>arr = np.arange(1, N*N + 1).reshape(N, N)</code></p>
+<ul>
+<li>功能：创建一个从1到<code>N*N</code>的数组，并将其重塑为<code>N x N</code>的矩阵。具体步骤<br>如下：<ul>
+<li><p><code>np.arange(1, N*N + 1)</code>：生成一个包含从1到<code>N*N</code>的整数的一维数组。</p>
+</li>
+<li><p><code>.reshape(N, N)</code>：将一维数组重塑为<code>N x N</code>的二维数组（矩阵）。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code># 取出第2行第1列的元素</code></p>
+<ul>
+<li>功能：这是一个注释，说明接下来的代码将取出第2行第1列的元素。</li>
+</ul>
+</li>
+<li><p><code>element = arr[1, 0]</code></p>
+<ul>
+<li>功能：使用索引从矩阵中取出第2行第1列的元素。具体步骤如下：<ul>
+<li><code>arr[1, 0]</code>：在NumPy数组中，索引从0开始，所以<code>arr[1, 0]</code>表示第二行<br>第一列的元素。</li>
+<li><code>element = ...</code>：将取出的元素赋值给变量<code>element</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>print(element)</code></p>
+<ul>
+<li>功能：输出取出的元素。</li>
+</ul>
+</li>
+<li><p><code># 取出第2列的元素</code></p>
+<ul>
+<li>功能：这是一个注释，说明接下来的代码将取出第2列的元素。</li>
+</ul>
+</li>
+<li><p><code>column = arr[:, 1]</code></p>
+<ul>
+<li>功能：使用切片从矩阵中取出第2列的所有元素。具体步骤如下：<ul>
+<li><code>arr[:, 1]</code>：在NumPy数组中，<code>:</code>表示所有行，所以<code>arr[:, 1]</code>表示第二<br>列的所有元素。</li>
+<li><code>column = ...</code>：将取出的列赋值给变量<code>column</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>print(column.tolist())</code></p>
+<ul>
+<li>功能：将取出的列转换为Python列表并输出。具体步骤如下：<ul>
+<li><code>.tolist()</code>：将NumPy数组转换为Python列表。</li>
+<li><code>print(...)</code>：输出转换后的列表。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code># 求该数组arr所有元素之和</code></p>
+<ul>
+<li>功能：这是一个注释，说明接下来的代码将计算数组中所有元素的总和。</li>
+</ul>
+</li>
+<li><p><code>total_sum = np.sum(arr)</code></p>
+<ul>
+<li>功能：使用NumPy函数<code>np.sum()</code>计算数组中所有元素的总和。具体步骤如下<br>：<ul>
+<li><code>np.sum(arr)</code>：计算矩阵<code>arr</code>中所有元素的和。</li>
+<li><code>total_sum = ...</code>：将计算出的总和赋值给变量<code>total_sum</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>print(total_sum)</code></p>
+<ul>
+<li>功能：输出数组中所有元素的总和。</li>
+</ul>
+</li>
+<li><p><code># 按列求最大值</code></p>
+<ul>
+<li>功能：这是一个注释，说明接下来的代码将按列求最大值。</li>
+</ul>
+</li>
+<li><p><code>max_by_column = np.amax(arr, axis=0)</code></p>
+<ul>
+<li>功能：使用NumPy函数<code>np.amax()</code>按列求最大值。具体步骤如下：<ul>
+<li><code>np.amax(arr, axis=0)</code>：计算矩阵<code>arr</code>每一列的最大值。参数<br><code>axis=0</code>表示按列操作。</li>
+<li><code>max_by_column = ...</code>：将计算出的最大值赋值给变量<br><code>max_by_column</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>print(max_by_column.tolist())</code></p>
+<ul>
+<li>功能：将按列求得的最大值转换为Python列表并输出。具体步骤如下：<ul>
+<li><code>.tolist()</code>：将NumPy数组转换为Python列表。</li>
+<li><code>print(...)</code>：输出转换后的列表。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code># 该数组减去每一行的平均值</code></p>
+<ul>
+<li>功能：这是一个注释，说明接下来的代码将该数组减去每一行的平均值。</li>
+</ul>
+</li>
+<li><p><code>mean_by_row = np.mean(arr, axis=1, keepdims=True)</code></p>
+<ul>
+<li>功能：使用NumPy函数<code>np.mean()</code>计算每一行的平均值，并保持维度。具体<br>步骤如下：<ul>
+<li><code>np.mean(arr, axis=1)</code>：计算矩阵<code>arr</code>每一行的平均值。参数<br><code>axis=1</code>表示按行操作。</li>
+<li><code>keepdims=True</code>：保留原始数组的维度，使得结果是一个二维数组（每行<br>一个平均值）。</li>
+<li><code>mean_by_row = ...</code>：将计算出的平均值赋值给变量<code>mean_by_row</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>result = arr - mean_by_row</code></p>
+<ul>
+<li>功能：使用NumPy的广播机制，将原始矩阵减去每一行的平均值。具体步骤如<br>下：<ul>
+<li><code>arr - mean_by_row</code>：由于<code>mean_by_row</code>是一个二维数组（每行一个平<br>均值），NumPy会自动将其广播到与<code>arr</code>相同的形状，并逐元素进行减法运算。</li>
+<li><code>result = ...</code>：将计算结果赋值给变量<code>result</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>print(result.tolist())</code></p>
+<ul>
+<li>功能：将计算结果转换为Python列表并输出。具体步骤如下：<ul>
+<li><code>.tolist()</code>：将NumPy数组转换为Python列表。</li>
+<li><code>print(...)</code>：输出转换后的列表。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">WordCount</span>(<span class="params">s</span>):</span><br><span class="line">    <span class="comment"># 使用正则表达式分割字符串为单词，忽略标点符号，并转换为小写</span></span><br><span class="line">    words = re.findall(<span class="string">r&#x27;\b\w+\b&#x27;</span>, s.lower())</span><br><span class="line">    <span class="comment"># 统计词频</span></span><br><span class="line">    word_counts = Counter(words)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">list</span>(word_counts.items())</span><br><span class="line"></span><br><span class="line">s = <span class="built_in">input</span>()</span><br><span class="line"><span class="built_in">print</span>(WordCount(s))</span><br></pre></td></tr></table></figure>
+
+<pre><code> I&#39;m a such beautiful girl. And I&#39;m preaty.
+
+
+[(&#39;i&#39;, 2), (&#39;m&#39;, 2), (&#39;a&#39;, 1), (&#39;such&#39;, 1), (&#39;beautiful&#39;, 1), (&#39;girl&#39;, 1), (&#39;and&#39;, 1), (&#39;preaty&#39;, 1)]
+</code></pre>
+<ol>
+<li><p><code>import re</code></p>
+<ul>
+<li>功能：导入Python内置的<code>re</code>模块，该模块提供了正则表达式的支持。</li>
+</ul>
+</li>
+<li><p><code>from collections import Counter</code></p>
+<ul>
+<li>功能：从Python的<code>collections</code>模块中导入<code>Counter</code>类。<code>Counter</code>是一个<br>用于计数的字典子类，可以方便地统计元素出现的频率。</li>
+</ul>
+</li>
+<li><p><code>def WordCount(s):</code></p>
+<ul>
+<li>功能：定义一个名为<code>WordCount</code>的函数，该函数接受一个字符串参数<code>s</code>并返<br>回一个包含单词及其频率的列表。</li>
+</ul>
+</li>
+<li><p><code># 使用正则表达式分割字符串为单词，忽略标点符号，并转换为小写</code></p>
+<ul>
+<li>功能：这是一个注释，解释接下来的代码将如何处理输入字符串。</li>
+</ul>
+</li>
+<li><p><code>words = re.findall(r&#39;\b\w+\b&#39;, s.lower())</code></p>
+<ul>
+<li>功能：使用正则表达式从字符串中提取单词。具体步骤如下：<ul>
+<li><code>s.lower()</code>：将输入字符串转换为小写，以确保统计时不区分大小写。</li>
+<li><code>re.findall(r&#39;\b\w+\b&#39;, ...)</code>：使用正则表达式<code>\b\w+\b</code>匹配单词。<br><code>\b</code>表示单词边界，<code>\w+</code>表示一个或多个字母、数字或下划线。</li>
+<li><code>words = ...</code>：将匹配到的单词列表赋值给变量<code>words</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code># 统计词频</code></p>
+<ul>
+<li>功能：这是一个注释，解释接下来的代码将如何统计每个单词出现的频率。</li>
+</ul>
+</li>
+<li><p><code>word_counts = Counter(words)</code></p>
+<ul>
+<li>功能：使用<code>Counter</code>类统计单词的频率。具体步骤如下：<ul>
+<li><code>Counter(words)</code>：创建一个<code>Counter</code>对象，该对象会自动计算并存储每<br>个单词在列表<code>words</code>中出现的次数。</li>
+<li><code>word_counts = ...</code>：将<code>Counter</code>对象赋值给变量<code>word_counts</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>return list(word_counts.items())</code></p>
+<ul>
+<li>功能：返回一个包含单词及其频率的列表。具体步骤如下：<ul>
+<li><code>word_counts.items()</code>：获取<code>Counter</code>对象中的所有键值对（即单词及其<br>对应的频率）。</li>
+<li><code>list(...)</code>：将键值对转换为一个列表。</li>
+<li><code>return ...</code>：从函数中返回该列表。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>s = input()</code></p>
+<ul>
+<li>功能：从用户输入中读取一行字符串，并将其赋值给变量<code>s</code>。</li>
+</ul>
+</li>
+<li><p><code>print(WordCount(s))</code></p>
+<ul>
+<li>功能：调用<code>WordCount</code>函数处理输入的字符串，并将结果打印到控制台。具<br>体步骤如下：<ul>
+<li><code>WordCount(s)</code>：调用<code>WordCount</code>函数，传入用户输入的字符串。</li>
+<li><code>print(...)</code>：将函数返回的结果（即单词及其频率的列表）打印到控制<br>台。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">seed = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">random.seed(seed)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;data.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">        num = random.randint(<span class="number">1</span>, <span class="number">100</span>)</span><br><span class="line">        file.write(<span class="string">f&quot;<span class="subst">&#123;num&#125;</span>\n&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code> 42
+</code></pre>
+<ol>
+<li><p><code>import random</code></p>
+<ul>
+<li>功能：导入Python内置的<code>random</code>模块，该模块提供了生成随机数的功能。</li>
+</ul>
+</li>
+<li><p><code>seed = int(input())</code></p>
+<ul>
+<li>功能：从用户输入中读取一行字符串，并将其转换为整数。这个整数将作为随<br>机数生成器的种子值。<ul>
+<li><code>input()</code>：从标准输入（通常是键盘）读取一行文本。</li>
+<li><code>int(...)</code>：将输入的字符串转换为整数。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>random.seed(seed)</code></p>
+<ul>
+<li>功能：使用用户提供的种子值初始化随机数生成器。具体步骤如下：<ul>
+<li><code>seed</code>：传递给<code>seed()</code>函数的参数，即之前从用户输入中读取并转换的整<br>数。</li>
+<li><code>random.seed(...)</code>：设置随机数生成器的种子值，使得后续生成的随机数<br>序列可重复。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>with open(&#39;data.txt&#39;, &#39;w&#39;) as file:</code></p>
+<ul>
+<li>功能：使用上下文管理器打开一个名为<code>data.txt</code>的文件，并以写模式（<br>‘w’）进行操作。具体步骤如下：<ul>
+<li><code>&#39;data.txt&#39;</code>：指定要打开或创建的文件名。</li>
+<li><code>&#39;w&#39;</code>：表示以写模式打开文件，如果文件已存在则会清空原有内容，如果<br>不存在则会创建新文件。</li>
+<li><code>with ... as file:</code>：使用上下文管理器语法打开文件，确保在代码块执<br>行完毕后自动关闭文件。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>for _ in range(10):</code></p>
+<ul>
+<li>功能：使用<code>for</code>循环重复执行其内部的代码块10次。具体步骤如下：<ul>
+<li><code>_</code>：表示一个临时变量，用于接收循环次数，但不实际使用该变量。</li>
+<li><code>range(10)</code>：生成从0到9的整数序列。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>num = random.randint(1, 100)</code></p>
+<ul>
+<li>功能：生成一个在1到100之间的随机整数。具体步骤如下：<ul>
+<li><code>random.randint(1, 100)</code>：调用<code>randint()</code>函数，生成一个范围在1到<br>100（包括1和100）之间的随机整数。</li>
+<li><code>num = ...</code>：将生成的随机整数赋值给变量<code>num</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>file.write(f&quot;&#123;num&#125;\n&quot;)</code></p>
+<ul>
+<li>功能：将生成的随机数写入文件中，并在每个数字后添加一个换行符。具体步<br>骤如下：<ul>
+<li><code>f&quot;&#123;num&#125;\n&quot;</code>：使用格式化字符串（f-string）将变量<code>num</code>插入到字符串<br>中，并在末尾添加一个换行符<code>\n</code>。</li>
+<li><code>file.write(...)</code>：调用文件对象的<code>write()</code>方法，将字符串写入文件。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入正整数n: &quot;</span>))</span><br><span class="line">formatted_str = <span class="string">&quot;&#123;:*^20&#125;&quot;</span>.<span class="built_in">format</span>(<span class="string">f&quot;<span class="subst">&#123;n:,<span class="number">.0</span>f&#125;</span>&quot;</span>)  </span><br><span class="line"><span class="built_in">print</span>(formatted_str)</span><br></pre></td></tr></table></figure>
+
+<pre><code>请输入正整数n:  12345
+
+
+*******12,345*******
+</code></pre>
+<ol>
+<li><p><code>n = int(input(&quot;请输入正整数n: &quot;))</code></p>
+<ul>
+<li>功能：从用户输入中读取一行字符串，并将其转换为整数。具体步骤如下：<ul>
+<li><code>input(&quot;请输入正整数n: &quot;)</code>：提示用户输入一个正整数，并读取用户输入<br>的一行文本。</li>
+<li><code>int(...)</code>：将输入的字符串转换为整数。</li>
+<li><code>n = ...</code>：将转换后的整数赋值给变量<code>n</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>formatted_str = &quot;&#123;:*^20&#125;&quot;.format(f&quot;&#123;n:,.0f&#125;&quot;)</code></p>
+<ul>
+<li>功能：将变量<code>n</code>格式化为一个在20个字符宽度的字符串，其中数字居中对齐<br>，两侧用星号（<code>*</code>）填充。具体步骤如下：<ul>
+<li><code>f&quot;&#123;n:,.0f&#125;&quot;</code>：使用格式化字符串（f-string）将变量<code>n</code>转换为带有千位<br>分隔符的整数字符串。<ul>
+<li><p><code>n</code>：表示要格式化的变量。</p>
+</li>
+<li><p><code>:,</code>：在数字中插入千位分隔符，例如1234567会被格式化为1,234,567。</p>
+</li>
+<li><p><code>.0f</code>：将浮点数格式化为整数形式，即去掉小数部分。</p>
+</li>
+</ul>
+</li>
+<li><code>&quot;&#123;:*^20&#125;&quot;</code>：定义了一个字符串格式化模板，用于生成最终的字符串。<ul>
+<li><code>*</code>：表示用星号（<code>*</code>）字符填充空白区域。</li>
+<li><code>^20</code>：表示总宽度为20个字符，并且内容居中对齐。</li>
+</ul>
+</li>
+<li><code>.format(...)</code>：调用字符串对象的<code>format()</code>方法，将格式化字符串应用</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>到指定的内容上。</p>
+<ol start="3">
+<li><code>print(formatted_str)</code><ul>
+<li>功能：将格式化后的字符串输出到标准输出（通常是终端或控制台）。具体步<br>骤如下：<ul>
+<li><code>formatted_str</code>：表示要输出的变量。</li>
+<li><code>print(...)</code>：调用内置函数<code>print()</code>，在控制台上打印指定的内容。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入正整数n: &quot;</span>))</span><br><span class="line">formatted_str = <span class="string">&quot;&#123;:*&gt;20&#125;&quot;</span>.<span class="built_in">format</span>(<span class="string">f&quot;<span class="subst">&#123;n:,<span class="number">.0</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(formatted_str)</span><br></pre></td></tr></table></figure>
+
+<pre><code>请输入正整数n:  12345
+
+
+**************12,345
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入正整数n: &quot;</span>))</span><br><span class="line">formatted_str = <span class="string">&quot;&#123;:*&lt;20&#125;&quot;</span>.<span class="built_in">format</span>(<span class="string">f&quot;<span class="subst">&#123;n:,<span class="number">.0</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(formatted_str)</span><br></pre></td></tr></table></figure>
+
+<pre><code>请输入正整数n:  12345
+
+
+12,345**************
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;Input n:&quot;</span>))</span><br><span class="line">m = n <span class="keyword">if</span> n % <span class="number">2</span> == <span class="number">0</span> <span class="keyword">else</span> n - <span class="number">1</span>  </span><br><span class="line">result = <span class="built_in">sum</span>(i**<span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, m + <span class="number">1</span>, <span class="number">2</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;result=<span class="subst">&#123;result&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>Input n: 9
+
+
+result=120
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;Input n: &quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>input(&quot;Input n: &quot;)</code></strong>: 这是一个内置函数，用于从用户那里获取输入。它<br>会显示提示信息 “Input n:”，并等待用户输入一个字符串。</li>
+<li><strong><code>int(...)</code></strong>: 这是另一个内置函数，将传入的字符串转换为整数类型。这里<br>将用户输入的字符串转换为整数并赋值给变量 <code>n</code>。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m = n <span class="keyword">if</span> n % <span class="number">2</span> == <span class="number">0</span> <span class="keyword">else</span> n - <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>n % 2 == 0</code></strong>: 这是一个条件表达式，用于检查 <code>n</code> 是否为偶数。如果<br><code>n</code> 是偶数（即 <code>n</code> 除以 2 的余数为 0），则返回 <code>True</code>。</li>
+<li><strong><code>m = n if n % 2 == 0 else n - 1</code></strong>: 这是一个三元运算符（也称为条件表<br>达式）。如果 <code>n % 2 == 0</code> 为真（即 <code>n</code> 是偶数），则将 <code>n</code> 赋值给变量<br><code>m</code>；否则，将 <code>n - 1</code> 赋值给变量 <code>m</code>。这样确保了 <code>m</code> 总是偶数。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result = <span class="built_in">sum</span>(i**<span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, m + <span class="number">1</span>, <span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>range(2, m + 1, 2)</code></strong>: 这是一个内置函数，用于生成一个从 2 到 <code>m</code>（包<br>括 <code>m</code>）的数字序列。这里使用步长为 2，即每次增加 2，因此生成的是偶数序列<br>。</li>
+<li><strong><code>i**2 for i in range(2, m + 1, 2)</code></strong>: 这是一个生成器表达式，用于计算<br>每个 <code>i</code> 的平方（<code>i**2</code>），其中 <code>i</code> 是从 2 到 <code>m</code>（包括 <code>m</code>）的偶数。</li>
+<li><strong><code>sum(...)</code></strong>: 这是另一个内置函数，将生成器表达式中的所有值相加。这里<br>它计算的是从 2 到 <code>m</code>（包括 <code>m</code>）的所有偶数的平方和。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;result=<span class="subst">&#123;result&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>f&quot;result=&#123;result&#125;&quot;</code></strong>: 这是一个 f-string，用于格式化字符串。其中<br><code>&#123;result&#125;</code> 会被变量 <code>result</code> 的值替换。</li>
+<li><strong><code>print(...)</code></strong>: 这是另一个内置函数，将括号内的内容输出到控制台。这里<br>它会显示格式化后的字符串 “result&#x3D;…”，其中 <code>...</code> 是 <code>result</code> 的实际值。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">score = <span class="built_in">float</span>(<span class="built_in">input</span>(<span class="string">&quot;Input score:&quot;</span>))</span><br><span class="line"><span class="keyword">if</span> score &gt; <span class="number">100</span> <span class="keyword">or</span> score &lt; <span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Input error!&quot;</span>)</span><br><span class="line"><span class="keyword">elif</span> <span class="number">90</span> &lt;= score &lt;= <span class="number">100</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;A&quot;</span>)</span><br><span class="line"><span class="keyword">elif</span> <span class="number">80</span> &lt;= score &lt; <span class="number">90</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;B&quot;</span>)</span><br><span class="line"><span class="keyword">elif</span> <span class="number">70</span> &lt;= score &lt; <span class="number">80</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;C&quot;</span>)</span><br><span class="line"><span class="keyword">elif</span> <span class="number">60</span> &lt;= score &lt; <span class="number">70</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;D&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;E&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>Input score: 99
+
+
+A
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">score = <span class="built_in">float</span>(<span class="built_in">input</span>(<span class="string">&quot;Input score:&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>input(&quot;Input score:&quot;)</code></strong>: 这是一个内置函数，用于从用户那里获取输入。<br>它会显示提示信息 “Input score:”，并等待用户输入一个字符串。</li>
+<li><strong><code>float(...)</code></strong>: 这是另一个内置函数，将传入的字符串转换为浮点数类型。<br>这里将用户输入的字符串转换为浮点数并赋值给变量 <code>score</code>。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> score &gt; <span class="number">100</span> <span class="keyword">or</span> score &lt; <span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Input error!&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>if score &gt; 100 or score &lt; 0:</code></strong>: 这是一个条件语句，用于检查<br><code>score</code> 是否超出有效范围（即大于 100 或小于 0）。如果满足条件，则执行后续<br>的代码块。</li>
+<li><strong><code>print(&quot;Input error!&quot;)</code></strong>: 如果 <code>score</code> 不在有效范围内，此函数会将字<br>符串 “Input error!” 输出到控制台。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">elif</span> <span class="number">90</span> &lt;= score &lt;= <span class="number">100</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;A&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>elif 90 &lt;= score &lt;= 100:</code></strong>: 这是另一个条件语句，用于检查 <code>score</code> 是<br>否在 90 到 100（包括 90 和 100）的范围内。如果满足条件，则执行后续的代码<br>块。</li>
+<li><strong><code>print(&quot;A&quot;)</code></strong>: 如果 <code>score</code> 在这个范围内，此函数会将字符串 “A” 输出<br>到控制台。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">elif</span> <span class="number">80</span> &lt;= score &lt; <span class="number">90</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;B&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>elif 80 &lt;= score &lt; 90:</code></strong>: 这是另一个条件语句，用于检查 <code>score</code> 是否<br>在 80 到 90（包括 80，不包括 90）的范围内。如果满足条件，则执行后续的代码<br>块。</li>
+<li><strong><code>print(&quot;B&quot;)</code></strong>: 如果 <code>score</code> 在这个范围内，此函数会将字符串 “B” 输出<br>到控制台。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">elif</span> <span class="number">70</span> &lt;= score &lt; <span class="number">80</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;C&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>elif 70 &lt;= score &lt; 80:</code></strong>: 这是另一个条件语句，用于检查 <code>score</code> 是否<br>在 70 到 80（包括 70，不包括 80）的范围内。如果满足条件，则执行后续的代码<br>块。</li>
+<li><strong><code>print(&quot;C&quot;)</code></strong>: 如果 <code>score</code> 在这个范围内，此函数会将字符串 “C” 输出<br>到控制台。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">elif</span> <span class="number">60</span> &lt;= score &lt; <span class="number">70</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;D&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>elif 60 &lt;= score &lt; 70:</code></strong>: 这是另一个条件语句，用于检查 <code>score</code> 是否<br>在 60 到 70（包括 60，不包括 70）的范围内。如果满足条件，则执行后续的代码<br>块。</li>
+<li><strong><code>print(&quot;D&quot;)</code></strong>: 如果 <code>score</code> 在这个范围内，此函数会将字符串 “D” 输出<br>到控制台。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;E&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>else:</code></strong>: 这是最后一个条件语句，如果前面的所有条件都不满足，则执行后<br>续的代码块。</li>
+<li><strong><code>print(&quot;E&quot;)</code></strong>: 如果 <code>score</code> 不在任何上述范围内，此函数会将字符串<br>“E” 输出到控制台。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">nums = []</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        num = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">        <span class="keyword">if</span> num == -<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        nums.insert(<span class="number">0</span>, num)</span><br><span class="line">    <span class="keyword">except</span> ValueError:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">to_remove = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line"><span class="keyword">if</span> to_remove <span class="keyword">in</span> nums:</span><br><span class="line">    nums.remove(to_remove)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot; &quot;</span>.join(<span class="built_in">map</span>(<span class="built_in">str</span>, nums)))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code> 9
+ 8
+ -1
+ -1
+
+
+8 9
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nums = []</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>nums = []</code></strong>: 这行代码创建了一个空列表 <code>nums</code>。列表是一种可以存储多<br>个元素的数据结构。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>while True:</code></strong>: 这是一个无限循环，会一直执行其内部的代码块，直到遇到<br> <code>break</code> 语句为止。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>try:</code></strong>: 这是异常处理的开始部分。如果在 <code>try</code> 块内的代码执行过程中发<br>生错误，则程序会跳转到对应的 <code>except</code> 块。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">num = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>num = int(input())</code></strong>: 使用 <code>input()</code> 函数从用户那里获取输入，并使用<br> <code>int()</code> 将其转换为整数。将结果赋值给变量 <code>num</code>。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> num == -<span class="number">1</span>:</span><br><span class="line">    <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>if num == -1:</code></strong>: 这是一个条件语句，用于检查 <code>num</code> 是否等于 <code>-1</code>。如<br>果满足条件，则执行后续的代码块。</li>
+<li><strong><code>break</code></strong>: 如果 <code>num</code> 等于 <code>-1</code>，则会跳出当前的无限循环。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nums.insert(<span class="number">0</span>, num)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>nums.insert(0, num)</code></strong>: 使用 <code>insert()</code> 方法将 <code>num</code> 插入到列表<br><code>nums</code> 的第一个位置（即索引 0）。这使得每次输入的新数字都添加到列表的开头<br>。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">except</span> ValueError:</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>except ValueError:</code></strong>: 这是异常处理的一部分，用于捕获 <code>ValueError</code><br>类型的错误。当用户输入的值不能被转换为整数时，会抛出这个类型的错误。</li>
+<li><strong><code>continue</code></strong>: 如果发生 <code>ValueError</code>，则执行 <code>continue</code> 语句，跳过当前<br>循环的剩余部分，并继续下一次循环。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">to_remove = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>to_remove = int(input())</code></strong>: 使用 <code>input()</code> 函数从用户那里获取输入，<br>并使用 <code>int()</code> 将其转换为整数。将结果赋值给变量 <code>to_remove</code>。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> to_remove <span class="keyword">in</span> nums:</span><br><span class="line">    nums.remove(to_remove)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>if to_remove in nums:</code></strong>: 这是一个条件语句，用于检查 <code>to_remove</code> 是<br>否存在于列表 <code>nums</code> 中。如果满足条件，则执行后续的代码块。</li>
+<li><strong><code>nums.remove(to_remove)</code></strong>: 如果 <code>to_remove</code> 存在于列表中，则使用<br><code>remove()</code> 方法将其从列表中删除。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&quot; &quot;</span>.join(<span class="built_in">map</span>(<span class="built_in">str</span>, nums)))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>map(str, nums)</code></strong>: 使用 <code>map()</code> 函数将列表 <code>nums</code> 中的每个元素转换为<br>字符串。</li>
+<li><strong><code>&quot; &quot;.join(...)</code></strong>: 使用 <code>join()</code> 方法将字符串列表连接成一个单一的字符<br>串，元素之间用空格分隔。</li>
+<li><strong><code>print(...)</code></strong>: 使用 <code>print()</code> 函数将最终生成的字符串输出到控制台。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">dic1 = &#123;<span class="string">&#x27;Tom&#x27;</span>: <span class="number">21</span>, <span class="string">&#x27;Bob&#x27;</span>: <span class="number">18</span>, <span class="string">&#x27;Jack&#x27;</span>: <span class="number">23</span>, <span class="string">&#x27;Ana&#x27;</span>: <span class="number">20</span>&#125;</span><br><span class="line">dic2 = &#123;<span class="string">&#x27;李雷&#x27;</span>: <span class="number">21</span>, <span class="string">&#x27;韩梅梅&#x27;</span>: <span class="number">18</span>, <span class="string">&#x27;小明&#x27;</span>: <span class="number">23</span>, <span class="string">&#x27;小红&#x27;</span>: <span class="number">20</span>&#125;</span><br><span class="line"></span><br><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line"></span><br><span class="line">sorted_keys_dic1 = <span class="built_in">sorted</span>(dic1.keys())[:n]</span><br><span class="line">sorted_items_dic2 = <span class="built_in">sorted</span>(dic2.items(), key=<span class="keyword">lambda</span> item: item[<span class="number">1</span>])[:n]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sorted_keys_dic1)</span><br><span class="line"><span class="built_in">print</span>(sorted_items_dic2)</span><br></pre></td></tr></table></figure>
+
+<pre><code> 2
+
+
+[&#39;Ana&#39;, &#39;Bob&#39;]
+[(&#39;韩梅梅&#39;, 18), (&#39;小红&#39;, 20)]
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dic1 = &#123;<span class="string">&#x27;Tom&#x27;</span>: <span class="number">21</span>, <span class="string">&#x27;Bob&#x27;</span>: <span class="number">18</span>, <span class="string">&#x27;Jack&#x27;</span>: <span class="number">23</span>, <span class="string">&#x27;Ana&#x27;</span>: <span class="number">20</span>&#125;</span><br><span class="line">dic2 = &#123;<span class="string">&#x27;李雷&#x27;</span>: <span class="number">21</span>, <span class="string">&#x27;韩梅梅&#x27;</span>: <span class="number">18</span>, <span class="string">&#x27;小明&#x27;</span>: <span class="number">23</span>, <span class="string">&#x27;小红&#x27;</span>: <span class="number">20</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>dic1 = &#123;&#39;Tom&#39;: 21, &#39;Bob&#39;: 18, &#39;Jack&#39;: 23, &#39;Ana&#39;: 20&#125;</code></strong>: 创建一个字<br>典 <code>dic1</code>，其中包含名字和年龄的键值对。</li>
+<li><strong><code>dic2 = &#123;&#39;李雷&#39;: 21, &#39;韩梅梅&#39;: 18, &#39;小明&#39;: 23, &#39;小红&#39;: 20&#125;</code></strong>: 创建另<br>一个字典 <code>dic2</code>，其中包含名字和年龄的键值对。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>n = int(input())</code></strong>: 使用 <code>input()</code> 函数从用户那里获取输入，并使用<br><code>int()</code> 将其转换为整数。将结果赋值给变量 <code>n</code>。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sorted_keys_dic1 = <span class="built_in">sorted</span>(dic1.keys())[:n]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>dic1.keys()</code></strong>: 获取字典 <code>dic1</code> 的所有键，返回一个视图对象。</li>
+<li><strong><code>sorted(...)</code></strong>: 使用 <code>sorted()</code> 函数对键进行排序，返回一个排序后的列<br>表。</li>
+<li><strong><code>[:n]</code></strong>: 切片操作，获取排序后列表的前 <code>n</code> 个元素。最终结果赋值给变量<br> <code>sorted_keys_dic1</code>。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sorted_items_dic2 = <span class="built_in">sorted</span>(dic2.items(), key=<span class="keyword">lambda</span> item: item[<span class="number">1</span>])[:n]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>dic2.items()</code></strong>: 获取字典 <code>dic2</code> 的所有键值对，返回一个视图对象。</li>
+<li><strong><code>sorted(...)</code></strong>: 使用 <code>sorted()</code> 函数对键值对进行排序。这里使用<br><code>key=lambda item: item[1]</code> 指定排序的依据是字典项中的第二个元素（即年龄）<br>。</li>
+<li><strong><code>[:n]</code></strong>: 切片操作，获取排序后列表的前 <code>n</code> 个元素。最终结果赋值给变量<br> <code>sorted_items_dic2</code>。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(sorted_keys_dic1)</span><br><span class="line"><span class="built_in">print</span>(sorted_items_dic2)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>print(sorted_keys_dic1)</code></strong>: 使用 <code>print()</code> 函数将<br><code>sorted_keys_dic1</code> 的内容输出到控制台。</li>
+<li><strong><code>print(sorted_items_dic2)</code></strong>: 使用 <code>print()</code> 函数将<br><code>sorted_items_dic2</code> 的内容输出到控制台。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">N = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入整数N (N&gt;=2): &quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成全是1的N维数组</span></span><br><span class="line">ones_array = np.ones(N)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成N*N的矩阵</span></span><br><span class="line">matrix = np.arange(N**<span class="number">2</span>).reshape((N, N))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印N维数组</span></span><br><span class="line"><span class="built_in">print</span>(ones_array)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印矩阵</span></span><br><span class="line"><span class="built_in">print</span>(matrix)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印矩阵所有元素的和</span></span><br><span class="line"><span class="built_in">print</span>(matrix.<span class="built_in">sum</span>())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印每一行的和</span></span><br><span class="line"><span class="built_in">print</span>(matrix.<span class="built_in">sum</span>(axis=<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+
+<pre><code>请输入整数N (N&gt;=2):  3
+
+
+[1. 1. 1.]
+[[0 1 2]
+ [3 4 5]
+ [6 7 8]]
+36
+[ 3 12 21]
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>import numpy as np</code></strong>: 这行代码导入了 <code>numpy</code> 库，并将其命名为<br><code>np</code>。<code>numpy</code> 是一个用于科学计算的强大库，提供了多维数组对象（即矩阵）以<br>及各种数学函数和操作。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">N = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入整数N (N&gt;=2): &quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>input(&quot;请输入整数N (N&gt;=2): &quot;)</code></strong>: 使用 <code>input()</code> 函数从用户那里获取<br>一个字符串输入，并提示用户输入一个整数 N，且要求 N 大于等于 2。</li>
+<li><strong><code>int(...)</code></strong>: 将用户输入的字符串转换为整数类型。最终结果赋值给变量<br><code>N</code>。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成全是1的N维数组</span></span><br><span class="line">ones_array = np.ones(N)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>np.ones(N)</code></strong>: 使用 <code>numpy</code> 库中的 <code>ones()</code> 函数，创建一个包含 N 个<br>元素的一维数组，且每个元素都是 1。最终结果赋值给变量 <code>ones_array</code>。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成N*N的矩阵</span></span><br><span class="line">matrix = np.arange(N**<span class="number">2</span>).reshape((N, N))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>np.arange(N**2)</code></strong>: 使用 <code>numpy</code> 库中的 <code>arange()</code> 函数，创建一个包<br>含从 0 到 (N^2 - 1) 的一维数组。</li>
+<li><strong><code>.reshape((N, N))</code></strong>: 对上述数组进行重塑操作，将其转换为 N 行 N 列的<br>二维矩阵。最终结果赋值给变量 <code>matrix</code>。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打印N维数组</span></span><br><span class="line"><span class="built_in">print</span>(ones_array)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>print(ones_array)</code></strong>: 使用 <code>print()</code> 函数将 <code>ones_array</code> 的内容输出<br>到控制台，显示一维数组中的所有元素。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打印矩阵</span></span><br><span class="line"><span class="built_in">print</span>(matrix)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>print(matrix)</code></strong>: 使用 <code>print()</code> 函数将 <code>matrix</code> 的内容输出到控制台<br>，显示 N 行 N 列的二维矩阵及其所有元素。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打印矩阵所有元素的和</span></span><br><span class="line"><span class="built_in">print</span>(matrix.<span class="built_in">sum</span>())</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>matrix.sum()</code></strong>: 使用 <code>numpy</code> 库中的 <code>sum()</code> 方法计算矩阵中所有元素<br>的总和。最终结果赋值给变量 <code>matrix.sum()</code>。</li>
+<li><strong><code>print(...)</code></strong>: 将上述总和结果输出到控制台。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打印每一行的和</span></span><br><span class="line"><span class="built_in">print</span>(matrix.<span class="built_in">sum</span>(axis=<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>matrix.sum(axis=1)</code></strong>: 使用 <code>numpy</code> 库中的 <code>sum()</code> 方法计算矩阵中每<br>一行元素的总和。参数 <code>axis=1</code> 指定了沿着行方向进行求和操作。最终结果赋值<br>给变量 <code>matrix.sum(axis=1)</code>。</li>
+<li><strong><code>print(...)</code></strong>: 将上述每一行的和结果输出到控制台。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2025/01/04/python%E8%80%83%E8%AF%95%E7%A8%8B%E5%BA%8F%E9%A2%98/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2024/12/31/python%E8%80%83%E8%AF%952/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">python考试2</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "DAeOYIeCtfnPwFeKf96Drmpe-MdYXbMMI",
+    app_key: "kTYIzQjQl7fiwPZRR4NMuaEe#",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+  
+    
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2023-2025
+        <i class="ri-heart-fill heart_icon"></i> John Doe
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="老夏十三行"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯茶吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js"></script>
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/config/TeX-AMS-MML_HTMLorMML-full.js"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>
