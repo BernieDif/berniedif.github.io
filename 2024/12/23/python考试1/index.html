@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">4.9k</span>
+            <span class="post-count">4.7k</span>
         </span>
     </span>
 
@@ -93,7 +93,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">19 min</span>
+            <span class="post-count">18 min</span>
         </span>
     </span>
 </div>
@@ -338,10 +338,10 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入正整数n: &quot;</span>))</span><br><span class="line">formatted_str = <span class="string">&quot;&#123;:*^20&#125;&quot;</span>.<span class="built_in">format</span>(<span class="string">f&quot;<span class="subst">&#123;n:,<span class="number">.0</span>f&#125;</span>&quot;</span>)  <span class="comment"># 使用科学计数法并填充*</span></span><br><span class="line"><span class="built_in">print</span>(formatted_str)</span><br></pre></td></tr></table></figure>
 
 <p>左对齐</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入一个正整数: &quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将整数转换为字符串，并在适当的位置插入逗号作为千位分隔符</span></span><br><span class="line"><span class="comment"># 使用Python内置的格式化字符串方法</span></span><br><span class="line">formatted_n = <span class="string">&quot;&#123;:,&#125;&quot;</span>.<span class="built_in">format</span>(n).zfill(<span class="number">20</span>).rstrip(<span class="string">&#x27;0&#x27;</span>).rstrip(<span class="string">&#x27;,&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用ljust方法将字符串左对齐，并用&#x27;*&#x27;填充到总长度为20</span></span><br><span class="line"><span class="comment"># 注意：由于前面已经插入了逗号，并且可能进行了zfill和rstrip操作，</span></span><br><span class="line"><span class="comment"># 所以我们需要重新计算需要填充的&#x27;*&#x27;的数量，但ljust会帮我们处理这个</span></span><br><span class="line">final_output = formatted_n.ljust(<span class="number">20</span>, <span class="string">&#x27;*&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line"><span class="built_in">print</span>(final_output)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入正整数n: &quot;</span>))</span><br><span class="line">formatted_str = <span class="string">&quot;&#123;:*&lt;20&#125;&quot;</span>.<span class="built_in">format</span>(<span class="string">f&quot;<span class="subst">&#123;n:,<span class="number">.0</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(formatted_str)</span><br></pre></td></tr></table></figure>
 
 <p>右对齐</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入一个正整数: &quot;</span>))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 将整数转换为字符串，并在适当位置插入逗号作为千位分隔符</span></span><br><span class="line"><span class="comment"># 使用Python内置的format函数或者f-string来格式化字符串</span></span><br><span class="line">formatted_n = <span class="string">f&quot;<span class="subst">&#123;n:,&#125;</span>&quot;</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 创建一个宽度为20的字符串，数字右对齐，不足部分用*填充</span></span><br><span class="line"><span class="comment"># 使用str.rjust方法来实现右对齐和填充</span></span><br><span class="line">output = formatted_n.rjust(<span class="number">20</span>, <span class="string">&#x27;*&#x27;</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 打印结果</span></span><br><span class="line"><span class="built_in">print</span>(output)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入正整数n: &quot;</span>))</span><br><span class="line">formatted_str = <span class="string">&quot;&#123;:*&gt;20&#125;&quot;</span>.<span class="built_in">format</span>(<span class="string">f&quot;<span class="subst">&#123;n:,<span class="number">.0</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(formatted_str)</span><br></pre></td></tr></table></figure>
 
 <h4 id="题目2：编程题-循环结构"><a href="#题目2：编程题-循环结构" class="headerlink" title="题目2：编程题-循环结构"></a>题目2：编程题-循环结构</h4><p><strong>题目描述</strong>：<br>编写程序，实现从键盘输入正整数n，令m表示小于等于n的最大偶数，计算并输出2^2 + 4^2 + …… + m^2的值。</p>
 <p><strong>解析</strong>：<br>首先，我们需要找到小于等于n的最大偶数m。然后，我们可以使用一个循环来计算平方和。</p>
@@ -525,7 +525,7 @@
     <ul>
       <li>
         Copyrights &copy;
-        2023-2024
+        2023-2025
         <i class="ri-heart-fill heart_icon"></i> John Doe
       </li>
     </ul>
