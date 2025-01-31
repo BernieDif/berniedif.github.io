@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title> 老夏十三行</title>
+      <title>Multi-Robot Collaborative Dense Scene Reconstruction |  老夏十三行</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -55,488 +55,308 @@
     
       
     <main class="content on">
-      
-<section class="cover">
+      <section class="outer">
+  <article
+  id="post-Multi-Robot Collaborative Dense Scene Reconstruction"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
     
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Multi-Robot Collaborative Dense Scene Reconstruction
+</h1>
+ 
+
       
-      <a class="forkMe" href="https://github.com/Shen-Yu/hexo-theme-ayer"
-        target="_blank"><img width="149" height="149" src="/images/forkme.png"
-          class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
-    
-  <div class="cover-frame">
-    <div class="bg-box">
-      <img src="/images/BingWallpaper (7).jpg" alt="image frame" />
-    </div>
-    <div class="cover-inner text-center text-white">
-      <h1><a href="/">老夏十三行</a></h1>
-      <div id="subtitle-box">
-        
-          <span id="subtitle"></span>
-        
-      </div>
-      <div>
-        
-      </div>
-    </div>
-  </div>
-  <div class="cover-learn-more">
-    <a href="javascript:void(0)" class="anchor"><i class="ri-arrow-down-line"></i></a>
-  </div>
-</section>
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2025/01/31/Multi-Robot%20Collaborative%20Dense%20Scene%20Reconstruction/" class="article-date">
+  <time datetime="2025-01-31T14:16:05.000Z" itemprop="datePublished">2025-01-31</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">1.1k</span>
+        </span>
+    </span>
 
-
-
-
-<!-- Subtitle -->
-
-<div id="main">
-  <section class="outer">
-  
-  
-  
-
-<div class="notice" style="margin-top:50px">
-    <i class="ri-heart-fill"></i>
-    <div class="notice-content" id="broad"></div>
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">3 min</span>
+        </span>
+    </span>
 </div>
-<script type="text/javascript">
-    fetch('https://v1.hitokoto.cn')
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("broad").innerHTML = data.hitokoto;
-        })
-        .catch(console.error)
-</script>
-
-<style>
-    .notice {
-        padding: 20px;
-        border: 1px dashed #e6e6e6;
-        color: #969696;
-        position: relative;
-        display: inline-block;
-        width: 100%;
-        background: #fbfbfb50;
-        border-radius: 10px;
-    }
-
-    .notice i {
-        float: left;
-        color: #999;
-        font-size: 16px;
-        padding-right: 10px;
-        vertical-align: middle;
-        margin-top: -2px;
-    }
-
-    .notice-content {
-        display: initial;
-        vertical-align: middle;
-    }
-</style>
-  
-  <article class="articles">
-    
-    
-    
-    
-    <article
-  id="post-小样本分类常用分类方法"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2024/11/23/%E5%B0%8F%E6%A0%B7%E6%9C%AC%E5%88%86%E7%B1%BB%E5%B8%B8%E7%94%A8%E5%88%86%E7%B1%BB%E6%96%B9%E6%B3%95/"
-    >小样本分类常用分类方法</a> 
-</h2>
  
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2024/11/23/%E5%B0%8F%E6%A0%B7%E6%9C%AC%E5%88%86%E7%B1%BB%E5%B8%B8%E7%94%A8%E5%88%86%E7%B1%BB%E6%96%B9%E6%B3%95/" class="article-date">
-  <time datetime="2024-11-23T11:09:46.000Z" itemprop="datePublished">2024-11-23</time>
-</a>    
     </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
        
+  <h4 id="一、知识点"><a href="#一、知识点" class="headerlink" title="一、知识点"></a>一、知识点</h4><ol>
+<li><p><strong>三维重建（3D Reconstruction）</strong>：</p>
+<ul>
+<li>三维重建是指从二维图像或传感器数据中恢复出三维空间信息的过程。本文聚焦于室内场景的三维密集重建。</li>
+</ul>
+</li>
+<li><p><strong>多机器人协作（Multi-Robot Collaboration）</strong>：</p>
+<ul>
+<li>多机器人协作涉及多个机器人共同完成任务，通过分工合作提高效率和准确性。本文中，多个机器人协作进行三维扫描，以覆盖更广的区域并提高重建质量。</li>
+</ul>
+</li>
+<li><p><strong>不确定性评估（Uncertainty Evaluation）</strong>：</p>
+<ul>
+<li>在三维重建过程中，不确定性评估用于确定当前重建结果中的不确定区域，这些区域是后续扫描的重点。</li>
+</ul>
+</li>
+<li><p><strong>任务分配问题（Task Assignment Problem）</strong>：</p>
+<ul>
+<li>任务分配问题在多机器人系统中至关重要，它决定了每个机器人应执行的任务。本文采用了一种基于最优质量传输（Optimal Mass Transport, OMT）的方法来分配任务。</li>
+</ul>
+</li>
+</ol>
+<h4 id="二、方法"><a href="#二、方法" class="headerlink" title="二、方法"></a>二、方法</h4><p>本文提出了一种多机器人协作密集场景重建的算法，该算法包括以下几个关键步骤：</p>
+<ol>
+<li><p><strong>任务视图提取</strong>：</p>
+<ul>
+<li>基于当前重建结果的不确定性，从部分扫描的场景中提取一组任务视图点。这些视图点代表了需要进一步扫描的区域。</li>
+</ul>
+</li>
+<li><p><strong>任务分配</strong>：</p>
+<ul>
+<li>采用基于最优质量传输（OMT）的方法将任务视图分配给各个机器人。这种方法考虑了扫描覆盖率和重建质量，同时最小化整体扫描努力。</li>
+</ul>
+</li>
+<li><p><strong>路径规划</strong>：</p>
+<ul>
+<li>为每个机器人规划扫描路径，以确保它们能够高效地访问其分配的任务视图点。路径规划采用了一种近似旅行商问题（TSP）的求解方法。</li>
+</ul>
+</li>
+<li><p><strong>扫描轨迹优化</strong>：</p>
+<ul>
+<li>在实际扫描过程中，根据机器人的实时位置和扫描数据，对扫描轨迹进行动态调整和优化，以提高扫描效率和重建质量。</li>
+</ul>
+</li>
+<li><p><strong>系统实现</strong>：</p>
+<ul>
+<li>实现了一个多机器人自动扫描系统，该系统能够实时处理机器人的扫描数据，进行在线场景重建和路径规划。</li>
+</ul>
+</li>
+</ol>
+<h4 id="三、创新"><a href="#三、创新" class="headerlink" title="三、创新"></a>三、创新</h4><ol>
+<li><p><strong>提出了一种新的多机器人协作扫描方法</strong>：</p>
+<ul>
+<li>该方法通过结合和共享多个机器人的扫描资源，实现了对场景的联合重建。与单个机器人扫描相比，显著提高了扫描速度和重建质量。</li>
+</ul>
+</li>
+<li><p><strong>采用基于最优质量传输的任务分配方法</strong>：</p>
+<ul>
+<li>这种方法不仅考虑了扫描覆盖率，还考虑了重建质量，从而能够更合理地分配任务给各个机器人。</li>
+</ul>
+</li>
+<li><p><strong>实现了实时在线场景重建和路径规划</strong>：</p>
+<ul>
+<li>通过高效的算法和系统实现，本文的方法能够在真实环境中实时处理机器人的扫描数据，进行在线场景重建和路径规划，从而提高了扫描效率和重建质量。</li>
+</ul>
+</li>
+<li><p><strong>考虑了多种实际应用场景</strong>：</p>
+<ul>
+<li>本文的方法不仅适用于简单的室内场景，还能够在包含墙壁和家具等复杂元素的室内环境中进行高效扫描和重建。</li>
+</ul>
+</li>
+</ol>
+<h4 id="四、意义"><a href="#四、意义" class="headerlink" title="四、意义"></a>四、意义</h4><ol>
+<li><p><strong>推动了多机器人协作技术的发展</strong>：</p>
+<ul>
+<li>本文提出的方法为多机器人协作技术在三维重建领域的应用提供了新的思路和方法，推动了该技术的进一步发展。</li>
+</ul>
+</li>
+<li><p><strong>提高了三维重建的效率和准确性</strong>：</p>
+<ul>
+<li>通过多机器人协作和高效的算法实现，本文的方法显著提高了三维重建的效率和准确性，为相关领域的研究和应用提供了新的工具和方法。</li>
+</ul>
+</li>
+<li><p><strong>拓展了三维重建技术的应用范围</strong>：</p>
+<ul>
+<li>本文的方法不仅适用于室内场景的三维重建，还可以拓展到室外场景、文化遗产保护、虚拟现实等领域，具有广泛的应用前景。</li>
+</ul>
+</li>
+<li><p><strong>促进了相关领域的研究和交流</strong>：</p>
+<ul>
+<li>本文的研究成果不仅为相关领域的研究人员提供了新的思路和方法，还促进了相关领域的研究和交流，推动了相关学科的交叉融合和发展。</li>
+</ul>
+</li>
+</ol>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
 
     <!-- copyright -->
     
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
     <footer class="article-footer">
        
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E6%A0%B7%E6%9C%AC%E5%88%86%E7%B1%BB/" rel="tag">小样本分类</a></li></ul>
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2025/01/31/Multi-Robot%20Collaborative%20Dense%20Scene%20Reconstruction/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A7%86%E8%A7%89%E5%AF%BC%E8%88%AA/" rel="tag">视觉导航</a></li></ul>
 
     </footer>
   </div>
 
-    
- 
    
-  
-</article>
-
+  <nav class="article-nav">
     
-    <article
-  id="post-小样本目标检测简单介绍"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
+      <a href="/2025/01/31/Back%20to%20Newton%E2%80%99s%20Laws%20Learning%20Vision-based/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            Back to Newton’s Laws Learning Vision-based Agile Flight via Differentiable Physics
+          
+        </div>
+      </a>
     
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2024/11/17/%E5%B0%8F%E6%A0%B7%E6%9C%AC%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/"
-    >小样本目标检测简单介绍</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2024/11/17/%E5%B0%8F%E6%A0%B7%E6%9C%AC%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/" class="article-date">
-  <time datetime="2024-11-17T11:50:57.000Z" itemprop="datePublished">2024-11-17</time>
-</a>    
-    </div>
-       
-
-    <!-- copyright -->
     
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E6%A0%B7%E6%9C%AC%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/" rel="tag">小样本目标检测</a></li></ul>
-
-    </footer>
-  </div>
-
+      <a href="/2025/01/31/DRL-VO%20Learning%20to%20Navigate%20Through%20Crowded%20Dynamic%20Scenes%20Using%20Velocity%20Obstacles/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">DRL-VO Learning to Navigate Through Crowded Dynamic Scenes Using Velocity Obstacles</div>
+      </a>
     
- 
-   
-  
-</article>
-
-    
-    <article
-  id="post-python：类"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2024/11/15/python%EF%BC%9A%E7%B1%BB/"
-    >python：类</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2024/11/15/python%EF%BC%9A%E7%B1%BB/" class="article-date">
-  <time datetime="2024-11-15T08:06:06.000Z" itemprop="datePublished">2024-11-15</time>
-</a>    
-    </div>
-       
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%9C%E4%B8%9A/" rel="tag">作业</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%B1%BB/" rel="tag">类</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-   
-  
-</article>
-
-    
-    <article
-  id="post-python：函数2"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2024/11/13/python%EF%BC%9A%E5%87%BD%E6%95%B02/"
-    >python作业：函数2</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2024/11/13/python%EF%BC%9A%E5%87%BD%E6%95%B02/" class="article-date">
-  <time datetime="2024-11-13T11:29:24.000Z" itemprop="datePublished">2024-11-13</time>
-</a>    
-    </div>
-       
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%9C%E4%B8%9A/" rel="tag">作业</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0/" rel="tag">匿名函数</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/" rel="tag">定义函数</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-   
-  
-</article>
-
-    
-    <article
-  id="post-“python：函数1”解析"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2024/11/07/%E2%80%9Cpython%EF%BC%9A%E5%87%BD%E6%95%B01%E2%80%9D%E8%A7%A3%E6%9E%90/"
-    >“python：函数1”解析</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2024/11/07/%E2%80%9Cpython%EF%BC%9A%E5%87%BD%E6%95%B01%E2%80%9D%E8%A7%A3%E6%9E%90/" class="article-date">
-  <time datetime="2024-11-07T06:38:27.000Z" itemprop="datePublished">2024-11-07</time>
-</a>    
-    </div>
-       
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%9C%E4%B8%9A/" rel="tag">作业</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0/" rel="tag">定义函数</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-   
-  
-</article>
-
-    
-    <article
-  id="post-Jupyter-Notebook-启动器使用指南"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2024/11/07/Jupyter-Notebook-%E5%90%AF%E5%8A%A8%E5%99%A8%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"
-    >Jupyter Notebook 启动器使用指南</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2024/11/07/Jupyter-Notebook-%E5%90%AF%E5%8A%A8%E5%99%A8%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="article-date">
-  <time datetime="2024-11-07T00:40:03.000Z" itemprop="datePublished">2024-11-07</time>
-</a>    
-    </div>
-       
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jupyter-notebook/" rel="tag">jupyter notebook</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%90%AF%E5%8A%A8%E5%99%A8/" rel="tag">启动器</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-   
-  
-</article>
-
-    
-    <article
-  id="post-“python：字典的练习”解析"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2024/11/06/%E2%80%9Cpython%EF%BC%9A%E5%AD%97%E5%85%B8%E7%9A%84%E7%BB%83%E4%B9%A0%E2%80%9D%E8%A7%A3%E6%9E%90/"
-    >“python：字典的练习”解析</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2024/11/06/%E2%80%9Cpython%EF%BC%9A%E5%AD%97%E5%85%B8%E7%9A%84%E7%BB%83%E4%B9%A0%E2%80%9D%E8%A7%A3%E6%9E%90/" class="article-date">
-  <time datetime="2024-11-06T10:46:26.000Z" itemprop="datePublished">2024-11-06</time>
-</a>    
-    </div>
-       
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BD%9C%E4%B8%9A/" rel="tag">作业</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%97%E5%85%B8/" rel="tag">字典</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-   
-  
-</article>
-
-    
-    <article
-  id="post-About-this-blog"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2024/11/06/About-this-blog/"
-    >About this blog</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2024/11/06/About-this-blog/" class="article-date">
-  <time datetime="2024-11-06T08:24:34.000Z" itemprop="datePublished">2024-11-06</time>
-</a>    
-    </div>
-       
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B5%B7%E7%82%B9/" rel="tag">起点</a></li></ul>
-
-    </footer>
-  </div>
-
-    
- 
-   
-  
-</article>
-
-    
-    <article
-  id="post-hello-world"
-  class="article article-type-post"
-  itemscope
-  itemprop="blogPost"
-  data-scroll-reveal
->
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2024/11/06/hello-world/"
-    >Hello World</a> 
-</h2>
- 
-
-      
-    </header>
-     
-    <div class="article-meta">
-      <a href="/2024/11/06/hello-world/" class="article-date">
-  <time datetime="2024-11-06T02:48:19.668Z" itemprop="datePublished">2024-11-06</time>
-</a>    
-    </div>
-       
-
-    <!-- copyright -->
-    
-    <footer class="article-footer">
-       
-    </footer>
-  </div>
-
-    
- 
-   
-  
-</article>
-
-    
-  </article>
-  
-
-  
-  <nav class="page-nav">
-    
-    <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
   </nav>
-  
-</section>
-</div>
 
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "DAeOYIeCtfnPwFeKf96Drmpe-MdYXbMMI",
+    app_key: "kTYIzQjQl7fiwPZRR4NMuaEe#",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+  
+    
+</article>
+
+</section>
       <footer class="footer">
   <div class="outer">
     <ul>
@@ -680,6 +500,22 @@
 <script src="/js/lazyload.min.js"></script>
 
 <!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
 
 <script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
 <link
