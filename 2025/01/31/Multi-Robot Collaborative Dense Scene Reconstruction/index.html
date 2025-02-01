@@ -84,7 +84,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">1.1k</span>
+            <span class="post-count">1.2k</span>
         </span>
     </span>
 
@@ -93,7 +93,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">3 min</span>
+            <span class="post-count">4 min</span>
         </span>
     </span>
 </div>
@@ -159,25 +159,11 @@
 </li>
 </ol>
 <h4 id="三、创新"><a href="#三、创新" class="headerlink" title="三、创新"></a>三、创新</h4><ol>
-<li><p><strong>提出了一种新的多机器人协作扫描方法</strong>：</p>
-<ul>
-<li>该方法通过结合和共享多个机器人的扫描资源，实现了对场景的联合重建。与单个机器人扫描相比，显著提高了扫描速度和重建质量。</li>
-</ul>
+<li><p><strong>基于OMT的任务分配</strong>：论文引入了最优质量传输（Optimal Mass Transport，OMT）理论进行扫描任务分配。通过将扫描任务视为需要传输的“质量”，论文构建了一个优化模型，以最小化传输成本为目标，实现了对扫描任务的合理分配。这种方法不仅提高了任务分配的效率，还确保了每个机器人都能获得适量的扫描任务。</p>
 </li>
-<li><p><strong>采用基于最优质量传输的任务分配方法</strong>：</p>
-<ul>
-<li>这种方法不仅考虑了扫描覆盖率，还考虑了重建质量，从而能够更合理地分配任务给各个机器人。</li>
-</ul>
+<li><p><strong>TSP路径规划</strong>：在任务分配完成后，论文采用TSP算法为每个机器人规划了一条最优的扫描路径。TSP问题是一个经典的组合优化问题，旨在找到一条经过所有给定点的最短路径。论文将TSP算法应用于多机器人协作三维扫描中，为每个机器人规划了一条经过其所有分配任务的最短路径。这种方法不仅提高了机器人的扫描效率，还确保了扫描路径的连续性和平滑性。</p>
 </li>
-<li><p><strong>实现了实时在线场景重建和路径规划</strong>：</p>
-<ul>
-<li>通过高效的算法和系统实现，本文的方法能够在真实环境中实时处理机器人的扫描数据，进行在线场景重建和路径规划，从而提高了扫描效率和重建质量。</li>
-</ul>
-</li>
-<li><p><strong>考虑了多种实际应用场景</strong>：</p>
-<ul>
-<li>本文的方法不仅适用于简单的室内场景，还能够在包含墙壁和家具等复杂元素的室内环境中进行高效扫描和重建。</li>
-</ul>
+<li><p><strong>动态任务分配与路径重规划</strong>：考虑到扫描过程中场景的动态变化，论文还提出了一种动态任务分配与路径重规划的方法。该方法能够根据扫描进度和场景变化实时调整任务分配和路径规划，以确保扫描任务的顺利完成和重建质量的最优化。</p>
 </li>
 </ol>
 <h4 id="四、意义"><a href="#四、意义" class="headerlink" title="四、意义"></a>四、意义</h4><ol>
