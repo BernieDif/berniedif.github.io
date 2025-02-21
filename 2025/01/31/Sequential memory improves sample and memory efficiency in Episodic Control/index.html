@@ -82,7 +82,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">1.5k</span>
+            <span class="post-count">1.3k</span>
         </span>
     </span>
 
@@ -91,7 +91,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">5 min</span>
+            <span class="post-count">4 min</span>
         </span>
     </span>
 </div>
@@ -107,54 +107,94 @@
     <div class="article-entry" itemprop="articleBody">
        
   <h4 id="一、知识点"><a href="#一、知识点" class="headerlink" title="一、知识点"></a>一、知识点</h4><ol>
-<li><p><strong>深度强化学习（Deep Reinforcement Learning, DRL）</strong>：</p>
+<li><p>深度强化学习（Deep Reinforcement Learning, DRL）：</p>
 <ul>
 <li>DRL结合了深度学习的表征能力和强化学习的决策能力，旨在通过与环境交互来学习最优策略。</li>
 <li>样本效率低下是DRL的一个主要问题，通常需要大量数据才能达到最优性能。</li>
 </ul>
 </li>
-<li><p><strong>记忆增强</strong>：</p>
+<li><p>记忆增强：</p>
 <ul>
 <li>为了解决DRL的样本效率低下问题，研究者提出了使用扩展记忆系统的方法，以利用过去的经验。</li>
 <li>记忆增强技术通常作为缓冲区使用，从中重新采样孤立事件以供离线学习。</li>
+<li>通过扩展记忆系统或利用过去获得更高奖励的经验进行值传播的方法，可以提高学习效率。例如，EMDQN通过并行设置一个记忆缓冲区来提高奖励传播的速度和样本效率。EBU模型则在采样完整的一集后，将状态的价值传播到之前的状态。</li>
 </ul>
 </li>
-<li><p><strong>情景强化学习（Episodic Reinforcement Learning, ERL）</strong>：</p>
+<li><p>情景强化学习（Episodic Reinforcement Learning, ERL）：</p>
 <ul>
 <li>ERL是一种通过存储和检索过去成功经历来快速学习最优策略的强化学习方法。</li>
 <li>它受到哺乳动物海马体的启发，并尝试通过实例学习来提高样本效率。</li>
 </ul>
 </li>
-<li><p><strong>马尔可夫决策过程（MDP）模型</strong>：</p>
+<li><p>马尔可夫决策过程（MDP）模型：</p>
 <ul>
 <li>MDP在决策制定和优化问题中表现出了强大的能力，但它也存在一些局限性。例如，MDP假设未来状态仅与当前状态和所采取的动作有关，而与过去的历史状态无关。这在实际应用中可能并不总是成立，因为某些系统的未来状态可能受到过去历史状态的影响。此外，MDP的状态和动作空间可能非常大，导致求解过程变得非常复杂和耗时。为了克服这些局限性，研究人员正在探索一些改进方向，例如部分可观察马尔可夫决策过程（POMDP）和深度强化学习等</li>
 </ul>
 </li>
+<li><p>Q学习（Q-learning）：</p>
+<ul>
+<li>一种强化学习算法，用于学习行动价值函数，即在给定状态下采取特定行动的预期回报。</li>
+</ul>
+</li>
+<li><p>SEC与ERLAM的主要区别:</p>
+<ul>
+<li>后者基于存储经验的状态转换构建图，以启动参数化RL代理的学习，而SEC则以顺序目标导向的方式存储记忆，保留<code>动作的时间结构</code>，并直接使用这个记忆缓冲区进行动作选择和控制</li>
+</ul>
+</li>
+<li><p>DAC理论：</p>
+<ul>
+<li>DAC（Dynamic Adaptive Control）理论认为大脑是一个多层次的控制系统，包含反应性预设行为、适应性状态空间编码和情境决策。</li>
+</ul>
+</li>
 </ol>
 <h4 id="二、方法"><a href="#二、方法" class="headerlink" title="二、方法"></a>二、方法</h4><ol>
-<li><p><strong>模型对比</strong>：</p>
-<ul>
-<li>论文对比了多种强化学习和情景控制模型，包括Deep-Q Network（DQN）、Model-Free Episodic Control（MFEC）、以及Episodic Reinforcement Learning with Associative Memory（ERLAM）。</li>
-<li>此外，为了理解顺序性的具体作用，还添加了一个不包含顺序性的控制版本模型（NSEC）。</li>
-</ul>
+<li><p>行动选择算法：</p>
+<ol>
+<li>初始化：在每个新的episodes开始时，初始化一个空的短期记忆（STM）。</li>
+<li>环境交互：在每个时间步t，从环境中接收观察结果ot 。</li>
+<li>状态编码：通过自编码器将观察结果ot编码为状态st，即st &#x3D; ϕ(ot) 。</li>
+<li>记忆检索：使用公式1和公式4检索与当前状态st相关的记忆，并估计每个动作a的回报 。</li>
+<li>动作选择：根据动作价值函数QaϵA(st)选择动作at，即at ← π(QaϵA(st)) 。</li>
+<li>执行动作并接收奖励：执行动作at，并从环境中接收奖励rt+1 。</li>
+<li>更新短期记忆：将状态-动作对(st, at)添加到STM中 。</li>
+<li>时间步增加：时间步t增加1 。</li>
+<li>循环继续：如果rt &#x3D; 0，则继续循环；否则，将STM的内容和奖励rt转移到长期记忆（LTM）中 。</li>
+<li>结束条件：如果达到最大时间步数T或奖励rt &gt; 0，则结束当前episodes 。</li>
+<li>重复执行：对每个episodes重复上述步骤 。</li>
+</ol>
 </li>
-<li><p><strong>顺序情景控制（Sequential Episodic Control, SEC）</strong>：</p>
-<ul>
-<li>SEC是一种结合了顺序性和记忆容量的情景控制方法，旨在通过顺序绑定事件成目标导向的情景，并利用情景检索来影响学习动态。</li>
-<li>SEC通过使用卷积自动编码器对状态进行嵌入，从而实现了对情景的高效存储和检索。</li>
-</ul>
-</li>
-<li><p><strong>实验设置</strong>：</p>
-<ul>
-<li>论文在多个基准任务上评估了SEC的性能，包括Double T-Maze任务、Animal-AI环境等。</li>
-<li>通过与DQN、MFEC、ERLAM等模型的对比，展示了SEC在达到更高奖励、更快策略收敛以及更强政策稳定性方面的优势。</li>
-</ul>
+<li><p>奖励函数：</p>
+<p>其中动作值函数Qπ(s, a)被定义为在遵循策略π(st, at)并采取动作at后，从状态st开始的预期折现回报Rt的期望值。<br>预期折现回报公式：</p>
 </li>
 </ol>
-<h4 id="三、创新"><a href="#三、创新" class="headerlink" title="三、创新"></a>三、创新</h4><h5 id="1-SEC模型概述"><a href="#1-SEC模型概述" class="headerlink" title="1. SEC模型概述"></a>1. SEC模型概述</h5><p>SEC模型是在深度强化学习（DRL）的基础上发展而来，旨在通过利用过去成功经验的序列来控制智能体的行为，从而快速学习最优策略。该模型深受哺乳动物海马体功能的启发，将海马体视为一个多层控制系统，包括反应性的预定义行为、适应性的状态空间编码以及情境性的审慎决策。在SEC框架下，这些功能被整合进一个统一的模型中，使智能体能够根据环境反馈和内部状态动态调整其行为。</p>
-<h5 id="2-序贯性控制：事件序列的整合与目标导向"><a href="#2-序贯性控制：事件序列的整合与目标导向" class="headerlink" title="2. 序贯性控制：事件序列的整合与目标导向"></a>2. 序贯性控制：事件序列的整合与目标导向</h5><p>SEC模型的核心优势之一在于其序贯性控制能力。传统强化学习算法往往将每个时间步视为独立的事件，而SEC则通过整合一系列相关事件形成目标导向的序列，从而更准确地捕捉环境中的动态变化。这种整合不仅提高了智能体对环境状态的感知能力，还使其能够基于更丰富的历史信息做出更明智的决策。序贯性控制使得SEC模型在需要记忆和决策的任务中表现出色，如复杂的迷宫导航或实时策略游戏。</p>
-<h5 id="3-记忆系统优化：高效存储与检索"><a href="#3-记忆系统优化：高效存储与检索" class="headerlink" title="3. 记忆系统优化：高效存储与检索"></a>3. 记忆系统优化：高效存储与检索</h5><p>在记忆系统方面，SEC模型采用了创新的存储和检索机制。与仅将记忆作为离线学习缓冲区的传统方法不同，SEC模型将记忆视为一个动态更新的知识库，其中存储了智能体与环境交互过程中的关键事件和状态转移信息。这种优化不仅提高了记忆系统的利用效率，还使智能体能够更快地检索并利用过去成功经验来指导当前行为。此外，SEC模型还通过限制记忆容量来模拟真实生物体的记忆限制，从而进一步增强了其在实际应用中的泛化能力。</p>
-<h5 id="4-遗忘机制：平衡记忆与策略稳定性"><a href="#4-遗忘机制：平衡记忆与策略稳定性" class="headerlink" title="4. 遗忘机制：平衡记忆与策略稳定性"></a>4. 遗忘机制：平衡记忆与策略稳定性</h5><p>遗忘机制是SEC模型的另一大亮点。在强化学习中，长期记忆可能导致智能体陷入局部最优解或过度拟合特定环境状态。为了避免这一问题，SEC模型引入了一种基于遗忘的策略稳定化机制。该机制通过定期清除或减弱不再重要的记忆信息，帮助智能体保持对环境的敏感性和适应性。遗忘机制不仅提高了智能体的学习效率，还使其能够在不断变化的环境中保持策略的稳定性。实验表明，与没有遗忘机制的SEC变体相比，引入遗忘机制的SEC模型在多个基准任务中取得了更高的奖励和更快的策略收敛速度。</p>
+<p>$$<br>Rt &#x3D; \sum_{k&#x3D;0}^{T} \gamma^k r_{t+k}<br>$$<br>其中，T是回合的长度，γ是折扣因子，取值范围在(0, 1]之间，rt+k是在时间t+k时获得的奖励。此外，文档还提到了在SEC模型中，动作值函数是基于三个因素计算的：感知相似度、序列偏差和折现奖励值。</p>
+<ol start="3">
+<li>顺序情节控制架构</li>
+</ol>
+<p>SEC可以分为三个层次：反应层、自适应层和情境层。反应层（绿色）实现了一个预定义的随机探索算法。自适应层（蓝色）通过卷积自编码器获取世界的状况，而情境层（红色）整合了一个<code>短期</code>和<code>长期</code>的情节记忆缓冲区以及一个<code>行动选择算法</code>。</p>
+<p><img src="/images/SEC%E6%9E%B6%E6%9E%84.jpg" alt="SEC结构"></p>
+<ol start="4">
+<li>遗忘机制：<br>在模型的长期记忆（LTM）中引入了两种遗忘机制：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>遗忘机制</th>
+<th>工作方式</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FIFO遗忘</td>
+<td>先进先出，最早的记忆被移除，类似于SEC短期记忆（STM）的更新机制</td>
+<td>保持最新记忆，节约空间以优化性能</td>
+</tr>
+<tr>
+<td>基于奖励的优先遗忘</td>
+<td>优先保留高奖励记忆，遗忘低奖励记忆</td>
+<td>有助于模型保持对高回报经验的记忆，从而在决策时能够利用这些经验</td>
+</tr>
+</tbody></table>
  
       <!-- reward -->
       
