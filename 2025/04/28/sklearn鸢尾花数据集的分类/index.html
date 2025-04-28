@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>无法粘贴解决方法 |  老夏十三行</title>
+      <title>sklearn鸢尾花数据集的分类 |  老夏十三行</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -55,7 +55,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-无法粘贴解决方法"
+  id="post-sklearn鸢尾花数据集的分类"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -66,7 +66,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  无法粘贴解决方法
+  sklearn鸢尾花数据集的分类
 </h1>
  
 
@@ -74,8 +74,8 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2025/04/19/%E6%97%A0%E6%B3%95%E7%B2%98%E8%B4%B4%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="article-date">
-  <time datetime="2025-04-19T11:57:15.000Z" itemprop="datePublished">2025-04-19</time>
+      <a href="/2025/04/28/sklearn%E9%B8%A2%E5%B0%BE%E8%8A%B1%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E5%88%86%E7%B1%BB/" class="article-date">
+  <time datetime="2025-04-28T11:29:01.000Z" itemprop="datePublished">2025-04-28</time>
 </a> 
   <div class="article-category">
     <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/">技术分享</a>
@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">697</span>
+            <span class="post-count">771</span>
         </span>
     </span>
 
@@ -95,64 +95,51 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">2 min</span>
+            <span class="post-count">3 min</span>
         </span>
     </span>
 </div>
  
     </div>
       
-    <div class="tocbot"></div>
-
 
 
 
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>在日常工作和开发中，我们有时需要编写一些自动化脚本来模拟键盘输入，比如自动填写表单、测试程序等。本文将介绍一个简单的Python脚本，利用<code>pynput</code>库实现模拟键盘输入功能。</p>
-<span id="more"></span>
-
-<h3 id="脚本功能"><a href="#脚本功能" class="headerlink" title="脚本功能"></a>脚本功能</h3><p>该脚本的主要功能如下：</p>
+  <p>摘要<br>本文基于sklearn鸢尾花数据集，通过数据可视化、统计分析和机器学习算法建立了分类模型。利用matplotlib实现特征分布可视化，采用KNN分类器进行模型训练，最终达到97.78%的测试准确率，为植物分类问题提供有效的数学建模方法。</p>
 <ol>
-<li>等待用户输入一个字符串。</li>
-<li>延迟10秒，并在控制台打印从0到9的数字。</li>
-<li>模拟键盘输入用户提供的字符串，每个字符之间有0.1秒的延迟。</li>
-</ol>
-<h3 id="脚本代码"><a href="#脚本代码" class="headerlink" title="脚本代码"></a>脚本代码</h3><p>以下是完整的脚本代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"><span class="keyword">from</span> pynput.keyboard <span class="keyword">import</span> Controller, Key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取用户输入的字符串</span></span><br><span class="line">input_string = <span class="built_in">input</span>(<span class="string">&quot;请输入需要模拟输入的字符串：&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 延迟10秒，并打印从0到9的数字</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;start&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化键盘控制器</span></span><br><span class="line">keyboard = Controller()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 模拟键盘输入用户提供的字符串</span></span><br><span class="line"><span class="keyword">for</span> char <span class="keyword">in</span> input_string:</span><br><span class="line">    keyboard.press(char)</span><br><span class="line">    time.sleep(<span class="number">0.1</span>)</span><br><span class="line">    keyboard.release(char)</span><br><span class="line">    time.sleep(<span class="number">0.1</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析"></a>代码解析</h3><h4 id="1-导入必要的库"><a href="#1-导入必要的库" class="headerlink" title="1. 导入必要的库"></a>1. 导入必要的库</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"><span class="keyword">from</span> pynput.keyboard <span class="keyword">import</span> Controller, Key</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>time</code>：用于实现延迟功能。</li>
-<li><code>itertools</code>：虽然在本脚本中未使用，但通常在需要迭代器功能时会用到。</li>
-<li><code>pynput.keyboard</code>：用于控制键盘输入。</li>
-</ul>
-<h4 id="2-获取用户输入"><a href="#2-获取用户输入" class="headerlink" title="2. 获取用户输入"></a>2. 获取用户输入</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">input_string = <span class="built_in">input</span>(<span class="string">&quot;请输入需要模拟输入的字符串：&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>使用<code>input()</code>函数获取用户输入的字符串。</p>
-<h4 id="3-延迟10秒并打印数字"><a href="#3-延迟10秒并打印数字" class="headerlink" title="3. 延迟10秒并打印数字"></a>3. 延迟10秒并打印数字</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br></pre></td></tr></table></figure>
-
-<p>使用<code>time.sleep(1)</code>实现每秒延迟，并打印从0到9的数字。</p>
-<h4 id="4-初始化键盘控制器"><a href="#4-初始化键盘控制器" class="headerlink" title="4. 初始化键盘控制器"></a>4. 初始化键盘控制器</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keyboard = Controller()</span><br></pre></td></tr></table></figure>
-
-<p>使用<code>pynput.keyboard.Controller()</code>初始化键盘控制器。</p>
-<h4 id="5-模拟键盘输入"><a href="#5-模拟键盘输入" class="headerlink" title="5. 模拟键盘输入"></a>5. 模拟键盘输入</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> char <span class="keyword">in</span> input_string:</span><br><span class="line">    keyboard.press(char)</span><br><span class="line">    time.sleep(<span class="number">0.1</span>)</span><br><span class="line">    keyboard.release(char)</span><br><span class="line">    time.sleep(<span class="number">0.1</span>)</span><br></pre></td></tr></table></figure>
-
-<p>遍历用户输入的字符串，逐个字符进行模拟输入。每次按下和释放字符之间有0.1秒的延迟。</p>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
-<li><p><strong>安装依赖</strong>：在运行脚本之前，需要安装<code>pynput</code>库。可以使用以下命令进行安装：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pynput</span><br></pre></td></tr></table></figure>
+<li><p>问题重述<br>鸢尾花分类任务需要根据花卉的形态学特征（萼片长度、萼片宽度、花瓣长度、花瓣宽度）准确识别其所属品种（Setosa、Versicolour、Virginica）。建立可靠的数学模型对植物分类研究和自动化识别具有重要意义。</p>
 </li>
-<li><p><strong>权限问题</strong>：在某些操作系统上，模拟键盘输入可能需要管理员权限。</p>
-</li>
-<li><p><strong>使用场景</strong>：请确保在合法和适当的场景下使用该脚本，避免用于恶意行为。</p>
+<li><p>数据预处理</p>
 </li>
 </ol>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>本文介绍了一个简单的Python脚本，利用<code>pynput</code>库实现了模拟键盘输入的功能。通过该脚本，我们可以实现自动填写表单、测试程序等自动化任务。希望本文对你有所帮助！</p>
-<p>以上就是关于使用Python模拟键盘输入的脚本的详细介绍，希望对你有所帮助！如果你有任何问题或建议，欢迎在评论区留言。</p>
- 
+<p> 2.1 数据描述<br>数据集包含150个样本，每个样本具有4个特征：<br>$$X &#x3D; {x_1^{(sepal\ length)}, x_2^{(sepal\ width)}, x_3^{(petal\ length)}, x_4^{(petal\ width)}}$$<br>目标变量为三类标签：<br>$$y \in {0^{(Setosa)}, 1^{(Versicolour)}, 2^{(Virginica)}}$$</p>
+<p> 2.2 数据可视化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line"></span><br><span class="line">iris = load_iris()</span><br><span class="line">features = iris.data.T</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">12</span>,<span class="number">6</span>))</span><br><span class="line">plt.suptitle(<span class="string">&quot;Feature Distribution by Class&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">    plt.subplot(<span class="number">2</span>,<span class="number">2</span>,i+<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">        plt.hist(features[i][iris.target==c], alpha=<span class="number">0.7</span>, </span><br><span class="line">                label=iris.target_names[c])</span><br><span class="line">    plt.xlabel(iris.feature_names[i])</span><br><span class="line">    plt.legend()</span><br><span class="line">plt.tight_layout()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/feature_dist.jpg" alt="feature dist"></p>
+<ol start="3">
+<li>模型建立</li>
+</ol>
+<p> 3.1 K最近邻算法<br>选择KNN分类器，其决策函数为：<br>$$\hat{y} &#x3D; \mathop{\arg\min}\limits_{c} \sum_{i&#x3D;1}^k \mathbb{I}(y_i &#x3D; c)$$<br>其中距离度量采用欧式距离：<br>$$d(x^{(i)},x^{(j)}) &#x3D; \sqrt{\sum_{m&#x3D;1}^4 (x_m^{(i)} - x_m^{(j)})^2}$$</p>
+<p> 3.2 模型训练</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score</span><br><span class="line"></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(</span><br><span class="line">    iris.data, iris.target, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line">knn = KNeighborsClassifier(n_neighbors=<span class="number">5</span>)</span><br><span class="line">knn.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>结果分析</li>
+</ol>
+<p> 4.1 分类性能<br>测试集混淆矩阵可视化：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> ConfusionMatrixDisplay</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">8</span>,<span class="number">6</span>))</span><br><span class="line">ConfusionMatrixDisplay.from_estimator(knn, X_test, y_test,</span><br><span class="line">                                     display_labels=iris.target_names,</span><br><span class="line">                                     cmap=plt.cm.Blues)</span><br><span class="line">plt.title(<span class="string">&quot;Confusion Matrix&quot;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/confusion_matrix.jpg" alt="confusion matrix"></p>
+<p> 4.2 决策边界<br>二维特征投影可视化：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> matplotlib.colors <span class="keyword">import</span> ListedColormap</span><br><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载数据</span></span><br><span class="line">iris = load_iris()</span><br><span class="line">X = iris.data[:, :<span class="number">2</span>]  <span class="comment"># 只使用前两个特征</span></span><br><span class="line">y = iris.target</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建并训练KNN模型</span></span><br><span class="line">knn = KNeighborsClassifier(n_neighbors=<span class="number">5</span>)</span><br><span class="line">knn.fit(X, y)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建网格点</span></span><br><span class="line">x_min, x_max = X[:, <span class="number">0</span>].<span class="built_in">min</span>() - <span class="number">1</span>, X[:, <span class="number">0</span>].<span class="built_in">max</span>() + <span class="number">1</span></span><br><span class="line">y_min, y_max = X[:, <span class="number">1</span>].<span class="built_in">min</span>() - <span class="number">1</span>, X[:, <span class="number">1</span>].<span class="built_in">max</span>() + <span class="number">1</span></span><br><span class="line">xx, yy = np.meshgrid(np.arange(x_min, x_max, <span class="number">0.02</span>),</span><br><span class="line">                     np.arange(y_min, y_max, <span class="number">0.02</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 预测网格点的类别</span></span><br><span class="line">Z = knn.predict(np.c_[xx.ravel(), yy.ravel()])</span><br><span class="line">Z = Z.reshape(xx.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制决策边界</span></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>,<span class="number">6</span>))</span><br><span class="line">plt.contourf(xx, yy, Z, alpha=<span class="number">0.4</span>, </span><br><span class="line">             cmap=ListedColormap([<span class="string">&#x27;#FFAAAA&#x27;</span>, <span class="string">&#x27;#AAFFAA&#x27;</span>, <span class="string">&#x27;#AAAAFF&#x27;</span>]))</span><br><span class="line">plt.scatter(X[:, <span class="number">0</span>], X[:, <span class="number">1</span>], c=y, edgecolor=<span class="string">&#x27;k&#x27;</span>, </span><br><span class="line">            cmap=ListedColormap([<span class="string">&#x27;red&#x27;</span>, <span class="string">&#x27;green&#x27;</span>, <span class="string">&#x27;blue&#x27;</span>]))</span><br><span class="line">plt.xlabel(iris.feature_names[<span class="number">0</span>])</span><br><span class="line">plt.ylabel(iris.feature_names[<span class="number">1</span>])</span><br><span class="line">plt.title(<span class="string">&quot;KNN Decision Boundary (Sepal features)&quot;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/decision_boundary.jpg" alt="decision boundary"></p>
+<ol start="5">
+<li>结论<br>本研究表明，基于KNN算法的分类模型在鸢尾花数据集上表现优异，测试准确率达97.78%。通过特征可视化发现花瓣尺寸具有更好的类别区分度，后续研究可考虑特征加权优化提升模型性能。</li>
+</ol>
+<hr>
+<p>注：实际使用时需确保已安装所需库：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scikit-learn matplotlib numpy</span><br></pre></td></tr></table></figure> 
       <!-- reward -->
       
       <div id="reword-out">
@@ -222,12 +209,12 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2025/04/19/%E6%97%A0%E6%B3%95%E7%B2%98%E8%B4%B4%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2025/04/28/sklearn%E9%B8%A2%E5%B0%BE%E8%8A%B1%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E5%88%86%E7%B1%BB/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag">脚本</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" rel="tag">自动化</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" rel="tag">数据分析</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%B8%A2%E5%B0%BE%E8%8A%B1/" rel="tag">鸢尾花</a></li></ul>
 
     </footer>
   </div>
@@ -235,19 +222,10 @@
    
   <nav class="article-nav">
     
-      <a href="/2025/04/28/sklearn%E9%B8%A2%E5%B0%BE%E8%8A%B1%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E5%88%86%E7%B1%BB/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            sklearn鸢尾花数据集的分类
-          
-        </div>
-      </a>
     
-    
-      <a href="/2025/04/19/%E5%9C%A3%E8%AF%9E%E8%80%81%E4%BA%BA%E7%A4%BC%E7%89%A9%E5%88%86%E9%85%8D%E6%9C%BA%E5%88%B6%EF%BC%9A%E6%8A%80%E6%9C%AF%E8%B5%84%E6%9C%AC%E4%B8%BB%E4%B9%89%E6%99%9A%E6%9C%9F%E4%B8%8B%E7%9A%84%E9%81%93%E5%BE%B7%E8%A7%84%E8%AE%AD%E4%B8%8E%E5%88%86%E9%85%8D%E6%AD%A3%E4%B9%89%E5%B9%BB%E8%B1%A1/" class="article-nav-link">
+      <a href="/2025/04/19/%E6%97%A0%E6%B3%95%E7%B2%98%E8%B4%B4%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">圣诞老人礼物分配机制：技术资本主义晚期下的道德规训与分配正义幻象</div>
+        <div class="article-nav-title">无法粘贴解决方法</div>
       </a>
     
   </nav>
