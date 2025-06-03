@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>sklearn鸢尾花数据集的分类 |  老夏十三行</title>
+      <title>NAVGPT |  老夏十三行</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -55,7 +55,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-sklearn鸢尾花数据集的分类"
+  id="post-NAVGPT"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -66,7 +66,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  sklearn鸢尾花数据集的分类
+  NAVGPT
 </h1>
  
 
@@ -74,8 +74,8 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2025/04/28/sklearn%E9%B8%A2%E5%B0%BE%E8%8A%B1%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E5%88%86%E7%B1%BB/" class="article-date">
-  <time datetime="2025-04-28T11:29:01.000Z" itemprop="datePublished">2025-04-28</time>
+      <a href="/2025/05/12/NAVGPT/" class="article-date">
+  <time datetime="2025-05-12T10:48:07.000Z" itemprop="datePublished">2025-05-12</time>
 </a> 
   <div class="article-category">
     <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/">技术分享</a>
@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">771</span>
+            <span class="post-count">1.6k</span>
         </span>
     </span>
 
@@ -95,51 +95,138 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">3 min</span>
+            <span class="post-count">5 min</span>
         </span>
     </span>
 </div>
  
     </div>
       
+    <div class="tocbot"></div>
+
 
 
 
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>摘要<br>本文基于sklearn鸢尾花数据集，通过数据可视化、统计分析和机器学习算法建立了分类模型。利用matplotlib实现特征分布可视化，采用KNN分类器进行模型训练，最终达到97.78%的测试准确率，为植物分类问题提供有效的数学建模方法。</p>
+  <h3 id="NavGPT-方法介绍及公式"><a href="#NavGPT-方法介绍及公式" class="headerlink" title="NavGPT 方法介绍及公式"></a>NavGPT 方法介绍及公式</h3><h4 id="《NavGPT-Explicit-Reasoning-in-Vision-and-Language-Navigation-with-Large-Language-Models》"><a href="#《NavGPT-Explicit-Reasoning-in-Vision-and-Language-Navigation-with-Large-Language-Models》" class="headerlink" title="《NavGPT: Explicit Reasoning in Vision-and-Language Navigation with Large Language Models》"></a>《NavGPT: Explicit Reasoning in Vision-and-Language Navigation with Large Language Models》</h4><p><strong>方法概述</strong>：<br>NavGPT 是一个创新的视觉与语言导航（VLN）系统，它充分利用大型语言模型（LLMs）的推理能力，通过零样本学习的方式，将视觉观察、导航历史和未来可探索方向转化为自然语言描述，作为LLMs的输入，以推理智能体的当前状态并做出决策。^[1]^NavGPT 的核心在于其能够生成明确的推理过程，展示其决策背后的逻辑。^[2]^</p>
+<p><strong>关键组件与步骤</strong>：</p>
 <ol>
-<li><p>问题重述<br>鸢尾花分类任务需要根据花卉的形态学特征（萼片长度、萼片宽度、花瓣长度、花瓣宽度）准确识别其所属品种（Setosa、Versicolour、Virginica）。建立可靠的数学模型对植物分类研究和自动化识别具有重要意义。</p>
+<li><p><strong>视觉基础模型（VFMs）</strong>：</p>
+<ul>
+<li>NavGPT 使用 BLIP-2 模型将视觉输入（如RGB图像）转化为详细的自然语言描述。例如，将图像转化为描述性文本：“一个厨房，有一个冰箱、一个炉灶和一个窗户。”</li>
+<li><strong>公式表示</strong>（简化）：<br>$$<br>\text{Visual Description}_t &#x3D; \text{BLIP-2}(\text{Observation}_t)<br>$$<br>其中，$\text{Observation}_t$ 是时间步 $t$ 的视觉观察。</li>
+</ul>
 </li>
-<li><p>数据预处理</p>
+<li><p><strong>导航历史管理器</strong>：</p>
+<ul>
+<li>使用 GPT-3.5 等模型对导航历史进行总结，生成简洁的历史描述，以便LLMs能够处理较长的上下文。</li>
+<li><strong>公式表示</strong>（简化）：<br>$$<br>\text{Summarized History}<em>t &#x3D; \text{GPT-3.5}(\text{History}</em>{t-1}, \text{Observation}_t, \text{Action}<em>t)<br>$$<br>其中，$\text{History}</em>{t-1}$ 是到时间步 $t-1$ 的导航历史，$\text{Action}_t$ 是时间步 $t$ 的动作。^[3]^</li>
+</ul>
+</li>
+<li><p><strong>提示管理器（Prompt Manager）</strong>：</p>
+<ul>
+<li>将视觉描述、历史总结和指令整合成LLMs的输入提示，确保LLMs能够理解当前任务和环境状态。^[4]^</li>
+<li><strong>公式表示</strong>（简化）：<br>$$<br>\text{Prompt}_t &#x3D; \text{Prompt Manager}(\text{Instruction}, \text{Visual Description}_t, \text{Summarized History}_t)<br>$$</li>
+</ul>
+</li>
+<li><p><strong>推理与决策</strong>：</p>
+<ul>
+<li>LLMs 根据输入提示进行推理，生成下一步的导航动作。</li>
+<li><strong>公式表示</strong>（简化）：<br>$$<br>\text{Action}_t &#x3D; \text{LLMs}(\text{Prompt}_t)<br>$$</li>
+</ul>
 </li>
 </ol>
-<p> 2.1 数据描述<br>数据集包含150个样本，每个样本具有4个特征：<br>$$X &#x3D; {x_1^{(sepal\ length)}, x_2^{(sepal\ width)}, x_3^{(petal\ length)}, x_4^{(petal\ width)}}$$<br>目标变量为三类标签：<br>$$y \in {0^{(Setosa)}, 1^{(Versicolour)}, 2^{(Virginica)}}$$</p>
-<p> 2.2 数据可视化</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line"></span><br><span class="line">iris = load_iris()</span><br><span class="line">features = iris.data.T</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">12</span>,<span class="number">6</span>))</span><br><span class="line">plt.suptitle(<span class="string">&quot;Feature Distribution by Class&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">    plt.subplot(<span class="number">2</span>,<span class="number">2</span>,i+<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">        plt.hist(features[i][iris.target==c], alpha=<span class="number">0.7</span>, </span><br><span class="line">                label=iris.target_names[c])</span><br><span class="line">    plt.xlabel(iris.feature_names[i])</span><br><span class="line">    plt.legend()</span><br><span class="line">plt.tight_layout()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<p><img src="/images/feature_dist.jpg" alt="feature dist"></p>
-<ol start="3">
-<li>模型建立</li>
-</ol>
-<p> 3.1 K最近邻算法<br>选择KNN分类器，其决策函数为：<br>$$\hat{y} &#x3D; \mathop{\arg\min}\limits_{c} \sum_{i&#x3D;1}^k \mathbb{I}(y_i &#x3D; c)$$<br>其中距离度量采用欧式距离：<br>$$d(x^{(i)},x^{(j)}) &#x3D; \sqrt{\sum_{m&#x3D;1}^4 (x_m^{(i)} - x_m^{(j)})^2}$$</p>
-<p> 3.2 模型训练</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score</span><br><span class="line"></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(</span><br><span class="line">    iris.data, iris.target, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line">knn = KNeighborsClassifier(n_neighbors=<span class="number">5</span>)</span><br><span class="line">knn.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>结果分析</li>
-</ol>
-<p> 4.1 分类性能<br>测试集混淆矩阵可视化：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> ConfusionMatrixDisplay</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">8</span>,<span class="number">6</span>))</span><br><span class="line">ConfusionMatrixDisplay.from_estimator(knn, X_test, y_test,</span><br><span class="line">                                     display_labels=iris.target_names,</span><br><span class="line">                                     cmap=plt.cm.Blues)</span><br><span class="line">plt.title(<span class="string">&quot;Confusion Matrix&quot;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<p><img src="/images/confusion_matrix.jpg" alt="confusion matrix"></p>
-<p> 4.2 决策边界<br>二维特征投影可视化：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> matplotlib.colors <span class="keyword">import</span> ListedColormap</span><br><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载数据</span></span><br><span class="line">iris = load_iris()</span><br><span class="line">X = iris.data[:, :<span class="number">2</span>]  <span class="comment"># 只使用前两个特征</span></span><br><span class="line">y = iris.target</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建并训练KNN模型</span></span><br><span class="line">knn = KNeighborsClassifier(n_neighbors=<span class="number">5</span>)</span><br><span class="line">knn.fit(X, y)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建网格点</span></span><br><span class="line">x_min, x_max = X[:, <span class="number">0</span>].<span class="built_in">min</span>() - <span class="number">1</span>, X[:, <span class="number">0</span>].<span class="built_in">max</span>() + <span class="number">1</span></span><br><span class="line">y_min, y_max = X[:, <span class="number">1</span>].<span class="built_in">min</span>() - <span class="number">1</span>, X[:, <span class="number">1</span>].<span class="built_in">max</span>() + <span class="number">1</span></span><br><span class="line">xx, yy = np.meshgrid(np.arange(x_min, x_max, <span class="number">0.02</span>),</span><br><span class="line">                     np.arange(y_min, y_max, <span class="number">0.02</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 预测网格点的类别</span></span><br><span class="line">Z = knn.predict(np.c_[xx.ravel(), yy.ravel()])</span><br><span class="line">Z = Z.reshape(xx.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制决策边界</span></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>,<span class="number">6</span>))</span><br><span class="line">plt.contourf(xx, yy, Z, alpha=<span class="number">0.4</span>, </span><br><span class="line">             cmap=ListedColormap([<span class="string">&#x27;#FFAAAA&#x27;</span>, <span class="string">&#x27;#AAFFAA&#x27;</span>, <span class="string">&#x27;#AAAAFF&#x27;</span>]))</span><br><span class="line">plt.scatter(X[:, <span class="number">0</span>], X[:, <span class="number">1</span>], c=y, edgecolor=<span class="string">&#x27;k&#x27;</span>, </span><br><span class="line">            cmap=ListedColormap([<span class="string">&#x27;red&#x27;</span>, <span class="string">&#x27;green&#x27;</span>, <span class="string">&#x27;blue&#x27;</span>]))</span><br><span class="line">plt.xlabel(iris.feature_names[<span class="number">0</span>])</span><br><span class="line">plt.ylabel(iris.feature_names[<span class="number">1</span>])</span><br><span class="line">plt.title(<span class="string">&quot;KNN Decision Boundary (Sepal features)&quot;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<p><img src="/images/decision_boundary.jpg" alt="decision boundary"></p>
-<ol start="5">
-<li>结论<br>本研究表明，基于KNN算法的分类模型在鸢尾花数据集上表现优异，测试准确率达97.78%。通过特征可视化发现花瓣尺寸具有更好的类别区分度，后续研究可考虑特征加权优化提升模型性能。</li>
-</ol>
+<p><strong>成果</strong>：</p>
+<ul>
+<li>NavGPT 展示了在零样本学习下，通过LLMs进行复杂场景中的视觉语言导航的潜力。^[5]^</li>
+<li>它能够分解指令为子目标，识别地标，跟踪导航进度，并通过计划调整应对异常情况。^[6]^</li>
+<li>NavGPT 生成的推理过程透明且可解释，为导航智能体的决策提供了明确的逻辑依据。^[7]^</li>
+</ul>
 <hr>
-<p>注：实际使用时需确保已安装所需库：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install scikit-learn matplotlib numpy</span><br></pre></td></tr></table></figure> 
+<h4 id="《NavGPT-2-Unleashing-Navigational-Reasoning-Capability-for-Large-Vision-Language-Models》"><a href="#《NavGPT-2-Unleashing-Navigational-Reasoning-Capability-for-Large-Vision-Language-Models》" class="headerlink" title="《NavGPT-2: Unleashing Navigational Reasoning Capability for Large Vision-Language Models》"></a>《NavGPT-2: Unleashing Navigational Reasoning Capability for Large Vision-Language Models》</h4><p><strong>方法概述</strong>：<br>NavGPT-2 在 NavGPT 的基础上进行了改进，通过融合视觉语言模型（VLM）来增强导航能力，并引入基于拓扑图的导航策略，以提高路径规划和回溯能力。^[8]^NavGPT-2 旨在消除基于LLMs的智能体与最先进的VLN专用模型之间的差距，同时保留LLMs的解释性推理能力。^[9]^</p>
+<p><strong>关键组件与步骤</strong>：</p>
+<ol>
+<li><p><strong>视觉语言模型（VLM）</strong>：</p>
+<ul>
+<li>NavGPT-2 构建在 InstructBLIP 架构之上，通过多图像感知适应VLN任务。</li>
+<li>使用 Q-former 将视觉观察编码为固定长度的视觉标记，作为VLM的输入。^[10]^</li>
+<li><strong>公式表示</strong>（简化）：<br>$$<br>\text{VLM Latent}_t &#x3D; \text{VLM}(\text{Q-former}(\text{Observation}_t))<br>$$</li>
+</ul>
+</li>
+<li><p><strong>基于拓扑图的导航策略</strong>：</p>
+<ul>
+<li>引入拓扑图来维护导航经验，支持有效的路径规划和回溯。^[11]^</li>
+<li>使用交叉模态编码器对指令和节点表示进行建模，生成动作得分。^[12]^</li>
+<li><strong>公式表示</strong>（简化）：<br>$$<br>\text{Action Score} &#x3D; \text{GASA}(\text{Cross-Modal Encoder}(\text{Instruction}, \text{Node Embeddings}_t))<br>$$<br>其中，$\text{Node Embeddings}_t$ 是时间步 $t$ 的节点嵌入。^[13]^</li>
+</ul>
+</li>
+<li><p><strong>多阶段学习</strong>：</p>
+<ul>
+<li>采用两阶段训练方法：首先微调 Q-former 以适应导航推理数据，然后微调导航策略网络。^[14]^</li>
+<li><strong>公式表示</strong>（简化）：<br>$$<br>\text{Stage 1: } \min_{\theta_{\text{Q-former}}} \mathcal{L}<em>{\text{Instruction-Tuning}}<br>$$<br>$$<br>\text{Stage 2: } \min</em>{\theta_{\text{Policy Network}}} \mathcal{L}<em>{\text{DAgger}}<br>$$<br>其中，$\mathcal{L}</em>{\text{Instruction-Tuning}}$ 和 $\mathcal{L}_{\text{DAgger}}$ 分别是微调 Q-former 和导航策略网络的损失函数。^[15]^</li>
+</ul>
+</li>
+</ol>
+<p><strong>成果</strong>：</p>
+<ul>
+<li>NavGPT-2 通过融合 VLM 和基于拓扑图的导航策略，显著提高了导航性能，抹平了与 VLN 专用模型之间的性能差距。^[16]^</li>
+<li>能够在数据有限的情况下达到先进性能，展示了 LLMs 在导航过程中生成解释性推理的能力。^[17]^</li>
+<li>NavGPT-2 的多阶段学习方法有效提升了模型的泛化能力和鲁棒性。^[18]^</li>
+</ul>
+<hr>
+<h3 id="对比两个论文的成果"><a href="#对比两个论文的成果" class="headerlink" title="对比两个论文的成果"></a>对比两个论文的成果</h3><table>
+<thead>
+<tr>
+<th><strong>方面</strong></th>
+<th><strong>NavGPT</strong></th>
+<th><strong>NavGPT-2</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>核心方法</strong></td>
+<td>基于 LLMs 的零样本学习，通过自然语言描述进行推理与决策。</td>
+<td>融合 VLM，引入基于拓扑图的导航策略，进行多阶段训练。</td>
+</tr>
+<tr>
+<td><strong>视觉语言融合</strong></td>
+<td>使用 VFMs 将视觉输入转化为自然语言描述。</td>
+<td>使用 VLM 的潜在表示作为视觉语言表示，增强视觉语言融合能力。</td>
+</tr>
+<tr>
+<td><strong>导航策略</strong></td>
+<td>依赖 LLMs 的推理能力进行决策，无特定导航策略。</td>
+<td>引入基于拓扑图的导航策略，提高路径规划和回溯能力。</td>
+</tr>
+<tr>
+<td><strong>训练方式</strong></td>
+<td>未明确提及多阶段训练，主要依赖零样本学习。</td>
+<td>采用两阶段训练方法，先微调 Q-former，再微调导航策略网络。</td>
+</tr>
+<tr>
+<td><strong>性能提升</strong></td>
+<td>展示了在零样本学习下的导航潜力，但性能有限。</td>
+<td>显著提高了导航性能，抹平了与 VLN 专用模型之间的性能差距。</td>
+</tr>
+<tr>
+<td><strong>解释性推理</strong></td>
+<td>能够生成导航推理，但主要依赖 LLMs 的推理能力。</td>
+<td>保留了 LLMs 的解释性推理能力，同时提高了导航准确性和效率。</td>
+</tr>
+<tr>
+<td><strong>数据效率</strong></td>
+<td>未特别强调数据效率，主要依赖零样本学习。</td>
+<td>展示了在数据有限情况下的先进性能，强调数据效率。</td>
+</tr>
+<tr>
+<td><strong>应用场景</strong></td>
+<td>更适用于零样本学习或数据稀缺的场景。</td>
+<td>更适用于需要高性能和泛化能力的复杂导航任务。</td>
+</tr>
+</tbody></table>
+<p>NavGPT-2 在 NavGPT 的基础上进行了显著的改进，通过融合 VLM 和引入基于拓扑图的导航策略，显著提高了导航性能，并展示了在数据有限情况下的先进性能。^[19]^这些改进使得 NavGPT-2 在 VLN 任务中更具竞争力和实用性，特别是在需要高性能和泛化能力的复杂导航任务中。^[20]^</p>
+ 
       <!-- reward -->
       
       <div id="reword-out">
@@ -209,32 +296,21 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2025/04/28/sklearn%E9%B8%A2%E5%B0%BE%E8%8A%B1%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E5%88%86%E7%B1%BB/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2025/05/12/NAVGPT/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" rel="tag">数据分析</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%B8%A2%E5%B0%BE%E8%8A%B1/" rel="tag">鸢尾花</a></li></ul>
-
     </footer>
   </div>
 
    
   <nav class="article-nav">
     
-      <a href="/2025/05/04/ollama%E5%B5%8C%E5%85%A5%E5%BA%94%E7%94%A8/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            ollama嵌入应用
-          
-        </div>
-      </a>
     
-    
-      <a href="/2025/04/19/%E6%97%A0%E6%B3%95%E7%B2%98%E8%B4%B4%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="article-nav-link">
+      <a href="/2025/05/04/FAISS%E7%9F%A5%E8%AF%86%E5%BA%93%E6%90%AD%E5%BB%BA/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">无法粘贴解决方法</div>
+        <div class="article-nav-title">FAISS知识库搭建</div>
       </a>
     
   </nav>
