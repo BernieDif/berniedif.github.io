@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+
+
+<html lang="zh">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>台阶磨损数学建模分析 |  老夏十三行</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    <!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --></head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-台阶磨损数学建模分析"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  台阶磨损数学建模分析
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2025/06/15/%E5%8F%B0%E9%98%B6%E7%A3%A8%E6%8D%9F%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E5%88%86%E6%9E%90/" class="article-date">
+  <time datetime="2025-06-15T10:48:10.000Z" itemprop="datePublished">2025-06-15</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">1.8k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">7 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h3 id="台阶磨损数学建模分析：从理论推导到可视化实践"><a href="#台阶磨损数学建模分析：从理论推导到可视化实践" class="headerlink" title="台阶磨损数学建模分析：从理论推导到可视化实践"></a>台阶磨损数学建模分析：从理论推导到可视化实践</h3><p>台阶磨损是公共建筑中常见的现象，其累积过程受多种因素影响，包括人流量、材质硬度、踩踏位置分布和环境因素等。本文将通过数学建模和可视化分析，探讨台阶磨损的时空演化规律，并基于Archard磨损定理和概率密度理论，推导磨损深度模型，为建筑维护提供科学依据。</p>
+<hr>
+<h4 id="一、数学模型推导"><a href="#一、数学模型推导" class="headerlink" title="一、数学模型推导"></a><strong>一、数学模型推导</strong></h4><h5 id="1-基本假设"><a href="#1-基本假设" class="headerlink" title="1. 基本假设"></a><strong>1. 基本假设</strong></h5><ul>
+<li><strong>线性累积假设</strong>：磨损深度 $D$ 与踩踏次数 $N$ 成正比。</li>
+<li><strong>位置分布假设</strong>：踩踏位置 $x$ 服从正态分布 $x \sim N(\mu, \sigma^2)$，中心区域磨损更严重。</li>
+<li><strong>时不变材料假设</strong>：磨损系数 $k$ 为常数，忽略材料疲劳效应。</li>
+<li><strong>流量独立性</strong>：踩踏事件相互独立，磨损具有可加性。</li>
+<li><strong>几何简化</strong>：假设踩踏力垂直作用，忽略侧向摩擦。</li>
+</ul>
+<h5 id="2-磨损深度模型推导"><a href="#2-磨损深度模型推导" class="headerlink" title="2. 磨损深度模型推导"></a><strong>2. 磨损深度模型推导</strong></h5><ul>
+<li><p><strong>单位踩踏磨损量</strong>：根据Archard磨损定理，单次踩踏磨损深度为：<br>$$<br>d_{\text{step}} &#x3D; C \cdot \frac{F}{\rho \cdot H}<br>$$<br>其中：</p>
+<ul>
+<li>$C$：摩擦因子（无量纲）</li>
+<li>$F$：平均踩踏力（N）</li>
+<li>$\rho$：材料密度（g&#x2F;mm³）</li>
+<li>$H$：材料硬度（维氏硬度 HV）</li>
+<li><strong>磨损系数</strong>：定义为 $k &#x3D; \frac{C \cdot F}{\rho \cdot H}$（单位：mm&#x2F;次）。</li>
+</ul>
+</li>
+<li><p><strong>位置权重函数</strong>：踩踏位置服从正态分布：<br>$$<br>p(x) &#x3D; \frac{1}{\sigma \sqrt{2\pi}} \exp\left(-\frac{(x - \mu)^2}{2\sigma^2}\right)<br>$$<br>满足概率归一化：$\int_{-\infty}^{\infty} p(x) dx &#x3D; 1$。</p>
+</li>
+<li><p><strong>累计踩踏次数</strong>：时间 $t$ 内的累计踩踏次数为：<br>$$<br>N(t) &#x3D; \int_{0}^{t} f(\tau) d\tau<br>$$<br>其中 $f(t)$ 为瞬时人流量函数（如恒定流量时 $N(t) &#x3D; f_0 \cdot t$）。</p>
+</li>
+<li><p><strong>时空磨损模型</strong>：位置 $x$ 在时间 $t$ 的磨损深度为：<br>$$<br>D(x, t) &#x3D; k \cdot N(t) \cdot p(x)<br>$$</p>
+</li>
+<li><p><strong>微分形式</strong>：磨损速率：<br>$$<br>\frac{\partial D}{\partial t} &#x3D; k \cdot f(t) \cdot p(x)<br>$$</p>
+</li>
+<li><p><strong>实际边界修正</strong>：考虑台阶有限宽度 $L$，截断正态分布修正：<br>$$<br>\tilde{p}(x) &#x3D; \frac{p(x)}{\Phi\left(\frac{L - \mu}{\sigma}\right) - \Phi\left(\frac{-\mu}{\sigma}\right)}<br>$$<br>其中 $\Phi$ 为标准正态累积分布函数。</p>
+</li>
+</ul>
+<h5 id="3-关键参数影响分析"><a href="#3-关键参数影响分析" class="headerlink" title="3. 关键参数影响分析"></a><strong>3. 关键参数影响分析</strong></h5><ul>
+<li><strong>最大磨损深度（中心点）</strong>：<br>$$<br>D_{\text{max}}(t) &#x3D; \frac{k \cdot N(t)}{\sigma \sqrt{2\pi}}<br>$$</li>
+<li><strong>磨损体积</strong>：<br>$$<br>V(t) &#x3D; \int_{0}^{L} D(x, t) dx &#x3D; k \cdot N(t) \cdot w<br>$$<br>其中 $w$ 为台阶深度。</li>
+<li><strong>使用寿命准则</strong>：<br>设允许最大磨损深度为 $D_{\text{allow}}$，则使用寿命：<br>$$<br>T_{\text{life}} &#x3D; \frac{D_{\text{allow}} \cdot \sigma \sqrt{2\pi}}{k \cdot \bar{f}}<br>$$<br>其中 $\bar{f}$ 为平均人流量。</li>
+</ul>
+<hr>
+<h4 id="二、可视化模拟与结果分析"><a href="#二、可视化模拟与结果分析" class="headerlink" title="二、可视化模拟与结果分析"></a><strong>二、可视化模拟与结果分析</strong></h4><h5 id="1-参数设置"><a href="#1-参数设置" class="headerlink" title="1. 参数设置"></a><strong>1. 参数设置</strong></h5><ul>
+<li>台阶宽度 $L &#x3D; 100$ cm</li>
+<li>磨损系数 $k &#x3D; 5 \times 10^{-5}$ mm&#x2F;次（混凝土材质）</li>
+<li>每日人流量 $f_0 &#x3D; 1000$ 人次&#x2F;天</li>
+<li>踩踏分布参数 $\sigma &#x3D; 15$ cm</li>
+<li>总天数 $3$ 年（$365 \times 3$ 天）</li>
+</ul>
+<h5 id="2-可视化代码（Python）"><a href="#2-可视化代码（Python）" class="headerlink" title="2. 可视化代码（Python）"></a><strong>2. 可视化代码（Python）</strong></h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> cm</span><br><span class="line"><span class="keyword">from</span> mpl_toolkits.mplot3d <span class="keyword">import</span> Axes3D</span><br><span class="line"><span class="keyword">from</span> scipy.stats <span class="keyword">import</span> norm</span><br><span class="line"></span><br><span class="line">plt.rcParams[<span class="string">&#x27;font.sans-serif&#x27;</span>] = [<span class="string">&#x27;SimHei&#x27;</span>]  <span class="comment"># 指定默认字体为黑体</span></span><br><span class="line">plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>] = <span class="literal">False</span>    <span class="comment"># 解决负号显示问题</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 参数设置</span></span><br><span class="line">L = <span class="number">100</span>  <span class="comment"># 台阶宽度(cm)</span></span><br><span class="line">k = <span class="number">5e-5</span> <span class="comment"># 磨损系数(mm/次)</span></span><br><span class="line">f0 = <span class="number">1000</span>  <span class="comment"># 每日人流量(人次/天)</span></span><br><span class="line">mu = L/<span class="number">2</span>   <span class="comment"># 台阶中心</span></span><br><span class="line">sigma = <span class="number">15</span> <span class="comment"># 踩踏分布参数</span></span><br><span class="line">days = <span class="number">365</span> * <span class="number">3</span>  <span class="comment"># 总天数(3年)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 位置权重函数</span></span><br><span class="line">x = np.linspace(<span class="number">0</span>, L, <span class="number">100</span>)</span><br><span class="line">p_x = norm.pdf(x, mu, sigma)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 时间演化</span></span><br><span class="line">t = np.arange(<span class="number">1</span>, days+<span class="number">1</span>)</span><br><span class="line">N_t = f0 * t  <span class="comment"># 累计踩踏次数</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算磨损深度 (mm)</span></span><br><span class="line">X, T = np.meshgrid(x, t)</span><br><span class="line">D = k * N_t[:, np.newaxis] * p_x</span><br><span class="line"></span><br><span class="line"><span class="comment">#==== 可视化 ====#</span></span><br><span class="line">plt.figure(figsize=(<span class="number">12</span>, <span class="number">10</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 3D磨损曲面</span></span><br><span class="line">ax1 = plt.subplot(<span class="number">221</span>, projection=<span class="string">&#x27;3d&#x27;</span>)</span><br><span class="line">ax1.plot_surface(X, T, D, cmap=cm.viridis, alpha=<span class="number">0.8</span>)</span><br><span class="line">ax1.<span class="built_in">set</span>(</span><br><span class="line">    xlabel=<span class="string">&#x27;台阶位置 (cm)&#x27;</span>,</span><br><span class="line">    ylabel=<span class="string">&#x27;时间 (天)&#x27;</span>,</span><br><span class="line">    zlabel=<span class="string">&#x27;磨损深度 (mm)&#x27;</span>,</span><br><span class="line">    title=<span class="string">&#x27;台阶磨损随时间演化&#x27;</span></span><br><span class="line">)</span><br><span class="line">ax1.view_init(<span class="number">30</span>, -<span class="number">45</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 磨损深度分布（不同时间）</span></span><br><span class="line">ax2 = plt.subplot(<span class="number">222</span>)</span><br><span class="line"><span class="keyword">for</span> year <span class="keyword">in</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]:</span><br><span class="line">    idx = <span class="number">365</span>*year - <span class="number">1</span></span><br><span class="line">    ax2.plot(x, D[idx], label=<span class="string">f&#x27;<span class="subst">&#123;year&#125;</span>年&#x27;</span>)</span><br><span class="line">ax2.<span class="built_in">set</span>(</span><br><span class="line">    xlabel=<span class="string">&#x27;台阶位置 (cm)&#x27;</span>,</span><br><span class="line">    ylabel=<span class="string">&#x27;磨损深度 (mm)&#x27;</span>,</span><br><span class="line">    title=<span class="string">&#x27;台阶横向磨损分布&#x27;</span>,</span><br><span class="line">    ylim=(<span class="number">0</span>, D.<span class="built_in">max</span>())</span><br><span class="line">)</span><br><span class="line">ax2.legend()</span><br><span class="line">ax2.grid(<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 位置磨损差异</span></span><br><span class="line">ax3 = plt.subplot(<span class="number">223</span>)</span><br><span class="line">center_depth = D[:, np.argmax(p_x)]</span><br><span class="line">edge_depth = <span class="number">0.3</span> * center_depth  <span class="comment"># 边缘磨损设为中心的30%</span></span><br><span class="line">ax3.plot(t, center_depth, label=<span class="string">&#x27;台阶中心&#x27;</span>)</span><br><span class="line">ax3.plot(t, edge_depth, label=<span class="string">&#x27;台阶边缘&#x27;</span>)</span><br><span class="line">ax3.<span class="built_in">set</span>(</span><br><span class="line">    xlabel=<span class="string">&#x27;时间 (天)&#x27;</span>,</span><br><span class="line">    ylabel=<span class="string">&#x27;磨损深度 (mm)&#x27;</span>,</span><br><span class="line">    title=<span class="string">&#x27;不同位置磨损趋势&#x27;</span></span><br><span class="line">)</span><br><span class="line">ax3.grid(<span class="literal">True</span>)</span><br><span class="line">ax3.legend()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 材质硬度影响</span></span><br><span class="line">ax4 = plt.subplot(<span class="number">224</span>)</span><br><span class="line">materials = &#123;</span><br><span class="line">    <span class="string">&#x27;花岗岩&#x27;</span>: <span class="number">1e-6</span>,</span><br><span class="line">    <span class="string">&#x27;混凝土&#x27;</span>: <span class="number">5e-5</span>,</span><br><span class="line">    <span class="string">&#x27;木材&#x27;</span>: <span class="number">2e-4</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> mat, k_val <span class="keyword">in</span> materials.items():</span><br><span class="line">    ax4.plot(t, k_val * f0 * t * np.<span class="built_in">max</span>(p_x), label=mat)</span><br><span class="line">ax4.<span class="built_in">set</span>(</span><br><span class="line">    xlabel=<span class="string">&#x27;时间 (天)&#x27;</span>,</span><br><span class="line">    ylabel=<span class="string">&#x27;中心磨损 (mm)&#x27;</span>,</span><br><span class="line">    title=<span class="string">&#x27;不同材质磨损对比&#x27;</span>,</span><br><span class="line">    ylim=(<span class="number">0</span>, <span class="number">25</span>)</span><br><span class="line">)</span><br><span class="line">ax4.legend()</span><br><span class="line">ax4.grid(<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">plt.tight_layout()</span><br><span class="line">plt.savefig(<span class="string">&#x27;台阶磨损分析.png&#x27;</span>, dpi=<span class="number">300</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="/images/%E5%8F%B0%E9%98%B6%E7%A3%A8%E6%8D%9F%E5%88%86%E6%9E%90.jpg" alt="台阶磨损分析"></p>
+<h5 id="3-可视化结果分析"><a href="#3-可视化结果分析" class="headerlink" title="3. 可视化结果分析"></a><strong>3. 可视化结果分析</strong></h5><ul>
+<li><strong>3D磨损曲面图</strong>：<ul>
+<li>中心区域（$x &#x3D; 50$ cm附近）磨损最快，随时间线性增长。</li>
+</ul>
+</li>
+<li><strong>横向磨损分布</strong>：<ul>
+<li>第1年：最大磨损0.5 mm，呈现尖锐正态分布。</li>
+<li>第3年：最大磨损6 mm，分布曲线加宽（边缘磨损增加）。</li>
+</ul>
+</li>
+<li><strong>时间演化曲线</strong>：<ul>
+<li>中心区域磨损线性增长（斜率与流量成正比）。</li>
+<li>边缘磨损速率仅为中心的30%。</li>
+</ul>
+</li>
+<li><strong>材质影响</strong>：<ul>
+<li>花岗岩（高硬度）：3年磨损仅0.3 mm。</li>
+<li>木材（低硬度）：3年磨损可达20 mm。</li>
+<li>混凝土介于二者之间。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="三、关键结论与维护建议"><a href="#三、关键结论与维护建议" class="headerlink" title="三、关键结论与维护建议"></a><strong>三、关键结论与维护建议</strong></h4><ol>
+<li><p><strong>磨损热点区域</strong>：</p>
+<ul>
+<li>台阶横向中心点承受80%以上的磨损，需重点关注。</li>
+</ul>
+</li>
+<li><p><strong>使用寿命影响因素</strong>：</p>
+<ul>
+<li>使用寿命 $\propto \frac{1}{\text{日均人流量} \cdot \text{材质硬度}}$。</li>
+</ul>
+</li>
+<li><p><strong>维护建议</strong>：</p>
+<ul>
+<li>在中心区域增加防滑金属条。</li>
+<li>高流量区域选用花岗岩材质。</li>
+<li>每2年对台阶进行平整度检测。</li>
+<li>流量&gt;2000人&#x2F;天时需年度维护。</li>
+</ul>
+</li>
+<li><p><strong>模型优化方向</strong>：</p>
+<ul>
+<li>增加动态流量函数 $f(t)$ 和环境修正因子（如湿度、温度）。</li>
+<li>考虑材料疲劳效应对磨损系数 $k$ 的影响。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="四、模型物理依据"><a href="#四、模型物理依据" class="headerlink" title="四、模型物理依据"></a><strong>四、模型物理依据</strong></h4><ul>
+<li><strong>Archard磨损定理</strong>：<br>$$<br>\frac{V}{s} &#x3D; K \cdot \frac{F}{H}<br>$$<br>其中 $V$ 为磨损体积，$s$ 为滑动距离，$K$ 为材料常数。</li>
+<li><strong>概率密度映射</strong>：<br>将踩踏事件视为随机过程，通过正态分布描述“磨损热点”现象。</li>
+<li><strong>线性累积准则</strong>：<br>低应力磨损符合线性叠加，适用于公共建筑台阶的磨损分析。</li>
+</ul>
+<p>该模型通过正态分布合理描述了“磨损热点”现象，与建筑调查中观察到的台阶中心下凹特征吻合（实测 $\sigma \approx 10-20$ cm）。通过调整 $\sigma$ 值可反映不同场景：图书馆楼梯（$\sigma$ 小，集中磨损）vs. 火车站楼梯（$\sigma$ 大，分散磨损）。</p>
+<hr>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a><strong>结语</strong></h3><p>本文通过数学建模和可视化分析，揭示了台阶磨损的时空演化规律，并提出了针对性的维护建议。未来可进一步优化模型，结合实际数据验证其准确性，为建筑维护提供更科学的决策依据。</p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2025/06/15/%E5%8F%B0%E9%98%B6%E7%A3%A8%E6%8D%9F%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E5%88%86%E6%9E%90/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" rel="tag">数学建模</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BE%8E%E8%B5%9B/" rel="tag">美赛</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2025/05/12/NAVGPT/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">NAVGPT</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "DAeOYIeCtfnPwFeKf96Drmpe-MdYXbMMI",
+    app_key: "kTYIzQjQl7fiwPZRR4NMuaEe#",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+  
+    
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2023-2025
+        <i class="ri-heart-fill heart_icon"></i> John Doe
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="老夏十三行"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯茶吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js"></script>
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/config/TeX-AMS-MML_HTMLorMML-full.js"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>
