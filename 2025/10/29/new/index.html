@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+
+
+<html lang="zh">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>Python+SQLite搭建仓库管理数据库 |  老夏十三行</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    <!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --></head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-new"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Python+SQLite搭建仓库管理数据库
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2025/10/29/new/" class="article-date">
+  <time datetime="2025-10-29T10:06:22.000Z" itemprop="datePublished">2025-10-29</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2.4k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">11 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="一、启动方法"><a href="#一、启动方法" class="headerlink" title="一、启动方法"></a>一、启动方法</h2><p>1, 在python环境中安装<code>sqlite3</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install sqlite3</span><br></pre></td></tr></table></figure>
+
+<p>2, 运行代码</p>
+<h2 id="二、步骤1：创建SQLite数据库表结构"><a href="#二、步骤1：创建SQLite数据库表结构" class="headerlink" title="二、步骤1：创建SQLite数据库表结构"></a>二、步骤1：创建SQLite数据库表结构</h2><p>SQLite是轻量级数据库，不用装服务，直接用Python的<code>sqlite3</code>库操作。先写表结构（注意SQLite的类型适配）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sqlite3</span><br><span class="line"></span><br><span class="line">conn = sqlite3.connect(<span class="string">&#x27;warehouse.db&#x27;</span>)</span><br><span class="line">conn.execute(<span class="string">&quot;PRAGMA foreign_keys = ON;&quot;</span>)</span><br><span class="line">cursor = conn.cursor()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 仓库表</span></span><br><span class="line">cursor.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">CREATE TABLE IF NOT EXISTS 仓库 (</span></span><br><span class="line"><span class="string">    仓库号 CHAR(6) PRIMARY KEY,</span></span><br><span class="line"><span class="string">    城市 CHAR(10),</span></span><br><span class="line"><span class="string">    面积 INTEGER</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 职工表</span></span><br><span class="line">cursor.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">CREATE TABLE IF NOT EXISTS 职工 (</span></span><br><span class="line"><span class="string">    职工号 CHAR(8) PRIMARY KEY,</span></span><br><span class="line"><span class="string">    仓库号 CHAR(6),</span></span><br><span class="line"><span class="string">    姓名 CHAR(10),</span></span><br><span class="line"><span class="string">    工资 REAL,</span></span><br><span class="line"><span class="string">    班组长 CHAR(8),</span></span><br><span class="line"><span class="string">    FOREIGN KEY (仓库号) REFERENCES 仓库(仓库号),</span></span><br><span class="line"><span class="string">    FOREIGN KEY (班组长) REFERENCES 职工(职工号)</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 器件表</span></span><br><span class="line">cursor.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">CREATE TABLE IF NOT EXISTS 器件 (</span></span><br><span class="line"><span class="string">    器件号 CHAR(8) PRIMARY KEY,</span></span><br><span class="line"><span class="string">    器件名称 CHAR(20),</span></span><br><span class="line"><span class="string">    规格 CHAR(16),</span></span><br><span class="line"><span class="string">    单价 REAL</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 库存表（关键：外键关联仓库和器件）</span></span><br><span class="line">cursor.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">CREATE TABLE IF NOT EXISTS 库存 (</span></span><br><span class="line"><span class="string">    器件号 CHAR(8),</span></span><br><span class="line"><span class="string">    仓库号 CHAR(6),</span></span><br><span class="line"><span class="string">    数量 INTEGER,</span></span><br><span class="line"><span class="string">    PRIMARY KEY (器件号, 仓库号),</span></span><br><span class="line"><span class="string">    FOREIGN KEY (器件号) REFERENCES 器件(器件号),</span></span><br><span class="line"><span class="string">    FOREIGN KEY (仓库号) REFERENCES 仓库(仓库号)</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 供应商表</span></span><br><span class="line">cursor.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">CREATE TABLE IF NOT EXISTS 供应商 (</span></span><br><span class="line"><span class="string">    供应商号 CHAR(8) PRIMARY KEY,</span></span><br><span class="line"><span class="string">    供应商名 CHAR(30),</span></span><br><span class="line"><span class="string">    地址 CHAR(30)</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. 供应表</span></span><br><span class="line">cursor.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">CREATE TABLE IF NOT EXISTS 供应 (</span></span><br><span class="line"><span class="string">    供应商号 CHAR(8),</span></span><br><span class="line"><span class="string">    器件号 CHAR(8),</span></span><br><span class="line"><span class="string">    PRIMARY KEY (供应商号, 器件号),</span></span><br><span class="line"><span class="string">    FOREIGN KEY (供应商号) REFERENCES 供应商(供应商号),</span></span><br><span class="line"><span class="string">    FOREIGN KEY (器件号) REFERENCES 器件(器件号)</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 7. 订购单表</span></span><br><span class="line">cursor.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">CREATE TABLE IF NOT EXISTS 订购单 (</span></span><br><span class="line"><span class="string">    订购单号 CHAR(8) PRIMARY KEY,</span></span><br><span class="line"><span class="string">    经手人 CHAR(8),</span></span><br><span class="line"><span class="string">    供货方 CHAR(8),</span></span><br><span class="line"><span class="string">    订货日期 DATETIME,</span></span><br><span class="line"><span class="string">    金额 REAL,</span></span><br><span class="line"><span class="string">    FOREIGN KEY (经手人) REFERENCES 职工(职工号),</span></span><br><span class="line"><span class="string">    FOREIGN KEY (供货方) REFERENCES 供应商(供应商号)</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 8. 订购明细表</span></span><br><span class="line">cursor.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">CREATE TABLE IF NOT EXISTS 订购明细 (</span></span><br><span class="line"><span class="string">    订购单号 CHAR(8),</span></span><br><span class="line"><span class="string">    序号 INTEGER,</span></span><br><span class="line"><span class="string">    器件号 CHAR(8),</span></span><br><span class="line"><span class="string">    数量 INTEGER,</span></span><br><span class="line"><span class="string">    单价 REAL,</span></span><br><span class="line"><span class="string">    PRIMARY KEY (订购单号, 序号),</span></span><br><span class="line"><span class="string">    FOREIGN KEY (订购单号) REFERENCES 订购单(订购单号),</span></span><br><span class="line"><span class="string">    FOREIGN KEY (器件号) REFERENCES 器件(器件号)</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 9. 保管表</span></span><br><span class="line">cursor.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">CREATE TABLE IF NOT EXISTS 保管 (</span></span><br><span class="line"><span class="string">    职工号 CHAR(8),</span></span><br><span class="line"><span class="string">    器件号 CHAR(8),</span></span><br><span class="line"><span class="string">    PRIMARY KEY (职工号, 器件号),</span></span><br><span class="line"><span class="string">    FOREIGN KEY (职工号) REFERENCES 职工(职工号),</span></span><br><span class="line"><span class="string">    FOREIGN KEY (器件号) REFERENCES 器件(器件号)</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line">conn.commit()</span><br><span class="line">conn.close()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;表结构创建成功！&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="三、步骤2：批量插入测试数据"><a href="#三、步骤2：批量插入测试数据" class="headerlink" title="三、步骤2：批量插入测试数据"></a>三、步骤2：批量插入测试数据</h2><p>每个表至少插10条数据，用随机数模拟真实业务场景：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 插入数据代码（保存为 add_data.py 并运行）</span></span><br><span class="line"><span class="keyword">import</span> sqlite3</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime, timedelta</span><br><span class="line"></span><br><span class="line">conn = sqlite3.connect(<span class="string">&#x27;warehouse.db&#x27;</span>)</span><br><span class="line">conn.execute(<span class="string">&quot;PRAGMA foreign_keys = ON;&quot;</span>) <span class="comment">#sqlite通过这种方式打开外键约束</span></span><br><span class="line">cursor = conn.cursor()</span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------------- 1. 插入仓库表（10条，确保主键唯一） ----------------------</span></span><br><span class="line">warehouse_data = [</span><br><span class="line">    (<span class="string">&#x27;CK0001&#x27;</span>, <span class="string">&#x27;北京&#x27;</span>, <span class="number">1000</span>), (<span class="string">&#x27;CK0002&#x27;</span>, <span class="string">&#x27;上海&#x27;</span>, <span class="number">1200</span>), (<span class="string">&#x27;CK0003&#x27;</span>, <span class="string">&#x27;广州&#x27;</span>, <span class="number">800</span>),</span><br><span class="line">    (<span class="string">&#x27;CK0004&#x27;</span>, <span class="string">&#x27;深圳&#x27;</span>, <span class="number">1500</span>), (<span class="string">&#x27;CK0005&#x27;</span>, <span class="string">&#x27;杭州&#x27;</span>, <span class="number">900</span>), (<span class="string">&#x27;CK0006&#x27;</span>, <span class="string">&#x27;成都&#x27;</span>, <span class="number">1100</span>),</span><br><span class="line">    (<span class="string">&#x27;CK0007&#x27;</span>, <span class="string">&#x27;武汉&#x27;</span>, <span class="number">700</span>), (<span class="string">&#x27;CK0008&#x27;</span>, <span class="string">&#x27;南京&#x27;</span>, <span class="number">850</span>), (<span class="string">&#x27;CK0009&#x27;</span>, <span class="string">&#x27;西安&#x27;</span>, <span class="number">950</span>),</span><br><span class="line">    (<span class="string">&#x27;CK0010&#x27;</span>, <span class="string">&#x27;重庆&#x27;</span>, <span class="number">1300</span>)</span><br><span class="line">]</span><br><span class="line">cursor.executemany(<span class="string">&quot;INSERT INTO 仓库 VALUES (?, ?, ?)&quot;</span>, warehouse_data)</span><br><span class="line">valid_warehouse_ids = [wh[<span class="number">0</span>] <span class="keyword">for</span> wh <span class="keyword">in</span> warehouse_data]  <span class="comment"># 直接从插入的数据中获取仓库号</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------------- 2. 插入职工表（12条） ----------------------</span></span><br><span class="line">staff_data = [</span><br><span class="line">    (<span class="string">&#x27;ZG0001&#x27;</span>, <span class="string">&#x27;CK0001&#x27;</span>, <span class="string">&#x27;张三&#x27;</span>, <span class="number">8000.00</span>, <span class="literal">None</span>), (<span class="string">&#x27;ZG0002&#x27;</span>, <span class="string">&#x27;CK0001&#x27;</span>, <span class="string">&#x27;李四&#x27;</span>, <span class="number">6500.00</span>, <span class="string">&#x27;ZG0001&#x27;</span>),</span><br><span class="line">    (<span class="string">&#x27;ZG0003&#x27;</span>, <span class="string">&#x27;CK0002&#x27;</span>, <span class="string">&#x27;王五&#x27;</span>, <span class="number">9000.00</span>, <span class="literal">None</span>), (<span class="string">&#x27;ZG0004&#x27;</span>, <span class="string">&#x27;CK0002&#x27;</span>, <span class="string">&#x27;赵六&#x27;</span>, <span class="number">7200.00</span>, <span class="string">&#x27;ZG0003&#x27;</span>),</span><br><span class="line">    (<span class="string">&#x27;ZG0005&#x27;</span>, <span class="string">&#x27;CK0003&#x27;</span>, <span class="string">&#x27;孙七&#x27;</span>, <span class="number">7500.00</span>, <span class="literal">None</span>), (<span class="string">&#x27;ZG0006&#x27;</span>, <span class="string">&#x27;CK0003&#x27;</span>, <span class="string">&#x27;周八&#x27;</span>, <span class="number">6800.00</span>, <span class="string">&#x27;ZG0005&#x27;</span>),</span><br><span class="line">    (<span class="string">&#x27;ZG0007&#x27;</span>, <span class="string">&#x27;CK0004&#x27;</span>, <span class="string">&#x27;吴九&#x27;</span>, <span class="number">8200.00</span>, <span class="literal">None</span>), (<span class="string">&#x27;ZG0008&#x27;</span>, <span class="string">&#x27;CK0004&#x27;</span>, <span class="string">&#x27;郑十&#x27;</span>, <span class="number">6900.00</span>, <span class="string">&#x27;ZG0007&#x27;</span>),</span><br><span class="line">    (<span class="string">&#x27;ZG0009&#x27;</span>, <span class="string">&#x27;CK0005&#x27;</span>, <span class="string">&#x27;钱一&#x27;</span>, <span class="number">7800.00</span>, <span class="literal">None</span>), (<span class="string">&#x27;ZG0010&#x27;</span>, <span class="string">&#x27;CK0005&#x27;</span>, <span class="string">&#x27;冯二&#x27;</span>, <span class="number">6300.00</span>, <span class="string">&#x27;ZG0009&#x27;</span>),</span><br><span class="line">    (<span class="string">&#x27;ZG0011&#x27;</span>, <span class="string">&#x27;CK0006&#x27;</span>, <span class="string">&#x27;陈三&#x27;</span>, <span class="number">8500.00</span>, <span class="literal">None</span>), (<span class="string">&#x27;ZG0012&#x27;</span>, <span class="string">&#x27;CK0006&#x27;</span>, <span class="string">&#x27;褚四&#x27;</span>, <span class="number">7100.00</span>, <span class="string">&#x27;ZG0011&#x27;</span>)</span><br><span class="line">]</span><br><span class="line">cursor.executemany(<span class="string">&quot;INSERT INTO 职工 VALUES (?, ?, ?, ?, ?)&quot;</span>, staff_data)</span><br><span class="line">valid_staff_ids = [st[<span class="number">0</span>] <span class="keyword">for</span> st <span class="keyword">in</span> staff_data]  <span class="comment"># 从插入的数据中获取职工号</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------------- 3. 插入器件表（10条） ----------------------</span></span><br><span class="line">device_data = [</span><br><span class="line">    (<span class="string">&#x27;QJ0001&#x27;</span>, <span class="string">&#x27;电阻&#x27;</span>, <span class="string">&#x27;10Ω&#x27;</span>, <span class="number">2.5</span>), (<span class="string">&#x27;QJ0002&#x27;</span>, <span class="string">&#x27;电容&#x27;</span>, <span class="string">&#x27;100μF&#x27;</span>, <span class="number">3.2</span>),</span><br><span class="line">    (<span class="string">&#x27;QJ0003&#x27;</span>, <span class="string">&#x27;电感&#x27;</span>, <span class="string">&#x27;1mH&#x27;</span>, <span class="number">5.8</span>), (<span class="string">&#x27;QJ0004&#x27;</span>, <span class="string">&#x27;芯片&#x27;</span>, <span class="string">&#x27;STM32&#x27;</span>, <span class="number">28.5</span>),</span><br><span class="line">    (<span class="string">&#x27;QJ0005&#x27;</span>, <span class="string">&#x27;二极管&#x27;</span>, <span class="string">&#x27;IN4007&#x27;</span>, <span class="number">1.8</span>), (<span class="string">&#x27;QJ0006&#x27;</span>, <span class="string">&#x27;三极管&#x27;</span>, <span class="string">&#x27;9013&#x27;</span>, <span class="number">2.1</span>),</span><br><span class="line">    (<span class="string">&#x27;QJ0007&#x27;</span>, <span class="string">&#x27;继电器&#x27;</span>, <span class="string">&#x27;5V&#x27;</span>, <span class="number">12.3</span>), (<span class="string">&#x27;QJ0008&#x27;</span>, <span class="string">&#x27;晶振&#x27;</span>, <span class="string">&#x27;16MHz&#x27;</span>, <span class="number">8.6</span>),</span><br><span class="line">    (<span class="string">&#x27;QJ0009&#x27;</span>, <span class="string">&#x27;保险丝&#x27;</span>, <span class="string">&#x27;2A&#x27;</span>, <span class="number">4.5</span>), (<span class="string">&#x27;QJ0010&#x27;</span>, <span class="string">&#x27;连接器&#x27;</span>, <span class="string">&#x27;USB&#x27;</span>, <span class="number">6.7</span>)</span><br><span class="line">]</span><br><span class="line">cursor.executemany(<span class="string">&quot;INSERT INTO 器件 VALUES (?, ?, ?, ?)&quot;</span>, device_data)</span><br><span class="line">valid_device_ids = [dv[<span class="number">0</span>] <span class="keyword">for</span> dv <span class="keyword">in</span> device_data]  <span class="comment"># 从插入的数据中获取器件号</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------------- 4. 插入库存表（15条，确保外键有效且无重复） ----------------------</span></span><br><span class="line">inventory_data = []</span><br><span class="line">used_inventory = <span class="built_in">set</span>()</span><br><span class="line"><span class="keyword">while</span> <span class="built_in">len</span>(inventory_data) &lt; <span class="number">15</span>:</span><br><span class="line">    device_id = random.choice(valid_device_ids)</span><br><span class="line">    warehouse_id = random.choice(valid_warehouse_ids)</span><br><span class="line">    <span class="keyword">if</span> (device_id, warehouse_id) <span class="keyword">not</span> <span class="keyword">in</span> used_inventory:</span><br><span class="line">        used_inventory.add((device_id, warehouse_id))</span><br><span class="line">        inventory_data.append((device_id, warehouse_id, random.randint(<span class="number">100</span>, <span class="number">1000</span>)))</span><br><span class="line">cursor.executemany(<span class="string">&quot;INSERT INTO 库存 VALUES (?, ?, ?)&quot;</span>, inventory_data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------------- 5. 插入供应商表（10条） ----------------------</span></span><br><span class="line">supplier_data = [</span><br><span class="line">    (<span class="string">&#x27;GY0001&#x27;</span>, <span class="string">&#x27;华信电子&#x27;</span>, <span class="string">&#x27;北京海淀&#x27;</span>), (<span class="string">&#x27;GY0002&#x27;</span>, <span class="string">&#x27;联创科技&#x27;</span>, <span class="string">&#x27;上海浦东&#x27;</span>),</span><br><span class="line">    (<span class="string">&#x27;GY0003&#x27;</span>, <span class="string">&#x27;南方电子&#x27;</span>, <span class="string">&#x27;广州天河&#x27;</span>), (<span class="string">&#x27;GY0004&#x27;</span>, <span class="string">&#x27;深科技&#x27;</span>, <span class="string">&#x27;深圳南山&#x27;</span>),</span><br><span class="line">    (<span class="string">&#x27;GY0005&#x27;</span>, <span class="string">&#x27;浙电元件&#x27;</span>, <span class="string">&#x27;杭州西湖&#x27;</span>), (<span class="string">&#x27;GY0006&#x27;</span>, <span class="string">&#x27;川渝电子&#x27;</span>, <span class="string">&#x27;成都武侯&#x27;</span>),</span><br><span class="line">    (<span class="string">&#x27;GY0007&#x27;</span>, <span class="string">&#x27;华中器件&#x27;</span>, <span class="string">&#x27;武汉光谷&#x27;</span>), (<span class="string">&#x27;GY0008&#x27;</span>, <span class="string">&#x27;苏南科技&#x27;</span>, <span class="string">&#x27;南京江宁&#x27;</span>),</span><br><span class="line">    (<span class="string">&#x27;GY0009&#x27;</span>, <span class="string">&#x27;西北电子&#x27;</span>, <span class="string">&#x27;西安雁塔&#x27;</span>), (<span class="string">&#x27;GY0010&#x27;</span>, <span class="string">&#x27;山城元件&#x27;</span>, <span class="string">&#x27;重庆渝中&#x27;</span>)</span><br><span class="line">]</span><br><span class="line">cursor.executemany(<span class="string">&quot;INSERT INTO 供应商 VALUES (?, ?, ?)&quot;</span>, supplier_data)</span><br><span class="line">valid_supplier_ids = [sp[<span class="number">0</span>] <span class="keyword">for</span> sp <span class="keyword">in</span> supplier_data]  <span class="comment"># 从插入的数据中获取供应商号</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------------- 6. 插入供应表（12条） ----------------------</span></span><br><span class="line">supply_data = []</span><br><span class="line">used_supply = <span class="built_in">set</span>()</span><br><span class="line"><span class="keyword">while</span> <span class="built_in">len</span>(supply_data) &lt; <span class="number">12</span>:</span><br><span class="line">    supplier_id = random.choice(valid_supplier_ids)</span><br><span class="line">    device_id = random.choice(valid_device_ids)</span><br><span class="line">    <span class="keyword">if</span> (supplier_id, device_id) <span class="keyword">not</span> <span class="keyword">in</span> used_supply:</span><br><span class="line">        used_supply.add((supplier_id, device_id))</span><br><span class="line">        supply_data.append((supplier_id, device_id))</span><br><span class="line">cursor.executemany(<span class="string">&quot;INSERT INTO 供应 VALUES (?, ?)&quot;</span>, supply_data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------------- 7. 插入订购单表（10条） ----------------------</span></span><br><span class="line">order_data = []</span><br><span class="line">order_ids = [<span class="string">f&#x27;DG000<span class="subst">&#123;i&#125;</span>&#x27;</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">11</span>)]</span><br><span class="line"><span class="keyword">for</span> idx <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    order_date = (datetime.now() - timedelta(days=random.randint(<span class="number">1</span>, <span class="number">30</span>))).strftime(<span class="string">&#x27;%Y-%m-%d %H:%M:%S&#x27;</span>)</span><br><span class="line">    order_data.append((</span><br><span class="line">        order_ids[idx],</span><br><span class="line">        random.choice(valid_staff_ids),</span><br><span class="line">        random.choice(valid_supplier_ids),</span><br><span class="line">        order_date,</span><br><span class="line">        <span class="built_in">round</span>(random.uniform(<span class="number">500</span>, <span class="number">5000</span>), <span class="number">2</span>)</span><br><span class="line">    ))</span><br><span class="line">cursor.executemany(<span class="string">&quot;INSERT INTO 订购单 VALUES (?, ?, ?, ?, ?)&quot;</span>, order_data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------------- 8. 插入订购明细表（20条） ----------------------</span></span><br><span class="line">order_detail_data = []</span><br><span class="line">used_order_detail = <span class="built_in">set</span>()</span><br><span class="line"><span class="keyword">for</span> order_id <span class="keyword">in</span> order_ids:</span><br><span class="line">    <span class="keyword">for</span> seq <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, random.randint(<span class="number">2</span>, <span class="number">4</span>)):  <span class="comment"># 每个订单2-3条明细</span></span><br><span class="line">        <span class="keyword">if</span> (order_id, seq) <span class="keyword">not</span> <span class="keyword">in</span> used_order_detail:</span><br><span class="line">            used_order_detail.add((order_id, seq))</span><br><span class="line">            order_detail_data.append((</span><br><span class="line">                order_id,</span><br><span class="line">                seq,</span><br><span class="line">                random.choice(valid_device_ids),</span><br><span class="line">                random.randint(<span class="number">10</span>, <span class="number">50</span>),</span><br><span class="line">                <span class="built_in">round</span>(random.uniform(<span class="number">2</span>, <span class="number">30</span>), <span class="number">2</span>)</span><br><span class="line">            ))</span><br><span class="line">cursor.executemany(<span class="string">&quot;INSERT INTO 订购明细 VALUES (?, ?, ?, ?, ?)&quot;</span>, order_detail_data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------------- 9. 插入保管表（15条） ----------------------</span></span><br><span class="line">keep_data = []</span><br><span class="line">used_keep = <span class="built_in">set</span>()</span><br><span class="line"><span class="keyword">while</span> <span class="built_in">len</span>(keep_data) &lt; <span class="number">15</span>:</span><br><span class="line">    staff_id = random.choice(valid_staff_ids)</span><br><span class="line">    device_id = random.choice(valid_device_ids)</span><br><span class="line">    <span class="keyword">if</span> (staff_id, device_id) <span class="keyword">not</span> <span class="keyword">in</span> used_keep:</span><br><span class="line">        used_keep.add((staff_id, device_id))</span><br><span class="line">        keep_data.append((staff_id, device_id))</span><br><span class="line">cursor.executemany(<span class="string">&quot;INSERT INTO 保管 VALUES (?, ?)&quot;</span>, keep_data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">conn.commit()</span><br><span class="line">conn.close()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;所有数据插入成功！&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="四、步骤3：常用查询示例"><a href="#四、步骤3：常用查询示例" class="headerlink" title="四、步骤3：常用查询示例"></a>四、步骤3：常用查询示例</h2><p>搭好库后，就能做各种业务查询了，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sqlite3</span><br><span class="line"></span><br><span class="line">conn = sqlite3.connect(<span class="string">&#x27;warehouse.db&#x27;</span>)</span><br><span class="line">conn.execute(<span class="string">&quot;PRAGMA foreign_keys = ON;&quot;</span>)</span><br><span class="line">cursor = conn.cursor()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 查询“北京仓库”的所有职工信息</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;=== 北京仓库的职工 ===&quot;</span>)</span><br><span class="line">cursor.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">SELECT 职工.职工号, 职工.姓名, 职工.工资, 仓库.城市</span></span><br><span class="line"><span class="string">FROM 职工 JOIN 仓库 ON 职工.仓库号 = 仓库.仓库号</span></span><br><span class="line"><span class="string">WHERE 仓库.城市 = &#x27;北京&#x27;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> cursor.fetchall():</span><br><span class="line">    <span class="built_in">print</span>(row)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 查询“器件QJ0004（STM32）”的库存分布（哪个仓库有多少）</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n=== 器件QJ0004的库存分布 ===&quot;</span>)</span><br><span class="line">cursor.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">SELECT 仓库.仓库号, 仓库.城市, 库存.数量</span></span><br><span class="line"><span class="string">FROM 库存 JOIN 仓库 ON 库存.仓库号 = 仓库.仓库号</span></span><br><span class="line"><span class="string">WHERE 库存.器件号 = &#x27;QJ0004&#x27;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> cursor.fetchall():</span><br><span class="line">    <span class="built_in">print</span>(row)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 查询“订购单DG0001”的所有明细（包含器件名称、数量、单价）</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n=== 订购单DG0001的明细 ===&quot;</span>)</span><br><span class="line">cursor.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">SELECT 订购明细.序号, 器件.器件名称, 订购明细.数量, 订购明细.单价</span></span><br><span class="line"><span class="string">FROM 订购明细 JOIN 器件 ON 订购明细.器件号 = 器件.器件号</span></span><br><span class="line"><span class="string">WHERE 订购明细.订购单号 = &#x27;DG0001&#x27;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> cursor.fetchall():</span><br><span class="line">    <span class="built_in">print</span>(row)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 查询“工资≥8000”的职工及其所属仓库</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n=== 工资≥8000的职工 ===&quot;</span>)</span><br><span class="line">cursor.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">SELECT 职工.姓名, 职工.工资, 仓库.仓库号, 仓库.城市</span></span><br><span class="line"><span class="string">FROM 职工 JOIN 仓库 ON 职工.仓库号 = 仓库.仓库号</span></span><br><span class="line"><span class="string">WHERE 职工.工资 &gt;= 8000</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> cursor.fetchall():</span><br><span class="line">    <span class="built_in">print</span>(row)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 查询“供应商华信电子（GY0001）”供应的所有器件</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n=== 华信电子供应的器件 ===&quot;</span>)</span><br><span class="line">cursor.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">SELECT 器件.器件号, 器件.器件名称, 器件.规格</span></span><br><span class="line"><span class="string">FROM 供应 JOIN 器件 ON 供应.器件号 = 器件.器件号</span></span><br><span class="line"><span class="string">WHERE 供应.供应商号 = &#x27;GY0001&#x27;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> cursor.fetchall():</span><br><span class="line">    <span class="built_in">print</span>(row)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. 统计每个城市的仓库总面积</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n=== 各城市仓库总面积 ===&quot;</span>)</span><br><span class="line">cursor.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">SELECT 城市, SUM(面积) AS 总面积</span></span><br><span class="line"><span class="string">FROM 仓库</span></span><br><span class="line"><span class="string">GROUP BY 城市</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> cursor.fetchall():</span><br><span class="line">    <span class="built_in">print</span>(row)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><p>用Python+SQLite搭小型数据库真的很方便：不用装服务，代码写完直接跑，适合做Demo或小型项目。如果是生产环境，可能需要换成MySQL&#x2F;PostgreSQL，但核心逻辑是一样的~</p>
+<p>要不要我帮你补充这篇博客的<strong>Markdown格式优化版</strong>（比如加代码高亮、配图说明）？</p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2025/10/29/new/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2025/10/29/g/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            g
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2025/09/12/%E9%9D%99%E6%80%81%E9%A1%B5%E9%9D%A2-%E4%BA%94%E5%AD%90%E6%A3%8B%E5%B0%8F%E6%B8%B8%E6%88%8F/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">静态页面|五子棋小游戏</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "DAeOYIeCtfnPwFeKf96Drmpe-MdYXbMMI",
+    app_key: "kTYIzQjQl7fiwPZRR4NMuaEe#",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+  
+    
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2023-2025
+        <i class="ri-heart-fill heart_icon"></i> John Doe
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="老夏十三行"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯茶吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js"></script>
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/config/TeX-AMS-MML_HTMLorMML-full.js"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>
