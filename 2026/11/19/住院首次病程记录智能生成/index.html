@@ -130,7 +130,7 @@
 <li>无密钥启动、不发 Authorization 头、模型名与地址只从 <code>.env</code> 读</li>
 </ul>
 <p>一句话概括：<strong>宁缺毋假</strong>。这套约束后来全部落在校验器里。</p>
-<h2 id="2-整体架构"><a href="#2-整体架构" class="headerlink" title="2. 整体架构"></a>2. 整体架构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">main.py              # 唯一入口：读 input.json → 逐例走流水线 → 原子写 output.json</span><br><span class="line">src/</span><br><span class="line">  pipeline.py        # 三模式编排 + 降级路径 + 三级处置（372 行）</span><br><span class="line">  validator.py       # 校验器：14 条规则、四级处置（1251 行，全项目最大模块）</span><br><span class="line">  model_client.py    # HTTP 调用、固定生成参数、400 降级、退避重试（336 行）</span><br><span class="line">  reference_ranges.py# 本地检验参考区间查表（离线，不耗 API）</span><br><span class="line">  prompting.py       # Prompt 加载与占位符渲染</span><br><span class="line">  budget.py          # 配额记账与模式决策表</span><br><span class="line">  prompts/           # system/user + stage1/2/3 提示词</span><br><span class="line">tools/</span><br><span class="line">  mock_server.py     # 本地 Mock（含三 stage 固定响应与故障注入）</span><br><span class="line">  review_report.py   # input+output → 并排对照 HTML 预览</span><br></pre></td></tr></table></figure>
+<h2 id="2-整体架构"><a href="#2-整体架构" class="headerlink" title="2. 整体架构"></a>2. 整体架构</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">main.py              # 唯一入口：读 input.json → 逐例走流水线 → 原子写 output.json</span><br><span class="line">src/</span><br><span class="line">  pipeline.py        # 三模式编排 + 降级路径 + 三级处置（372 行）</span><br><span class="line">  validator.py       # 校验器：14 条规则、四级处置（1251 行，全项目最大模块）</span><br><span class="line">  model_client.py    # HTTP 调用、固定生成参数、400 降级、退避重试（336 行）</span><br><span class="line">  reference_ranges.py# 本地检验参考区间查表（离线，不耗 API）</span><br><span class="line">  prompting.py       # Prompt 加载与占位符渲染</span><br><span class="line">  budget.py          # 配额记账与模式决策表</span><br><span class="line">  prompts/           # system/user + stage1/2/3 提示词</span><br><span class="line">tools/</span><br><span class="line">  mock_server.py     # 本地 Mock（含三 stage 固定响应与故障注入）</span><br><span class="line">  review_report.py   # input+output → 并排对照 HTML 预览</span><br></pre></td></tr></table></figure>
 
 <h3 id="三模式固定编排"><a href="#三模式固定编排" class="headerlink" title="三模式固定编排"></a>三模式固定编排</h3><p>按内容策略和单例 API 配额，流水线有三种模式：</p>
 <table>
@@ -166,7 +166,7 @@
 
 <p>中间 stage 失败不重试，直接降级为单发 baseline（记 <code>degraded=True</code> + 原因）；降级后仍失败才记 failed。<strong>降级不是静默兜底</strong>，一切留痕在 <code>run_log.json</code>。</p>
 <h3 id="staged-流水线的第一环：事实抽取"><a href="#staged-流水线的第一环：事实抽取" class="headerlink" title="staged 流水线的第一环：事实抽取"></a>staged 流水线的第一环：事实抽取</h3><p>full 模式的 stage1 是一个独立的”抽取引擎”角色，它的 system prompt 值得全文贴出，因为它把 LLM 应用开发里最容易被忽视的一条原则写到了极致——<strong>先冻结事实，再做推理</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">你是临床事实抽取引擎，服务于住院首次病程记录生成流水线的第一步。</span><br><span class="line"></span><br><span class="line">任务：从下方病例资料中**逐字抽取**结构化事实，供后续分析使用。</span><br><span class="line"></span><br><span class="line">铁律：</span><br><span class="line">1. 只抽取，不推理、不诊断、不建议、不改写、不总结。</span><br><span class="line">2. 数值与单位一字不差（如&quot;82g/L&quot;不得写成&quot;82 g/L 偏低&quot;或换算单位）……</span><br><span class="line">3. 否定与缺失表述原样保留：&quot;未见&quot;&quot;未提供&quot;&quot;不详&quot;不得改写为&quot;正常&quot;&quot;阴性&quot;。</span><br><span class="line">4. 每条事实必须携带真实 source_id；无法定位来源的内容不得抽取。</span><br><span class="line">5. 缺失项列入 missing_items，只写条目名，不写推测。</span><br><span class="line">6. 时间信息按原文表述记录（如&quot;2周前&quot;&quot;近2周&quot;），不换算、不推断具体日期。</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">你是临床事实抽取引擎，服务于住院首次病程记录生成流水线的第一步。</span><br><span class="line"></span><br><span class="line">任务：从下方病例资料中**逐字抽取**结构化事实，供后续分析使用。</span><br><span class="line"></span><br><span class="line">铁律：</span><br><span class="line">1. 只抽取，不推理、不诊断、不建议、不改写、不总结。</span><br><span class="line">2. 数值与单位一字不差（如&quot;82g/L&quot;不得写成&quot;82 g/L 偏低&quot;或换算单位）……</span><br><span class="line">3. 否定与缺失表述原样保留：&quot;未见&quot;&quot;未提供&quot;&quot;不详&quot;不得改写为&quot;正常&quot;&quot;阴性&quot;。</span><br><span class="line">4. 每条事实必须携带真实 source_id；无法定位来源的内容不得抽取。</span><br><span class="line">5. 缺失项列入 missing_items，只写条目名，不写推测。</span><br><span class="line">6. 时间信息按原文表述记录（如&quot;2周前&quot;&quot;近2周&quot;），不换算、不推断具体日期。</span><br></pre></td></tr></table></figure>
 
 <p>抽取产出 <code>key_facts / lab_values / negatives / missing_items / timeline</code> 五类结构，stage2 的临床分析只能基于这份”冻结的事实清单”进行，stage3 终稿再继承 v3 的全部写作规则。拆成三环的收益很直接：每一环的错误可以被单独定位——数值失真找 stage1，鉴别诊断跑偏找 stage2，文风问题找 stage3。</p>
 <h3 id="本地参考区间查表（full-模式专属）"><a href="#本地参考区间查表（full-模式专属）" class="headerlink" title="本地参考区间查表（full 模式专属）"></a>本地参考区间查表（full 模式专属）</h3><p>stage1 抽出的检验数值会先在<strong>本地</strong>查一遍参考区间表（不消耗任何 API 调用），把”偏高&#x2F;偏低&#x2F;正常”作为内部提示注入 stage2：</p>
@@ -215,7 +215,7 @@
 <h3 id="红线单一来源"><a href="#红线单一来源" class="headerlink" title="红线单一来源"></a>红线单一来源</h3><p>这是我最想安利给别人的一个设计。禁词表、参考区间、校验规则共享同一份定义，提示词通过占位符把它们<strong>注入</strong>给模型：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># config.py —— 禁词表唯一定义处</span></span><br><span class="line">BAN_EXECUTED_WORDS = [<span class="string">&quot;已予&quot;</span>, <span class="string">&quot;已实施&quot;</span>, <span class="string">&quot;已完成&quot;</span>, <span class="string">&quot;给予&quot;</span>, ...]</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># prompts/system_prompt.txt 第 7 条</span><br><span class="line">诊疗计划只能是未来动作，用&quot;拟/建议/复查/观察/安排&quot;，</span><br><span class="line">不得出现&#123;ban_executed_words&#125;等已实施类措辞。</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># prompts/system_prompt.txt 第 7 条</span><br><span class="line">诊疗计划只能是未来动作，用&quot;拟/建议/复查/观察/安排&quot;，</span><br><span class="line">不得出现&#123;ban_executed_words&#125;等已实施类措辞。</span><br></pre></td></tr></table></figure>
 
 <p>校验器 <code>_check_implemented</code> 用的也是同一个表。这样保证”写的约束 &#x3D; 查的约束”，永远不会出现”提示词没禁止但校验器判死”的孤儿错误。</p>
 <h2 id="4-运行日志与可复现性"><a href="#4-运行日志与可复现性" class="headerlink" title="4. 运行日志与可复现性"></a>4. 运行日志与可复现性</h2><p>固定生成参数写在 <code>src/model_client.py</code> 顶部，一眼可见：</p>
@@ -377,7 +377,6 @@
 
 <p>测试为纯标准库 unittest，收官时 90 项全部通过。</p>
 <p>这个项目教会我最多的一件事：给 LLM 的任务，难点往往不在”让它写出来”，而在<strong>建立一套能证明它没瞎写的机制</strong>——可溯源的 evidence、单一来源的红线定义、带反馈的重试闭环，以及愿意逐例复盘失败的耐心。</p>
-<p>Donate</p>
  
       <!-- reward -->
       
@@ -539,7 +538,7 @@
       <li>
         Copyrights &copy;
         2023-2026
-        <i class="ri-heart-fill heart_icon"></i> John Doe
+        <i class="ri-heart-fill heart_icon"></i> BernieDif
       </li>
     </ul>
     <ul>
@@ -605,27 +604,19 @@
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/archives">分类</a>
+      <a class="nav-item-link" href="/categories">分类</a>
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/archives">标签</a>
+      <a class="nav-item-link" href="/tags">标签</a>
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/archives">旅行</a>
+      <a class="nav-item-link" href="/links">友链</a>
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/archives">摄影</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/archives">友链</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/archives">关于我</a>
+      <a class="nav-item-link" href="/about">关于我</a>
     </li>
     
   </ul>

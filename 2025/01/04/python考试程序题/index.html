@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">29 min</span>
+            <span class="post-count">30 min</span>
         </span>
     </span>
 </div>
@@ -147,10 +147,10 @@ area=6.00
 <li>功能：使用海伦公式计算三角形的面积。公式为<code>sqrt(p * (p - a) * (p - b) * (p - c))</code>，其中<code>sqrt</code>是<code>math</code>模块中的平<br>方根函数。</li>
 </ul>
 </li>
-<li><p><code>print(f&quot;area={area:.2f}&quot;)</code></p>
+<li><p><code>print(f&quot;area=&#123;area:.2f&#125;&quot;)</code></p>
 <ul>
 <li>功能：格式化输出三角形的面积。具体步骤如下：<ul>
-<li><code>f&quot;area={area:.2f}&quot;</code>：使用Python的格式化字符串功能，将<code>area</code>保留两位小数。</li>
+<li><code>f&quot;area=&#123;area:.2f&#125;&quot;</code>：使用Python的格式化字符串功能，将<code>area</code>保留两位小数。</li>
 <li><code>print(...)</code>：输出格式化后的字符串。</li>
 </ul>
 </li>
@@ -195,10 +195,10 @@ sum=5
 </li>
 </ul>
 </li>
-<li><p><code>print(f&quot;sum={sum_squares}&quot;)</code></p>
+<li><p><code>print(f&quot;sum=&#123;sum_squares&#125;&quot;)</code></p>
 <ul>
 <li>功能：格式化输出平方和。具体步骤如下：<ul>
-<li><code>f&quot;sum={sum_squares}&quot;</code>：使用Python的格式化字符串功能，将<br><code>sum_squares</code>插入到字符串中。</li>
+<li><code>f&quot;sum=&#123;sum_squares&#125;&quot;</code>：使用Python的格式化字符串功能，将<br><code>sum_squares</code>插入到字符串中。</li>
 <li><code>print(...)</code>：输出格式化后的字符串。</li>
 </ul>
 </li>
@@ -290,10 +290,10 @@ final score:92.00
 </li>
 </ul>
 </li>
-<li><p><code>print(f&quot;final score:{final_score:.2f}&quot;)</code></p>
+<li><p><code>print(f&quot;final score:&#123;final_score:.2f&#125;&quot;)</code></p>
 <ul>
 <li>功能：格式化输出去掉一个最高分和一个最低分后的平均分数。具体步骤如下<br>：<ul>
-<li><code>f&quot;final score:{final_score:.2f}&quot;</code>：使用Python的格式化字符串功能，<br>将<code>final_score</code>保留两位小数。</li>
+<li><code>f&quot;final score:&#123;final_score:.2f&#125;&quot;</code>：使用Python的格式化字符串功能，<br>将<code>final_score</code>保留两位小数。</li>
 <li><code>print(...)</code>：输出格式化后的字符串。</li>
 </ul>
 </li>
@@ -592,10 +592,10 @@ final score:92.00
 </li>
 </ul>
 </li>
-<li><p><code>file.write(f&quot;{num}\n&quot;)</code></p>
+<li><p><code>file.write(f&quot;&#123;num&#125;\n&quot;)</code></p>
 <ul>
 <li>功能：将生成的随机数写入文件中，并在每个数字后添加一个换行符。具体步<br>骤如下：<ul>
-<li><code>f&quot;{num}\n&quot;</code>：使用格式化字符串（f-string）将变量<code>num</code>插入到字符串<br>中，并在末尾添加一个换行符<code>\n</code>。</li>
+<li><code>f&quot;&#123;num&#125;\n&quot;</code>：使用格式化字符串（f-string）将变量<code>num</code>插入到字符串<br>中，并在末尾添加一个换行符<code>\n</code>。</li>
 <li><code>file.write(...)</code>：调用文件对象的<code>write()</code>方法，将字符串写入文件。</li>
 </ul>
 </li>
@@ -620,10 +620,10 @@ final score:92.00
 </li>
 </ul>
 </li>
-<li><p><code>formatted_str = &quot;{:*^20}&quot;.format(f&quot;{n:,.0f}&quot;)</code></p>
+<li><p><code>formatted_str = &quot;&#123;:*^20&#125;&quot;.format(f&quot;&#123;n:,.0f&#125;&quot;)</code></p>
 <ul>
 <li>功能：将变量<code>n</code>格式化为一个在20个字符宽度的字符串，其中数字居中对齐<br>，两侧用星号（<code>*</code>）填充。具体步骤如下：<ul>
-<li><code>f&quot;{n:,.0f}&quot;</code>：使用格式化字符串（f-string）将变量<code>n</code>转换为带有千位<br>分隔符的整数字符串。<ul>
+<li><code>f&quot;&#123;n:,.0f&#125;&quot;</code>：使用格式化字符串（f-string）将变量<code>n</code>转换为带有千位<br>分隔符的整数字符串。<ul>
 <li><p><code>n</code>：表示要格式化的变量。</p>
 </li>
 <li><p><code>:,</code>：在数字中插入千位分隔符，例如1234567会被格式化为1,234,567。</p>
@@ -632,7 +632,7 @@ final score:92.00
 </li>
 </ul>
 </li>
-<li><code>&quot;{:*^20}&quot;</code>：定义了一个字符串格式化模板，用于生成最终的字符串。<ul>
+<li><code>&quot;&#123;:*^20&#125;&quot;</code>：定义了一个字符串格式化模板，用于生成最终的字符串。<ul>
 <li><code>*</code>：表示用星号（<code>*</code>）字符填充空白区域。</li>
 <li><code>^20</code>：表示总宽度为20个字符，并且内容居中对齐。</li>
 </ul>
@@ -697,7 +697,7 @@ result=120
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;result=<span class="subst">&#123;result&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li><strong><code>f&quot;result={result}&quot;</code></strong>: 这是一个 f-string，用于格式化字符串。其中<br><code>{result}</code> 会被变量 <code>result</code> 的值替换。</li>
+<li><strong><code>f&quot;result=&#123;result&#125;&quot;</code></strong>: 这是一个 f-string，用于格式化字符串。其中<br><code>&#123;result&#125;</code> 会被变量 <code>result</code> 的值替换。</li>
 <li><strong><code>print(...)</code></strong>: 这是另一个内置函数，将括号内的内容输出到控制台。这里<br>它会显示格式化后的字符串 “result&#x3D;…”，其中 <code>...</code> 是 <code>result</code> 的实际值。</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">score = <span class="built_in">float</span>(<span class="built_in">input</span>(<span class="string">&quot;Input score:&quot;</span>))</span><br><span class="line"><span class="keyword">if</span> score &gt; <span class="number">100</span> <span class="keyword">or</span> score &lt; <span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Input error!&quot;</span>)</span><br><span class="line"><span class="keyword">elif</span> <span class="number">90</span> &lt;= score &lt;= <span class="number">100</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;A&quot;</span>)</span><br><span class="line"><span class="keyword">elif</span> <span class="number">80</span> &lt;= score &lt; <span class="number">90</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;B&quot;</span>)</span><br><span class="line"><span class="keyword">elif</span> <span class="number">70</span> &lt;= score &lt; <span class="number">80</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;C&quot;</span>)</span><br><span class="line"><span class="keyword">elif</span> <span class="number">60</span> &lt;= score &lt; <span class="number">70</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;D&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;E&quot;</span>)</span><br></pre></td></tr></table></figure>
@@ -825,8 +825,8 @@ A
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dic1 = &#123;<span class="string">&#x27;Tom&#x27;</span>: <span class="number">21</span>, <span class="string">&#x27;Bob&#x27;</span>: <span class="number">18</span>, <span class="string">&#x27;Jack&#x27;</span>: <span class="number">23</span>, <span class="string">&#x27;Ana&#x27;</span>: <span class="number">20</span>&#125;</span><br><span class="line">dic2 = &#123;<span class="string">&#x27;李雷&#x27;</span>: <span class="number">21</span>, <span class="string">&#x27;韩梅梅&#x27;</span>: <span class="number">18</span>, <span class="string">&#x27;小明&#x27;</span>: <span class="number">23</span>, <span class="string">&#x27;小红&#x27;</span>: <span class="number">20</span>&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li><strong><code>dic1 = {&#39;Tom&#39;: 21, &#39;Bob&#39;: 18, &#39;Jack&#39;: 23, &#39;Ana&#39;: 20}</code></strong>: 创建一个字<br>典 <code>dic1</code>，其中包含名字和年龄的键值对。</li>
-<li><strong><code>dic2 = {&#39;李雷&#39;: 21, &#39;韩梅梅&#39;: 18, &#39;小明&#39;: 23, &#39;小红&#39;: 20}</code></strong>: 创建另<br>一个字典 <code>dic2</code>，其中包含名字和年龄的键值对。</li>
+<li><strong><code>dic1 = &#123;&#39;Tom&#39;: 21, &#39;Bob&#39;: 18, &#39;Jack&#39;: 23, &#39;Ana&#39;: 20&#125;</code></strong>: 创建一个字<br>典 <code>dic1</code>，其中包含名字和年龄的键值对。</li>
+<li><strong><code>dic2 = &#123;&#39;李雷&#39;: 21, &#39;韩梅梅&#39;: 18, &#39;小明&#39;: 23, &#39;小红&#39;: 20&#125;</code></strong>: 创建另<br>一个字典 <code>dic2</code>，其中包含名字和年龄的键值对。</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br></pre></td></tr></table></figure>
 
@@ -1071,7 +1071,7 @@ A
       <li>
         Copyrights &copy;
         2023-2026
-        <i class="ri-heart-fill heart_icon"></i> John Doe
+        <i class="ri-heart-fill heart_icon"></i> BernieDif
       </li>
     </ul>
     <ul>
@@ -1137,27 +1137,19 @@ A
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/archives">分类</a>
+      <a class="nav-item-link" href="/categories">分类</a>
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/archives">标签</a>
+      <a class="nav-item-link" href="/tags">标签</a>
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/archives">旅行</a>
+      <a class="nav-item-link" href="/links">友链</a>
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/archives">摄影</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/archives">友链</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/archives">关于我</a>
+      <a class="nav-item-link" href="/about">关于我</a>
     </li>
     
   </ul>
