@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+
+
+<html lang="zh">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>博客灾难恢复：从部署产物里抢救Hexo站点 |  老夏十三行</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    <!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --></head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-博客灾难恢复：从部署产物里抢救Hexo站点"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  博客灾难恢复：从部署产物里抢救Hexo站点
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2026/11/27/%E5%8D%9A%E5%AE%A2%E7%81%BE%E9%9A%BE%E6%81%A2%E5%A4%8D%EF%BC%9A%E4%BB%8E%E9%83%A8%E7%BD%B2%E4%BA%A7%E7%89%A9%E9%87%8C%E6%8A%A2%E6%95%91Hexo%E7%AB%99%E7%82%B9/" class="article-date">
+  <time datetime="2026-11-27T07:38:00.000Z" itemprop="datePublished">2026-11-27</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/">技术分享</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">1.3k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">5 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>记一次真实的灾难恢复：WSL 系统重置把博客源目录 <code>~/hexo/blog</code> 抹掉了，只留下两个压缩包——一份较旧的源码备份和一个 GitHub Pages 部署产物的 master 分支 zip。这次恢复的收获是：<strong>部署产物本身就是最完整、最新的”备份”</strong>，只要会做逆向，源码是可以拼回来的。</p>
+<h2 id="1-盘点残骸"><a href="#1-盘点残骸" class="headerlink" title="1. 盘点残骸"></a>1. 盘点残骸</h2><p>两份材料：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo.zip                        145MB  旧版博客源码（含 node_modules、.deploy_git）</span><br><span class="line">berniedif.github.io-master.zip   24MB  GitHub Pages 仓库 master 分支（纯静态产物）</span><br></pre></td></tr></table></figure>
+
+<p>用 Python 直接读 zip 目录清单，不动文件系统先做一次”考古”：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">z = zipfile.ZipFile(<span class="string">&#x27;berniedif.github.io-master.zip&#x27;</span>)</span><br><span class="line">posts = [n <span class="keyword">for</span> n <span class="keyword">in</span> z.namelist()</span><br><span class="line">         <span class="keyword">if</span> re.<span class="keyword">match</span>(<span class="string">r&#x27;.*/\d&#123;4&#125;/\d&#123;2&#125;/\d&#123;2&#125;/[^/]+/index\.html$&#x27;</span>, n)]</span><br><span class="line"><span class="comment"># 56 个部署页面</span></span><br></pre></td></tr></table></figure>
+
+<p>对照 zip 里旧源码的 <code>source/_posts/*.md</code>：52 篇。差集一跑，<strong>3 篇只在部署产物里存在的 2026 年新文章</strong>立刻现形——就是丢的那部分：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2026/11/06  OpenClaw-WSL-安装指南                (32KB, 完整 HTML)</span><br><span class="line">2026/11/19  住院首次病程记录智能生成              (68KB, 完整 HTML)</span><br><span class="line">2026/11/22  夜间路口车流量自动统计                (50KB, 完整 HTML)</span><br></pre></td></tr></table></figure>
+
+<p>另外还发现 2 个只有几百字节的”Redirecting…”页面——是改标题前的旧链接留下的重定向桩，canonical 指向新 slug，这个线索也顺手还原了文章改名的历史。</p>
+<p><code>.deploy_git</code> 里的 git log 也值得看：<code>Site updated:</code> 提交时间线直接告诉你最后一次部署是什么时候、中途有没有断档。</p>
+<h2 id="2-HTML-逆向回-Markdown"><a href="#2-HTML-逆向回-Markdown" class="headerlink" title="2. HTML 逆向回 Markdown"></a>2. HTML 逆向回 Markdown</h2><p>部署页是 Hexo 渲染管线”最下游”的产物，往回走要过三关：<strong>正文容器定位、代码块还原、frontmatter 重建</strong>。</p>
+<p>Ayue 主题正文在 <code>div.article-entry</code> 里；代码块是 hexo-highlight 的经典样式——<code>figure.highlight</code> 里嵌一个 gutter&#x2F;code 双列表格，行号在 <code>td.gutter</code>，代码在 <code>td.code</code> 的 <code>span.line</code> 里，每行一个 span。还原核心：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> fig <span class="keyword">in</span> entry.find_all(<span class="string">&#x27;figure&#x27;</span>):</span><br><span class="line">    lang = <span class="built_in">next</span>((c <span class="keyword">for</span> c <span class="keyword">in</span> fig[<span class="string">&#x27;class&#x27;</span>] <span class="keyword">if</span> c != <span class="string">&#x27;highlight&#x27;</span>), <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    pre  = fig.find(<span class="string">&#x27;td&#x27;</span>, class_=<span class="string">&#x27;code&#x27;</span>).find(<span class="string">&#x27;pre&#x27;</span>)</span><br><span class="line">    lines = [s.get_text() <span class="keyword">for</span> s <span class="keyword">in</span> pre.find_all(<span class="string">&#x27;span&#x27;</span>, class_=<span class="string">&#x27;line&#x27;</span>)]</span><br><span class="line">    <span class="comment"># 先用占位符替换，markdownify 转完正文后再把 ```fence 塞回去，</span></span><br><span class="line">    <span class="comment"># 防止转换器把代码里的星号下划线当 markdown 转义吃掉</span></span><br><span class="line">    store[key] = <span class="string">f&#x27;```<span class="subst">&#123;lang&#125;</span>\n&#x27;</span> + <span class="string">&#x27;\n&#x27;</span>.join(lines) + <span class="string">&#x27;\n```&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>要点：</p>
+<ul>
+<li><strong>先做 DOM 预处理再交给 markdownify</strong>：删掉 <code>&lt;a class=&quot;headerlink&quot;&gt;</code> 锚点、figure 换围栏代码、<code>&lt;video&gt;</code> 标签原样保留（Hexo 的 markdown 渲染器对原始 HTML 是透传的，复盘里的演示视频就是这么找回来的）；</li>
+<li><strong>frontmatter 从页面元数据重建</strong>：<code>h1</code> 是 title，<code>&lt;time datetime=&quot;...Z&quot;&gt;</code> 是 date（注意是 UTC，要 +8 转回本地写法），<code>a.article-tag-list-link</code> 和 <code>a.article-category-link</code> 就是 tags&#x2F;categories；</li>
+<li>图片视频从 zip 里解出 <code>images/</code>、<code>videos/</code> 目录，按正文引用路径放回 <code>source/</code>。</li>
+</ul>
+<p>一个有意思的坑：文件名和终端回显里 <code>2026-11-19</code> 和 <code>2026/11/19</code> 两种 permalink 形态反复横跳，最后用 <code>ord()</code> 直接看路径分隔符的码点才确认——部署路径是标准 <code>:year/:month/:day/:title/</code>，是渲染层把日期里的 <code>/</code> 显示成了 <code>-</code>。<strong>对字符串显示有怀疑的时候，看码点，别看眼睛。</strong></p>
+<h2 id="3-全站一致性回写"><a href="#3-全站一致性回写" class="headerlink" title="3. 全站一致性回写"></a>3. 全站一致性回写</h2><p>旧源码里 52 篇文章的 tags 是历史上各种手写的样子（<code>Python</code>&#x2F;<code>python</code>&#x2F;<code>LLm</code> 混用）。而部署产物里每篇文章页脚的 tag&#x2F;category 列表才是<strong>最后一次构建的真实口径</strong>。于是把 54 篇部署页的元数据全部抽成 <code>deployed_meta.json</code>，再按 slug 回写到每篇 md 的 frontmatter——一次”以产物为准”的分类学大扫除，顺带修复了改名文章的旧链接（还原 2 个 redirect 桩 + about&#x2F;links&#x2F;tags&#x2F;categories 独立页面重建 + 补上 <code>hexo-generator-search</code> 的 search.xml）。</p>
+<h2 id="4-验证：和线上产物做文件级-diff"><a href="#4-验证：和线上产物做文件级-diff" class="headerlink" title="4. 验证：和线上产物做文件级 diff"></a>4. 验证：和线上产物做文件级 diff</h2><p>恢复完不能只”能跑”，要和线上逐文件对账：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dep = &#123;<span class="built_in">zip</span> 内全部文件路径&#125;</span><br><span class="line">loc = &#123;hexo generate 后 public/ 全部路径&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;missing:&#x27;</span>, <span class="built_in">len</span>(dep - loc), <span class="string">&#x27;extra:&#x27;</span>, <span class="built_in">len</span>(loc - dep))</span><br><span class="line"><span class="comment"># missing: 0</span></span><br></pre></td></tr></table></figure>
+
+<p>再加上关键静态资源哈希比对——<code>dist/main.css</code>、<code>main.js</code>、<code>custom.css</code> 与线上<strong>字节级一致</strong>，说明压缩包里的主题版本就是最后一次部署用的版本，主题修复并没有丢。至此从 56 个部署页反推 55 篇源文章（3 篇逆向重建），全部通过。</p>
+<h2 id="5-局限与教训"><a href="#5-局限与教训" class="headerlink" title="5. 局限与教训"></a>5. 局限与教训</h2><ul>
+<li>逆向出的 3 篇 Markdown 是”内容等价”而非”字符等价”：表格、行内样式等经过 DOM→MD 两轮转换，源码写法与原始 md 有出入；文中图片、视频路径已复原，播放正常。</li>
+<li>日期时间从 <code>datetime</code> 属性回推，秒级精度依赖渲染时区假设，好在 permalink 只到天，不影响链接。</li>
+<li><strong>教训</strong>：<code>_posts</code> 源码目录要进 git（只提交 source + 配置，node_modules&#x2F;public 忽略）。部署产物 zip 能救急，但救回来的是”网站”，不是”工程”。这次靠两份压缩包做到 0 missing，下次别赌运气。</li>
+</ul>
+<hr>
+<p><em>环境：WSL2 Ubuntu 24.04 &#x2F; Hexo 7.3 &#x2F; ayue 主题 &#x2F; Python 3.12 + BeautifulSoup + markdownify。全程未动线上一个字节，直到 diff 归零才 <code>hexo deploy</code>。</em></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://berniedif.github.io/2026/11/27/%E5%8D%9A%E5%AE%A2%E7%81%BE%E9%9A%BE%E6%81%A2%E5%A4%8D%EF%BC%9A%E4%BB%8E%E9%83%A8%E7%BD%B2%E4%BA%A7%E7%89%A9%E9%87%8C%E6%8A%A2%E6%95%91Hexo%E7%AB%99%E7%82%B9/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WSL/" rel="tag">WSL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" rel="tag">备份恢复</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2026/11/22/%E5%A4%9C%E9%97%B4%E8%B7%AF%E5%8F%A3%E8%BD%A6%E6%B5%81%E9%87%8F%E8%87%AA%E5%8A%A8%E7%BB%9F%E8%AE%A1/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">夜间路口车流量自动统计</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "DAeOYIeCtfnPwFeKf96Drmpe-MdYXbMMI",
+    app_key: "kTYIzQjQl7fiwPZRR4NMuaEe#",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+  
+    
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2023-2026
+        <i class="ri-heart-fill heart_icon"></i> John Doe
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="老夏十三行"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯茶吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js"></script>
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/config/TeX-AMS-MML_HTMLorMML-full.js"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>

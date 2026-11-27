@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+
+
+<html lang="zh">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>NAVGPT |  老夏十三行</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    <!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --></head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-NAVGPT"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  NAVGPT
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2025/05/12/NAVGPT/" class="article-date">
+  <time datetime="2025-05-12T10:48:07.000Z" itemprop="datePublished">2025-05-12</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E9%98%85%E8%AF%BB/">学术阅读</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">1.6k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">5 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h3 id="NavGPT-方法介绍及公式"><a href="#NavGPT-方法介绍及公式" class="headerlink" title="NavGPT 方法介绍及公式"></a>NavGPT 方法介绍及公式</h3><h4 id="《NavGPT-Explicit-Reasoning-in-Vision-and-Language-Navigation-with-Large-Language-Models》"><a href="#《NavGPT-Explicit-Reasoning-in-Vision-and-Language-Navigation-with-Large-Language-Models》" class="headerlink" title="《NavGPT: Explicit Reasoning in Vision-and-Language Navigation with Large Language Models》"></a>《NavGPT: Explicit Reasoning in Vision-and-Language Navigation with Large Language Models》</h4><p><strong>方法概述</strong>：<br>NavGPT 是一个创新的视觉与语言导航（VLN）系统，它充分利用大型语言模型（LLMs）的推理能力，通过零样本学习的方式，将视觉观察、导航历史和未来可探索方向转化为自然语言描述，作为LLMs的输入，以推理智能体的当前状态并做出决策。^[1]^NavGPT 的核心在于其能够生成明确的推理过程，展示其决策背后的逻辑。^[2]^</p>
+<p><strong>关键组件与步骤</strong>：</p>
+<ol>
+<li><p><strong>视觉基础模型（VFMs）</strong>：</p>
+<ul>
+<li>NavGPT 使用 BLIP-2 模型将视觉输入（如RGB图像）转化为详细的自然语言描述。例如，将图像转化为描述性文本：“一个厨房，有一个冰箱、一个炉灶和一个窗户。”</li>
+<li><strong>公式表示</strong>（简化）：<br>$$<br>\text{Visual Description}_t &#x3D; \text{BLIP-2}(\text{Observation}_t)<br>$$<br>其中，$\text{Observation}_t$ 是时间步 $t$ 的视觉观察。</li>
+</ul>
+</li>
+<li><p><strong>导航历史管理器</strong>：</p>
+<ul>
+<li>使用 GPT-3.5 等模型对导航历史进行总结，生成简洁的历史描述，以便LLMs能够处理较长的上下文。</li>
+<li><strong>公式表示</strong>（简化）：<br>$$<br>\text{Summarized History}<em>t &#x3D; \text{GPT-3.5}(\text{History}</em>{t-1}, \text{Observation}_t, \text{Action}<em>t)<br>$$<br>其中，$\text{History}</em>{t-1}$ 是到时间步 $t-1$ 的导航历史，$\text{Action}_t$ 是时间步 $t$ 的动作。^[3]^</li>
+</ul>
+</li>
+<li><p><strong>提示管理器（Prompt Manager）</strong>：</p>
+<ul>
+<li>将视觉描述、历史总结和指令整合成LLMs的输入提示，确保LLMs能够理解当前任务和环境状态。^[4]^</li>
+<li><strong>公式表示</strong>（简化）：<br>$$<br>\text{Prompt}_t &#x3D; \text{Prompt Manager}(\text{Instruction}, \text{Visual Description}_t, \text{Summarized History}_t)<br>$$</li>
+</ul>
+</li>
+<li><p><strong>推理与决策</strong>：</p>
+<ul>
+<li>LLMs 根据输入提示进行推理，生成下一步的导航动作。</li>
+<li><strong>公式表示</strong>（简化）：<br>$$<br>\text{Action}_t &#x3D; \text{LLMs}(\text{Prompt}_t)<br>$$</li>
+</ul>
+</li>
+</ol>
+<p><strong>成果</strong>：</p>
+<ul>
+<li>NavGPT 展示了在零样本学习下，通过LLMs进行复杂场景中的视觉语言导航的潜力。^[5]^</li>
+<li>它能够分解指令为子目标，识别地标，跟踪导航进度，并通过计划调整应对异常情况。^[6]^</li>
+<li>NavGPT 生成的推理过程透明且可解释，为导航智能体的决策提供了明确的逻辑依据。^[7]^</li>
+</ul>
+<hr>
+<h4 id="《NavGPT-2-Unleashing-Navigational-Reasoning-Capability-for-Large-Vision-Language-Models》"><a href="#《NavGPT-2-Unleashing-Navigational-Reasoning-Capability-for-Large-Vision-Language-Models》" class="headerlink" title="《NavGPT-2: Unleashing Navigational Reasoning Capability for Large Vision-Language Models》"></a>《NavGPT-2: Unleashing Navigational Reasoning Capability for Large Vision-Language Models》</h4><p><strong>方法概述</strong>：<br>NavGPT-2 在 NavGPT 的基础上进行了改进，通过融合视觉语言模型（VLM）来增强导航能力，并引入基于拓扑图的导航策略，以提高路径规划和回溯能力。^[8]^NavGPT-2 旨在消除基于LLMs的智能体与最先进的VLN专用模型之间的差距，同时保留LLMs的解释性推理能力。^[9]^</p>
+<p><strong>关键组件与步骤</strong>：</p>
+<ol>
+<li><p><strong>视觉语言模型（VLM）</strong>：</p>
+<ul>
+<li>NavGPT-2 构建在 InstructBLIP 架构之上，通过多图像感知适应VLN任务。</li>
+<li>使用 Q-former 将视觉观察编码为固定长度的视觉标记，作为VLM的输入。^[10]^</li>
+<li><strong>公式表示</strong>（简化）：<br>$$<br>\text{VLM Latent}_t &#x3D; \text{VLM}(\text{Q-former}(\text{Observation}_t))<br>$$</li>
+</ul>
+</li>
+<li><p><strong>基于拓扑图的导航策略</strong>：</p>
+<ul>
+<li>引入拓扑图来维护导航经验，支持有效的路径规划和回溯。^[11]^</li>
+<li>使用交叉模态编码器对指令和节点表示进行建模，生成动作得分。^[12]^</li>
+<li><strong>公式表示</strong>（简化）：<br>$$<br>\text{Action Score} &#x3D; \text{GASA}(\text{Cross-Modal Encoder}(\text{Instruction}, \text{Node Embeddings}_t))<br>$$<br>其中，$\text{Node Embeddings}_t$ 是时间步 $t$ 的节点嵌入。^[13]^</li>
+</ul>
+</li>
+<li><p><strong>多阶段学习</strong>：</p>
+<ul>
+<li>采用两阶段训练方法：首先微调 Q-former 以适应导航推理数据，然后微调导航策略网络。^[14]^</li>
+<li><strong>公式表示</strong>（简化）：<br>$$<br>\text{Stage 1: } \min_{\theta_{\text{Q-former}}} \mathcal{L}<em>{\text{Instruction-Tuning}}<br>$$<br>$$<br>\text{Stage 2: } \min</em>{\theta_{\text{Policy Network}}} \mathcal{L}<em>{\text{DAgger}}<br>$$<br>其中，$\mathcal{L}</em>{\text{Instruction-Tuning}}$ 和 $\mathcal{L}_{\text{DAgger}}$ 分别是微调 Q-former 和导航策略网络的损失函数。^[15]^</li>
+</ul>
+</li>
+</ol>
+<p><strong>成果</strong>：</p>
+<ul>
+<li>NavGPT-2 通过融合 VLM 和基于拓扑图的导航策略，显著提高了导航性能，抹平了与 VLN 专用模型之间的性能差距。^[16]^</li>
+<li>能够在数据有限的情况下达到先进性能，展示了 LLMs 在导航过程中生成解释性推理的能力。^[17]^</li>
+<li>NavGPT-2 的多阶段学习方法有效提升了模型的泛化能力和鲁棒性。^[18]^</li>
+</ul>
+<hr>
+<h3 id="对比两个论文的成果"><a href="#对比两个论文的成果" class="headerlink" title="对比两个论文的成果"></a>对比两个论文的成果</h3><table>
+<thead>
+<tr>
+<th><strong>方面</strong></th>
+<th><strong>NavGPT</strong></th>
+<th><strong>NavGPT-2</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>核心方法</strong></td>
+<td>基于 LLMs 的零样本学习，通过自然语言描述进行推理与决策。</td>
+<td>融合 VLM，引入基于拓扑图的导航策略，进行多阶段训练。</td>
+</tr>
+<tr>
+<td><strong>视觉语言融合</strong></td>
+<td>使用 VFMs 将视觉输入转化为自然语言描述。</td>
+<td>使用 VLM 的潜在表示作为视觉语言表示，增强视觉语言融合能力。</td>
+</tr>
+<tr>
+<td><strong>导航策略</strong></td>
+<td>依赖 LLMs 的推理能力进行决策，无特定导航策略。</td>
+<td>引入基于拓扑图的导航策略，提高路径规划和回溯能力。</td>
+</tr>
+<tr>
+<td><strong>训练方式</strong></td>
+<td>未明确提及多阶段训练，主要依赖零样本学习。</td>
+<td>采用两阶段训练方法，先微调 Q-former，再微调导航策略网络。</td>
+</tr>
+<tr>
+<td><strong>性能提升</strong></td>
+<td>展示了在零样本学习下的导航潜力，但性能有限。</td>
+<td>显著提高了导航性能，抹平了与 VLN 专用模型之间的性能差距。</td>
+</tr>
+<tr>
+<td><strong>解释性推理</strong></td>
+<td>能够生成导航推理，但主要依赖 LLMs 的推理能力。</td>
+<td>保留了 LLMs 的解释性推理能力，同时提高了导航准确性和效率。</td>
+</tr>
+<tr>
+<td><strong>数据效率</strong></td>
+<td>未特别强调数据效率，主要依赖零样本学习。</td>
+<td>展示了在数据有限情况下的先进性能，强调数据效率。</td>
+</tr>
+<tr>
+<td><strong>应用场景</strong></td>
+<td>更适用于零样本学习或数据稀缺的场景。</td>
+<td>更适用于需要高性能和泛化能力的复杂导航任务。</td>
+</tr>
+</tbody></table>
+<p>NavGPT-2 在 NavGPT 的基础上进行了显著的改进，通过融合 VLM 和引入基于拓扑图的导航策略，显著提高了导航性能，并展示了在数据有限情况下的先进性能。^[19]^这些改进使得 NavGPT-2 在 VLN 任务中更具竞争力和实用性，特别是在需要高性能和泛化能力的复杂导航任务中。^[20]^</p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://berniedif.github.io/2025/05/12/NAVGPT/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LLM/" rel="tag">LLM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A7%86%E8%A7%89%E5%AF%BC%E8%88%AA/" rel="tag">视觉导航</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BA%E6%96%87/" rel="tag">论文</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2025/06/15/%E5%8F%B0%E9%98%B6%E7%A3%A8%E6%8D%9F%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E5%88%86%E6%9E%90/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            台阶磨损数学建模分析
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2025/05/04/FAISS%E7%9F%A5%E8%AF%86%E5%BA%93%E6%90%AD%E5%BB%BA/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">FAISS知识库搭建</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "DAeOYIeCtfnPwFeKf96Drmpe-MdYXbMMI",
+    app_key: "kTYIzQjQl7fiwPZRR4NMuaEe#",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+  
+    
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2023-2026
+        <i class="ri-heart-fill heart_icon"></i> John Doe
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="老夏十三行"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯茶吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js"></script>
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/config/TeX-AMS-MML_HTMLorMML-full.js"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>

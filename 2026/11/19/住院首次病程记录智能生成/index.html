@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+
+
+<html lang="zh">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>住院首次病程记录智能生成 |  老夏十三行</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    <!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --></head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-住院首次病程记录智能生成"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  住院首次病程记录智能生成
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2026/11/19/%E4%BD%8F%E9%99%A2%E9%A6%96%E6%AC%A1%E7%97%85%E7%A8%8B%E8%AE%B0%E5%BD%95%E6%99%BA%E8%83%BD%E7%94%9F%E6%88%90/" class="article-date">
+  <time datetime="2026-11-19T12:45:00.000Z" itemprop="datePublished">2026-11-19</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/">技术分享</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">5.3k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">21 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>这篇博客完整记录我们参加”临床智录”赛题的项目 <strong>Clinical-Entry-agent</strong>：用大模型（qwen3.8-27b）读取入院资料片段，自动生成住院<strong>首次病程记录</strong>草稿。项目从 11-06 起步到 11-15 收官，历时约十天，最终在 1337 例真实病历的全量压测中拿到 96.7% 的成功率。本文从输入输出协议、流水线代码、校验器实现、数据转换到最终效果逐层展开。</p>
+<blockquote>
+<p>仅用于教学比赛与评审，不用于真实诊疗。文中所有病例数据均为虚构&#x2F;脱敏的教学数据。</p>
+</blockquote>
+<h2 id="1-任务与协议"><a href="#1-任务与协议" class="headerlink" title="1. 任务与协议"></a>1. 任务与协议</h2><p>系统读取赛方 <code>input.json</code>，逐例调用 Chat Completions 兼容接口，写出 <code>output.json</code>。输入长这样（真实测试集 REAL-0169，一例胸腔积液病例）：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;case_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;REAL-0169&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;record_cutoff&quot;</span><span class="punctuation">:</span> <span class="string">&quot;T0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;sources&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span> <span class="attr">&quot;source_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;S01&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="string">&quot;患者，男，52岁。咳嗽、胸闷、气短1周。因咳嗽、胸闷、气短1周收入住院。&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span> <span class="attr">&quot;source_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;S02&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="string">&quot;既往史、个人史、过敏史、生育史、婚育史、流行病史均未提供。&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span> <span class="attr">&quot;source_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;S03&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="string">&quot;T 37.5℃，R 24/min，口唇发绀，左锁骨上可触及一花生米大之淋巴结，质硬、固定、无压痛，气管向左侧移位，右肺叩诊呈浊音、语颤明显减弱、呼吸音消失。&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span> <span class="attr">&quot;source_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;S04&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="string">&quot;胸腔积液常规示蛋白含量35g/L，WBC 850×106/L，中性粒细胞占20%，淋巴细胞占80%。LDH 800U/L，PPD（+）。&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>每个病例就是若干带编号的原文片段 + 一个资料截止点。输出则是结构化 JSON：三段正文（病例特点 &#x2F; 拟诊讨论 &#x2F; 诊疗计划）+ 依据说明 evidence + 待核事项 review_items：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;case_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;REAL-0169&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="string">&quot;success&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;medical_record&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;case_features&quot;</span><span class="punctuation">:</span> <span class="string">&quot;患者男，52岁，因咳嗽、胸闷、气短1周收入住院。查体示T 37.5℃……&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;diagnostic_discussion&quot;</span><span class="punctuation">:</span> <span class="string">&quot;患者以咳嗽、胸闷、气短为主诉……目前诊断待查，需进一步检查明确。&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;plan&quot;</span><span class="punctuation">:</span> <span class="string">&quot;拟复查血常规、生化全套；拟行胸部增强CT检查；拟行胸腔穿刺术送检积液细胞学……&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;evidence&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="punctuation">&#123;</span> <span class="attr">&quot;statement&quot;</span><span class="punctuation">:</span> <span class="string">&quot;查体见口唇发绀，左锁骨上可触及一花生米大之淋巴结，质硬、固定、无压痛&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;source_ids&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;S03&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span> <span class="attr">&quot;kind&quot;</span><span class="punctuation">:</span> <span class="string">&quot;fact&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="punctuation">&#123;</span> <span class="attr">&quot;statement&quot;</span><span class="punctuation">:</span> <span class="string">&quot;左锁骨上淋巴结质硬、固定，高度怀疑恶性肿瘤转移&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;source_ids&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;S03&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span> <span class="attr">&quot;kind&quot;</span><span class="punctuation">:</span> <span class="string">&quot;inference&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;review_items&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="string">&quot;需核实既往是否有结核病史或肿瘤病史&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="string">&quot;需确认患者过敏史以指导胸腔穿刺用药安全&quot;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意 evidence 的两级设计：<code>fact</code> 是资料原有事实，<code>inference</code> 是基于资料的推断——<strong>不允许把推断伪装成事实</strong>。每条还绑定 <code>source_ids</code>，可以逐条回溯到原文片段。</p>
+<p>赛题红线决定了整个系统的性格：</p>
+<ul>
+<li>只用截止点及此前的资料，不引入后续诊断&#x2F;检查&#x2F;结局</li>
+<li>数值、单位、时序、否定关系<strong>一字不差</strong>；不把”未提供”写成”正常”</li>
+<li>不把计划写成已实施</li>
+<li>输出条数与顺序恒等于输入，失败记录不隐瞒</li>
+<li>无密钥启动、不发 Authorization 头、模型名与地址只从 <code>.env</code> 读</li>
+</ul>
+<p>一句话概括：<strong>宁缺毋假</strong>。这套约束后来全部落在校验器里。</p>
+<h2 id="2-整体架构"><a href="#2-整体架构" class="headerlink" title="2. 整体架构"></a>2. 整体架构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">main.py              # 唯一入口：读 input.json → 逐例走流水线 → 原子写 output.json</span><br><span class="line">src/</span><br><span class="line">  pipeline.py        # 三模式编排 + 降级路径 + 三级处置（372 行）</span><br><span class="line">  validator.py       # 校验器：14 条规则、四级处置（1251 行，全项目最大模块）</span><br><span class="line">  model_client.py    # HTTP 调用、固定生成参数、400 降级、退避重试（336 行）</span><br><span class="line">  reference_ranges.py# 本地检验参考区间查表（离线，不耗 API）</span><br><span class="line">  prompting.py       # Prompt 加载与占位符渲染</span><br><span class="line">  budget.py          # 配额记账与模式决策表</span><br><span class="line">  prompts/           # system/user + stage1/2/3 提示词</span><br><span class="line">tools/</span><br><span class="line">  mock_server.py     # 本地 Mock（含三 stage 固定响应与故障注入）</span><br><span class="line">  review_report.py   # input+output → 并排对照 HTML 预览</span><br></pre></td></tr></table></figure>
+
+<h3 id="三模式固定编排"><a href="#三模式固定编排" class="headerlink" title="三模式固定编排"></a>三模式固定编排</h3><p>按内容策略和单例 API 配额，流水线有三种模式：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>调用次数</th>
+<th>内容</th>
+<th>触发条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>baseline</td>
+<td>1</td>
+<td>v3 分层规则单发</td>
+<td>performance 策略（默认）&#x2F; 配额不足</td>
+</tr>
+<tr>
+<td>extract_enhanced</td>
+<td>2+1</td>
+<td>事实抽取 → 分析 → 终稿</td>
+<td>quality 策略且配额足够</td>
+</tr>
+<tr>
+<td>full</td>
+<td>2+1</td>
+<td>上者 + 本地参考区间查表注入 stage2</td>
+<td>quality 策略且配额充足</td>
+</tr>
+</tbody></table>
+<p>模式选择就是一个纯函数，<code>src/budget.py</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">select_mode</span>(<span class="params">strategy: <span class="built_in">str</span>, max_quota: <span class="built_in">int</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;按决策表选流水线模式。&quot;&quot;&quot;</span></span><br><span class="line">    reserve = config.RESERVE_RETRY_IN_SELECT</span><br><span class="line">    <span class="keyword">if</span> strategy == <span class="string">&quot;quality&quot;</span>:</span><br><span class="line">        <span class="keyword">for</span> mode <span class="keyword">in</span> (<span class="string">&quot;full&quot;</span>, <span class="string">&quot;extract_enhanced&quot;</span>, <span class="string">&quot;baseline&quot;</span>):</span><br><span class="line">            <span class="keyword">if</span> pipeline_call_count(mode) + reserve &lt;= max_quota:</span><br><span class="line">                <span class="keyword">return</span> mode</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;baseline&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>中间 stage 失败不重试，直接降级为单发 baseline（记 <code>degraded=True</code> + 原因）；降级后仍失败才记 failed。<strong>降级不是静默兜底</strong>，一切留痕在 <code>run_log.json</code>。</p>
+<h3 id="staged-流水线的第一环：事实抽取"><a href="#staged-流水线的第一环：事实抽取" class="headerlink" title="staged 流水线的第一环：事实抽取"></a>staged 流水线的第一环：事实抽取</h3><p>full 模式的 stage1 是一个独立的”抽取引擎”角色，它的 system prompt 值得全文贴出，因为它把 LLM 应用开发里最容易被忽视的一条原则写到了极致——<strong>先冻结事实，再做推理</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">你是临床事实抽取引擎，服务于住院首次病程记录生成流水线的第一步。</span><br><span class="line"></span><br><span class="line">任务：从下方病例资料中**逐字抽取**结构化事实，供后续分析使用。</span><br><span class="line"></span><br><span class="line">铁律：</span><br><span class="line">1. 只抽取，不推理、不诊断、不建议、不改写、不总结。</span><br><span class="line">2. 数值与单位一字不差（如&quot;82g/L&quot;不得写成&quot;82 g/L 偏低&quot;或换算单位）……</span><br><span class="line">3. 否定与缺失表述原样保留：&quot;未见&quot;&quot;未提供&quot;&quot;不详&quot;不得改写为&quot;正常&quot;&quot;阴性&quot;。</span><br><span class="line">4. 每条事实必须携带真实 source_id；无法定位来源的内容不得抽取。</span><br><span class="line">5. 缺失项列入 missing_items，只写条目名，不写推测。</span><br><span class="line">6. 时间信息按原文表述记录（如&quot;2周前&quot;&quot;近2周&quot;），不换算、不推断具体日期。</span><br></pre></td></tr></table></figure>
+
+<p>抽取产出 <code>key_facts / lab_values / negatives / missing_items / timeline</code> 五类结构，stage2 的临床分析只能基于这份”冻结的事实清单”进行，stage3 终稿再继承 v3 的全部写作规则。拆成三环的收益很直接：每一环的错误可以被单独定位——数值失真找 stage1，鉴别诊断跑偏找 stage2，文风问题找 stage3。</p>
+<h3 id="本地参考区间查表（full-模式专属）"><a href="#本地参考区间查表（full-模式专属）" class="headerlink" title="本地参考区间查表（full 模式专属）"></a>本地参考区间查表（full 模式专属）</h3><p>stage1 抽出的检验数值会先在<strong>本地</strong>查一遍参考区间表（不消耗任何 API 调用），把”偏高&#x2F;偏低&#x2F;正常”作为内部提示注入 stage2：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># resources/reference_ranges.json（节选）</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;血红蛋白&quot;</span>,</span><br><span class="line">  <span class="string">&quot;aliases&quot;</span>: [<span class="string">&quot;Hb&quot;</span>, <span class="string">&quot;HGB&quot;</span>, <span class="string">&quot;血色素&quot;</span>],</span><br><span class="line">  <span class="string">&quot;canonical_unit&quot;</span>: <span class="string">&quot;g/L&quot;</span>,</span><br><span class="line">  <span class="string">&quot;unit_conversions&quot;</span>: &#123; <span class="string">&quot;g/dL&quot;</span>: <span class="number">10.0</span> &#125;,</span><br><span class="line">  <span class="string">&quot;ranges&quot;</span>: &#123; <span class="string">&quot;default&quot;</span>: [<span class="number">115</span>, <span class="number">175</span>], <span class="string">&quot;male&quot;</span>: [<span class="number">130</span>, <span class="number">175</span>], <span class="string">&quot;female&quot;</span>: [<span class="number">115</span>, <span class="number">150</span>] &#125;,</span><br><span class="line">  <span class="string">&quot;verified&quot;</span>: false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>单位归一化是这个模块的主要工作量（μ&#x2F;µ 微符号统一、<code>X109/L</code>→<code>10^9/L</code> 变体、大小写 <code>/l</code>→<code>/L</code>）。查不到的项一律返回 <code>unknown</code> 而不是猜——缺项、多义或非数值输入都不得臆测。所有条目 <code>verified=false</code>（待医学顾问核对），因此有一条硬规则：区间结果仅供模型内部排序，<strong>禁止把参考区间写进正文</strong>。</p>
+<h2 id="3-校验器：项目的核心资产"><a href="#3-校验器：项目的核心资产" class="headerlink" title="3. 校验器：项目的核心资产"></a>3. 校验器：项目的核心资产</h2><p><code>src/validator.py</code> 有 1251 行，比流水线本体大三倍——这不是失控，而是刻意的：**这个项目的难点从来不是”让模型写出来”，而是”证明它没瞎写”**。</p>
+<p>设计原则写在模块 docstring 第一句：<strong>只报告问题，不改写正文</strong>。14 条规则按处置级别分四档：</p>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>规则举例</th>
+<th>处置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>blocking</td>
+<td>schema（缺段&#x2F;空正文&#x2F;evidence 类型错）</td>
+<td>直接 failed，不重试</td>
+</tr>
+<tr>
+<td>hard</td>
+<td>numeric_fabrication &#x2F; unknown_source_id &#x2F; plan_implemented &#x2F; definitive_diagnosis</td>
+<td>默认 failed（宁缺毋假）</td>
+</tr>
+<tr>
+<td>fixable</td>
+<td>missing_info_rewrite &#x2F; summary_missing &#x2F; enumerated_body &#x2F; text_too_short</td>
+<td>带反馈重试 1 次</td>
+</tr>
+<tr>
+<td>warning</td>
+<td>text_too_long &#x2F; 弱表述已修复等</td>
+<td>仅入账</td>
+</tr>
+</tbody></table>
+<h3 id="数值回溯：最难的一条规则"><a href="#数值回溯：最难的一条规则" class="headerlink" title="数值回溯：最难的一条规则"></a>数值回溯：最难的一条规则</h3><p><code>numeric_fabrication</code> 要求三段正文里的每个”数值+单位”都能在原文 sources 中找到，否则判为疑似虚构。听起来就是一条正则的事，实际写成了这样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_extract_quantities</span>(<span class="params">text: <span class="built_in">str</span></span>) -&gt; <span class="type">List</span>[<span class="type">Tuple</span>[<span class="built_in">float</span>, <span class="built_in">str</span>, <span class="built_in">str</span>]]:</span><br><span class="line">    <span class="comment"># 先做全角半角与中文数字规范化：原文&quot;两周&quot;与输出&quot;2周&quot;必须视为同一数值</span></span><br><span class="line">    normalized = _cn_numeral_to_arabic(_to_halfwidth(text))</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">match</span> <span class="keyword">in</span> _QUANTITY_RE.finditer(normalized):</span><br><span class="line">        unit = _normalize_unit(<span class="keyword">match</span>.group(<span class="number">2</span>))</span><br><span class="line">        <span class="keyword">if</span> unit == <span class="string">&quot;小时&quot;</span> <span class="keyword">and</span> normalized[<span class="keyword">match</span>.end():].startswith(_EXAM_SUFFIX_AFTER_HOUR):</span><br><span class="line">            <span class="keyword">continue</span>  <span class="comment"># &quot;24小时尿蛋白定量&quot;这类检查专名，豁免</span></span><br><span class="line">        found.append((<span class="built_in">float</span>(num_str), unit, <span class="keyword">match</span>.group(<span class="number">0</span>)))</span><br><span class="line">        found.extend(_fusion_variants(normalized, <span class="keyword">match</span>.start(<span class="number">1</span>), num_str, unit))</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<p>每一个分支背后都是一例真实误杀（详见第 6 节踩坑实录）：中文数字”两周”被规范成”2周”、OCR 错字 <code>ALTl80U/L</code>（字母 l 混进数字 1）、项目名粘连 <code>C30.4g/L</code>（实为 C3&#x3D;0.4g&#x2F;L）、血压对不带单位 <code>BP 180/120</code>、并列枚举 <code>Apgar 评分 4、6、8 分</code>……这些全是 1337 例真实数据压出来的形态。</p>
+<h3 id="带反馈重试：fixable-的出路"><a href="#带反馈重试：fixable-的出路" class="headerlink" title="带反馈重试：fixable 的出路"></a>带反馈重试：fixable 的出路</h3><p>校验发现 fixable 缺陷时，不是简单重掷骰子，而是把缺陷清单变成下一轮对话的反馈，<code>src/pipeline.py</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">feedback = build_retry_feedback(grouped[LEVEL_FIXABLE])</span><br><span class="line">retry_messages = [</span><br><span class="line">    &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;system&quot;</span>,    <span class="string">&quot;content&quot;</span>: <span class="variable language_">self</span>._baseline_system&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>,      <span class="string">&quot;content&quot;</span>: render_user_prompt(<span class="variable language_">self</span>._baseline_user_tpl, <span class="keyword">case</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;assistant&quot;</span>, <span class="string">&quot;content&quot;</span>: content[:FEEDBACK_OUTPUT_CLIP]&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>,      <span class="string">&quot;content&quot;</span>: feedback&#125;,   <span class="comment"># ← &quot;上一版输出存在以下缺陷，请重新生成并全部修正&quot;</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p><code>build_retry_feedback</code> 把每条缺陷格式化成 <code>- [rule] message</code> 列表拼进去。这相当于给模型一次”带着批改重写作文”的机会，实测对收束句缺失、列点腔这类格式问题的修复率很高。</p>
+<h3 id="红线单一来源"><a href="#红线单一来源" class="headerlink" title="红线单一来源"></a>红线单一来源</h3><p>这是我最想安利给别人的一个设计。禁词表、参考区间、校验规则共享同一份定义，提示词通过占位符把它们<strong>注入</strong>给模型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># config.py —— 禁词表唯一定义处</span></span><br><span class="line">BAN_EXECUTED_WORDS = [<span class="string">&quot;已予&quot;</span>, <span class="string">&quot;已实施&quot;</span>, <span class="string">&quot;已完成&quot;</span>, <span class="string">&quot;给予&quot;</span>, ...]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># prompts/system_prompt.txt 第 7 条</span><br><span class="line">诊疗计划只能是未来动作，用&quot;拟/建议/复查/观察/安排&quot;，</span><br><span class="line">不得出现&#123;ban_executed_words&#125;等已实施类措辞。</span><br></pre></td></tr></table></figure>
+
+<p>校验器 <code>_check_implemented</code> 用的也是同一个表。这样保证”写的约束 &#x3D; 查的约束”，永远不会出现”提示词没禁止但校验器判死”的孤儿错误。</p>
+<h2 id="4-运行日志与可复现性"><a href="#4-运行日志与可复现性" class="headerlink" title="4. 运行日志与可复现性"></a>4. 运行日志与可复现性</h2><p>固定生成参数写在 <code>src/model_client.py</code> 顶部，一眼可见：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GENERATION_PARAMS: <span class="type">Dict</span>[<span class="built_in">str</span>, <span class="type">Any</span>] = &#123;</span><br><span class="line">    <span class="string">&quot;temperature&quot;</span>: <span class="number">0.1</span>,</span><br><span class="line">    <span class="string">&quot;top_p&quot;</span>: <span class="number">0.5</span>,</span><br><span class="line">    <span class="string">&quot;seed&quot;</span>: <span class="number">20261106</span>,</span><br><span class="line">    <span class="string">&quot;enable_thinking&quot;</span>: <span class="literal">False</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中关闭思考模式是个大头：实测单例耗时从 130~195s 降到 ~20s——思考 token 占总生成的 85%，而对这个”照抄+组织”型任务帮助有限。若主办方接口不认额外字段，HTTP 400 自动降级为最小请求体重试，实际使用的模式记录在 run_log 的 <code>params_mode_final</code> 供复核。</p>
+<p><code>run_log.json</code> 为线下复现核验而设计，逐例记录时间戳、API 调用数、每个 stage 的 tokens。摘一条真实的：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;case_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;REAL-0012&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;elapsed_ms&quot;</span><span class="punctuation">:</span> <span class="number">117350</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;status&quot;</span><span class="punctuation">:</span> <span class="string">&quot;success&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;api_calls&quot;</span><span class="punctuation">:</span> <span class="number">4</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;pipeline_mode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;full&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;degraded&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;validation_warnings&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;可修复缺陷未消除（提示级放行）：[missing_info_coverage] 原文有 3 项缺失未在正文或 review_items 中体现：生育史：、婚育史：、流行病史：……&quot;</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;stages&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;stage1_extract&quot;</span><span class="punctuation">:</span>    <span class="punctuation">&#123;</span> <span class="attr">&quot;calls&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span> <span class="attr">&quot;elapsed_ms&quot;</span><span class="punctuation">:</span> <span class="number">28813</span><span class="punctuation">,</span> <span class="attr">&quot;prompt_tokens&quot;</span><span class="punctuation">:</span> <span class="number">1117</span><span class="punctuation">,</span> <span class="attr">&quot;completion_tokens&quot;</span><span class="punctuation">:</span> <span class="number">957</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;stage2_analysis&quot;</span><span class="punctuation">:</span>   <span class="punctuation">&#123;</span> <span class="attr">&quot;calls&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span> <span class="attr">&quot;elapsed_ms&quot;</span><span class="punctuation">:</span> <span class="number">27975</span><span class="punctuation">,</span> <span class="attr">&quot;prompt_tokens&quot;</span><span class="punctuation">:</span> <span class="number">2907</span><span class="punctuation">,</span> <span class="attr">&quot;completion_tokens&quot;</span><span class="punctuation">:</span> <span class="number">908</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;stage3_final&quot;</span><span class="punctuation">:</span>      <span class="punctuation">&#123;</span> <span class="attr">&quot;calls&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span> <span class="attr">&quot;elapsed_ms&quot;</span><span class="punctuation">:</span> <span class="number">30830</span><span class="punctuation">,</span> <span class="attr">&quot;prompt_tokens&quot;</span><span class="punctuation">:</span> <span class="number">3866</span><span class="punctuation">,</span> <span class="attr">&quot;completion_tokens&quot;</span><span class="punctuation">:</span> <span class="number">960</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;validation_retry&quot;</span><span class="punctuation">:</span>  <span class="punctuation">&#123;</span> <span class="attr">&quot;calls&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span> <span class="attr">&quot;elapsed_ms&quot;</span><span class="punctuation">:</span> <span class="number">29718</span><span class="punctuation">,</span> <span class="attr">&quot;prompt_tokens&quot;</span><span class="punctuation">:</span> <span class="number">3044</span><span class="punctuation">,</span> <span class="attr">&quot;completion_tokens&quot;</span><span class="punctuation">:</span> <span class="number">945</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>这条日志本身就讲了完整故事：full 模式三次调用 + 一次带反馈重试 &#x3D; 4 次 API 调用，117 秒，重试后仍有缺失覆盖警告但按提示级放行。</p>
+<p>容错方面：单例配额 &#x3D; min(QUOTA, 整批余额)，整批熔断防费用失控；并发由 <code>CONCURRENCY</code> 控制（默认 1 串行，开发端点设 4），错峰闸 <code>REQUEST_STAGGER_SEC</code> 保证两次请求发出间隔 ≥N 秒——prefill 不撞车、解码仍并行；output.json 用临时文件 + <code>os.replace</code> 原子写，中断不产生半成品。</p>
+<h2 id="5-数据集转换：把真实病历变成-input-json"><a href="#5-数据集转换：把真实病历变成-input-json" class="headerlink" title="5. 数据集转换：把真实病历变成 input.json"></a>5. 数据集转换：把真实病历变成 input.json</h2><p>导师提供了 1337 例中文真实病历（condition&#x2F;diseases&#x2F;analyses&#x2F;diagnoses 字段），要拿它当测试集，得先转换成赛题的 sources 格式。转换同样用 LLM 完成，但配了一道<strong>数值保真校验</strong>和一层机械兜底，<code>dev/convert_dataset.py</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">SYSTEM = (</span><br><span class="line">    <span class="string">&quot;你是临床教学比赛的数据整理助手。把给定病历字段重组为赛题资料片段 sources。&quot;</span></span><br><span class="line">    <span class="string">&quot;硬性规则：\n&quot;</span></span><br><span class="line">    <span class="string">&quot;1. 只允许重排/合并原始字段内容，严禁新增任何事实、诊断、判断或数值。\n&quot;</span></span><br><span class="line">    <span class="string">&quot;2. 所有数字、单位、时间、否定表述必须一字不差保留……\n&quot;</span></span><br><span class="line">    <span class="string">&quot;3. 组织方式（固定四段）：S01=人口学+主诉+现病史；S02=既往史、个人史、过敏史、&quot;</span></span><br><span class="line">    <span class="string">&quot;生育史、婚育史、流行病史（缺失项逐项写明&quot;</span>未提供<span class="string">&quot;）；S03=体格检查；S04=辅助检查。\n&quot;</span></span><br><span class="line">    <span class="string">&quot;4. 只返回 JSON，不要解释、不要代码围栏。&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">mechanical_sources</span>(<span class="params">cond: <span class="built_in">dict</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;保真兜底：所有非空字段分段穷罗入 sources，缺失项逐项标注。&quot;&quot;&quot;</span></span><br><span class="line">    age = cond.get(<span class="string">&quot;age&quot;</span>)</span><br><span class="line">    age_str = <span class="string">&quot;&#123;&#125;岁&quot;</span>.<span class="built_in">format</span>(age) <span class="keyword">if</span> age <span class="keyword">else</span> <span class="string">&quot;年龄未提供&quot;</span>  <span class="comment"># 0/None 均视为缺失（数据集中 0 为占位符）</span></span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<p>流程：一例一次调用 → 提取原文全部数字集合 → 校验转换结果是否一个不少 → 失败带 hint 重试一次 → 仍失败直接用 <code>mechanical_sources</code> 逐字拼接兜底。金标准（diseases&#x2F;diagnoses）独立存放，<strong>绝不进入 sources</strong>，防止答案泄漏。最终 1337&#x2F;1337 转换成功，保真审计 0 例缺失。</p>
+<p><img src="/images/clinical-entry/fig_convert.png" alt="数据集转换方式：模型转换 1245 例（93.1%），机械兜底 92 例（6.9%）；右侧为保真重试分布"></p>
+<h2 id="6-全量测试结果"><a href="#6-全量测试结果" class="headerlink" title="6. 全量测试结果"></a>6. 全量测试结果</h2><p>full 模式、4 并发、错峰 2.5s，通宵跑完 1337 例：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>数值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>成功 &#x2F; 失败</td>
+<td>1293 &#x2F; 44（96.7%）</td>
+</tr>
+<tr>
+<td>降级</td>
+<td>3 例</td>
+</tr>
+<tr>
+<td>API 总调用</td>
+<td>5319 次（均值 3.98&#x2F;例）</td>
+</tr>
+<tr>
+<td>单例耗时</td>
+<td>中位 101.3s，p90 124.2s</td>
+</tr>
+<tr>
+<td>正文长度</td>
+<td>中位 830 字（赛题建议区间 800–1600）</td>
+</tr>
+<tr>
+<td>金标准病种覆盖</td>
+<td>均值 0.819，中位 1.00</td>
+</tr>
+</tbody></table>
+<p><img src="/images/clinical-entry/fig_status.png" alt="处理结果分布（左）与失败错误码分布（右）"></p>
+<p><img src="/images/clinical-entry/fig_cost.png" alt="单例耗时分布（左）与单例 API 调用次数分布（右）"></p>
+<p><img src="/images/clinical-entry/fig_coverage.png" alt="金标准病种覆盖率（左）与三段正文长度分布（右）"></p>
+<p>44 例失败全部是硬缺陷拦截或小模型 JSON 输出故障，无链路级错误。其中 35 例 NUMERIC_FABRICATION 经逐例复盘：<strong>19 例是模型真实错配</strong>（把”近 3 年夜尿增多”写成”3 天”、把年龄 20 写成”20%”），<strong>16 例属校验器盲区误杀</strong>——模型其实写对了，但回溯提取器没能匹配回原文。这个 19:16 的比例很能说明问题：剩余失败里将近一半仍然是模型的锅，另一半是评测系统自己的锅。</p>
+<p><img src="/images/clinical-entry/fig_warnings.png" alt="校验提示规则分布（提示级放行，不阻断交付）"></p>
+<h2 id="7-踩坑实录：真实数据压出的迭代"><a href="#7-踩坑实录：真实数据压出的迭代" class="headerlink" title="7. 踩坑实录：真实数据压出的迭代"></a>7. 踩坑实录：真实数据压出的迭代</h2><p>每一行都是”上线前觉得不可能，上线后发现天天发生”：</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>问题</th>
+<th>后果</th>
+<th>修复</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>字母紧挨数字的单位（<code>WBC8.46×109/L</code>）</td>
+<td>如实复述被判数值虚构、整例误杀</td>
+<td>前导断言放宽 + X109&#x2F;L 变体 + 血压斜杠对</td>
+</tr>
+<tr>
+<td>2</td>
+<td>编号列点腔（”1. 患者老年男性，2. ……”）</td>
+<td>一眼 AI、个体化丢分</td>
+<td>提示词 v4.2.0 自然段硬规则 + enumerated_body 可修复校验</td>
+</tr>
+<tr>
+<td>3</td>
+<td>“24小时尿蛋白定量”被当时间值回溯</td>
+<td>合理计划被硬拦</td>
+<td>检查专名豁免</td>
+</tr>
+<tr>
+<td>4</td>
+<td>兜底模板写出”0岁”</td>
+<td>荒谬开头</td>
+<td>age 0&#x2F;None → “年龄未提供”</td>
+</tr>
+<tr>
+<td>5</td>
+<td>病史字段无归宿，致 121 例数值缺失</td>
+<td>资料事实丢失</td>
+<td>四段结构 + payload 补齐</td>
+</tr>
+<tr>
+<td>6</td>
+<td>思考模式 token 黑洞</td>
+<td>单例 130–195s</td>
+<td>双通道关思考，降到 20–40s</td>
+</tr>
+<tr>
+<td>7</td>
+<td>项目名粘连 <code>C30.4g/L</code></td>
+<td>复述被判虚构</td>
+<td><code>_fusion_variants</code> 剥离已知项目名前缀数字</td>
+</tr>
+<tr>
+<td>8</td>
+<td>中文数字”两周”→”2周”</td>
+<td>规范化写法被判虚构</td>
+<td><code>_cn_numeral_to_arabic</code> 提取前归一</td>
+</tr>
+<tr>
+<td>9</td>
+<td>OCR 错字 <code>ALTl80U/L</code></td>
+<td>模型读对反而”对不上原文”</td>
+<td>紧贴单位的 l&#x2F;I&#x2F;O 产出还原变体</td>
+</tr>
+<tr>
+<td>10</td>
+<td>全角符号 <code>BP 165／100mmHg</code></td>
+<td>提取失败</td>
+<td>NFKC 半角化</td>
+</tr>
+</tbody></table>
+<p>两个反直觉的教训值得单独说：</p>
+<p><strong>其一，校验器的 bug 会以”模型质量差”的面目出现。</strong> 那 35 例”数值虚构”如果不逐例复盘，就会永远躺在”模型不行”的账上；实际 16 例是我们自己的提取盲区。每个修复都在 <code>tests/test_real_units.py</code> 里锁了一条回归用例（注释直接写着实例编号，如 <code>REAL-0012</code>、<code>C30.4g/L → (0.4, &quot;g/l&quot;)</code>）。</p>
+<p><strong>其二，硬规则本身可能是错的。</strong> “正文不少于 800 字”最初是硬约束，结果 555 例资料本来就薄（sources &lt; 500 字）的病例因此多花一次重试调用，而且逼凑字会<strong>诱导编造</strong>——恰恰违背”宁缺毋假”。改成资料过薄时只记 warning 不触发重试（<code>text_short_thin_source</code> 规则），成本和幻觉一起降。</p>
+<h2 id="8-最终效果长什么样"><a href="#8-最终效果长什么样" class="headerlink" title="8. 最终效果长什么样"></a>8. 最终效果长什么样</h2><p><code>tools/review_report.py</code> 把 input + output 渲染成自包含的 HTML 对照页：左边是赛方资料片段（带 S01–S04 徽标），右边是系统生成的三段正文、依据说明、待核事项，数值高亮、evidence 可点击跳转来源。下面是真实病例 REAL-0635（慢性咳喘 20 年伴心衰体征）的成品截图：</p>
+<p><img src="/images/clinical-entry/review_sample.png" alt="REAL-0635 生成样例：左侧赛方输入四段资料，右侧系统生成的三段正文 + 4 条依据 + 3 条待核事项"></p>
+<p>看几个细节就知道质量如何：</p>
+<ul>
+<li>拟诊讨论同时给出了恶性心源性与结核性两条鉴别路线，支持点&#x2F;不支持点各归其位，结尾落在”待查”而非确诊；</li>
+<li>资料 S02&#x2F;S04 大面积”未提供”，正文如实保留并转化为 3 条具体的待核事项，而不是编一份既往史出来；</li>
+<li>每条依据都能点开对应 source_id，fact 与 inference 分色标注。</li>
+</ul>
+<p>提示词演进也值得一提——v2 只有基础角色 + 三段结构；v3 加入”具体程度阶梯”（每句写之前先判断这句话属于资料直接支持、可归纳、需标注推断、还是该进待核清单）；v4.1 根据 1337 例词频分析加了项目名限定词规则（糖化血红蛋白≠血红蛋白）；v4.2 用自然段硬规则消灭编号列点腔。每一版的变更都由数据或反馈驱动，没有一拍脑袋的改动。</p>
+<h2 id="9-局限"><a href="#9-局限" class="headerlink" title="9. 局限"></a>9. 局限</h2><p>诚实列出还没解决的事：</p>
+<ol>
+<li>参考区间 27 项全部 <code>verified=false</code>（待医学顾问核对），目前仅用于内部推理提示，禁入正文</li>
+<li>单例耗时预算只是事后告警，不强制中止（等主办方公布正式时限后收紧）</li>
+<li>金标准覆盖率是字符二元组启发式指标，不等同医学评审；正式评分以赛方双评委为准</li>
+<li>开发期用内网 qwen3.5-9b 做替身联调，qwen3.8-27b 的表现以赛前抽样联调为准（已通过 10 例真实病例）</li>
+<li>数据集中 21 例原文自带诊断性描述（如影像报告结论），此类病例的覆盖指标偏高，报告中单独标注</li>
+</ol>
+<h2 id="10-时间线与复现"><a href="#10-时间线与复现" class="headerlink" title="10. 时间线与复现"></a>10. 时间线与复现</h2><ul>
+<li>11-06 项目起步，定基线与校验框架</li>
+<li>11-08 仓库初始化，整合基线 + v3 校验入 main</li>
+<li>11-09 迭代计划评审：入口&#x2F;输出&#x2F;配额&#x2F;固定参数四项拍板；关闭思考模式决策</li>
+<li>11-10 staged 流水线全量落地（62 项测试）合入 main</li>
+<li>11-11 导师数据集接入，真实数据压出 3 类硬伤并修复</li>
+<li>11-12 自然段文风强制；数据转换重做；病例级并发 + 错峰</li>
+<li>11-13 端点上下文容量事故复盘（每槽 4k → 80k&#x2F;4 并行根治）；通宵全量压测</li>
+<li>11-14 02:58 全量压测收官（1293&#x2F;1337）</li>
+<li>11-15 44 例失败复盘与提取盲区修复；规则符合性自动检查收尾</li>
+</ul>
+<p>复现只需三步：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requires.txt        <span class="comment"># requests + python-dotenv，共两个依赖</span></span><br><span class="line"><span class="built_in">cp</span> .env.example .<span class="built_in">env</span>               <span class="comment"># 填 MODEL_NAME 与 ENDPOINT 两项</span></span><br><span class="line">python main.py                     <span class="comment"># → output.json + run_log.json（+ tools/review_report.py 出对照页）</span></span><br></pre></td></tr></table></figure>
+
+<p>测试为纯标准库 unittest，收官时 90 项全部通过。</p>
+<p>这个项目教会我最多的一件事：给 LLM 的任务，难点往往不在”让它写出来”，而在<strong>建立一套能证明它没瞎写的机制</strong>——可溯源的 evidence、单一来源的红线定义、带反馈的重试闭环，以及愿意逐例复盘失败的耐心。</p>
+<p>Donate</p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://berniedif.github.io/2026/11/19/%E4%BD%8F%E9%99%A2%E9%A6%96%E6%AC%A1%E7%97%85%E7%A8%8B%E8%AE%B0%E5%BD%95%E6%99%BA%E8%83%BD%E7%94%9F%E6%88%90/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Agent/" rel="tag">Agent</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LLM/" rel="tag">LLM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8C%BB%E7%96%97AI/" rel="tag">医疗AI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%AF%94%E8%B5%9B/" rel="tag">比赛</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2026/11/22/%E5%A4%9C%E9%97%B4%E8%B7%AF%E5%8F%A3%E8%BD%A6%E6%B5%81%E9%87%8F%E8%87%AA%E5%8A%A8%E7%BB%9F%E8%AE%A1/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            夜间路口车流量自动统计
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2026/11/06/OpenClaw-WSL-%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">OpenClaw WSL 安装指南</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "DAeOYIeCtfnPwFeKf96Drmpe-MdYXbMMI",
+    app_key: "kTYIzQjQl7fiwPZRR4NMuaEe#",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+  
+    
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2023-2026
+        <i class="ri-heart-fill heart_icon"></i> John Doe
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="老夏十三行"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯茶吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js"></script>
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/config/TeX-AMS-MML_HTMLorMML-full.js"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>

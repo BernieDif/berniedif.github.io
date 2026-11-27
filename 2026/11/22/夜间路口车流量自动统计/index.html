@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+
+
+<html lang="zh">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>夜间路口车流量自动统计 |  老夏十三行</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    <!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --></head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-夜间路口车流量自动统计"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  夜间路口车流量自动统计
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2026/11/22/%E5%A4%9C%E9%97%B4%E8%B7%AF%E5%8F%A3%E8%BD%A6%E6%B5%81%E9%87%8F%E8%87%AA%E5%8A%A8%E7%BB%9F%E8%AE%A1/" class="article-date">
+  <time datetime="2026-11-22T13:20:00.000Z" itemprop="datePublished">2026-11-22</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/">技术分享</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">3.6k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">14 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>这篇博客完整记录 <strong>zyx-airoadcount</strong> 项目：在夜间固定机位监控视频上，用 YOLO11s + ByteTrack 实现虚拟计数线的车流量统计，对 2 个摄像头点位的 262 个 1 分钟切片（合计约 4.4 小时）完成逐片计数，并与人工调查表做了 5 分钟粒度的交叉验证——<strong>总量偏差 -1.7%，每箱 MAE 1.04 辆</strong>。本文从计数算法设计、批处理工程、性能基准矩阵、量化实验到真值对比逐层展开，包括几个真实踩过的坑（supervision API 漂移、计数线出画、pgrep 自杀）。</p>
+<h2 id="任务与数据"><a href="#任务与数据" class="headerlink" title="任务与数据"></a>任务与数据</h2><table>
+<thead>
+<tr>
+<th>点位</th>
+<th>场景</th>
+<th>分辨率</th>
+<th>切片数</th>
+<th>真值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cam12 西二旗中路科宁路路口</td>
+<td>双向、斜向对角车流、夜间高峰</td>
+<td>1920×1080 @25fps</td>
+<td>131</td>
+<td>无</td>
+</tr>
+<tr>
+<td>cam13 快手大厦西北门</td>
+<td>笔直道路、单向（东向西）、路边停满非机动车</td>
+<td>2560×1440 @25fps</td>
+<td>131</td>
+<td>人工调查 xlsx（5min×7 车型）</td>
+</tr>
+</tbody></table>
+<p>要求输出：按车型（小客&#x2F;出租&#x2F;公交&#x2F;货车…）× 方向 × 5 分钟分箱的过线流量，格式对齐人工调查表以便提交。</p>
+<p><img src="/images/zyx-airoadcount/scene_cam12.jpg" alt="cam12 场景与计数线"><br><em>cam12：双向车流沿左上↔右下对角线行驶，黄色为虚拟计数线 (200,750)→(1100,350)。</em></p>
+<p><img src="/images/zyx-airoadcount/scene_cam13.jpg" alt="cam13 场景与计数线"><br><em>cam13：夜间单向驶离车流，线 (100,1050)→(1650,700) 横跨车道。</em></p>
+<p>标定流程很朴素：每个点位抽 3 帧不同时刻的画面，确认机位固定（帧间无位移），人眼把线放到”横跨全部车道、避开停止线排队区”的位置。机位固定这一点决定了后面所有设计——不需要做相机运动补偿。</p>
+<h2 id="计数算法：为什么没用现成的-LineZone"><a href="#计数算法：为什么没用现成的-LineZone" class="headerlink" title="计数算法：为什么没用现成的 LineZone"></a>计数算法：为什么没用现成的 LineZone</h2><p>supervision 库有现成的 <code>LineZone</code>，本来是最短路径，但实测不可用，两个原因：</p>
+<ol>
+<li><strong>API 漂移</strong>：0.32 版本移除了多类计数的 <code>LineZoneMultiClass</code>，<code>LineZone</code> 改成 <code>trigger()</code> 方法 + <code>in_count_per_class</code> 属性；</li>
+<li><strong>判定几何不对路</strong>：<code>trigger()</code> 用<strong>检测框四个角</strong>是否进入”兴趣带”来判定过线，兴趣带是轴对齐的。而 cam12 的车流是<strong>斜穿</strong>画面的——包围盒角点几乎同时进入带区，斜向车流对这条水平&#x2F;垂直带不敏感，漏计严重。</li>
+</ol>
+<p>于是手写了一个基于<strong>质心轨迹 × 有限线段求交</strong>的计数器，判定三要素：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">side</span>(<span class="params">ax, ay, bx, by, cx, cy</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;点 (cx,cy) 在有向线段 A→B 的哪一侧：叉积符号。&quot;&quot;&quot;</span></span><br><span class="line">    v = (bx - ax) * (cy - ay) - (by - ay) * (cx - ax)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">int</span>(v &gt; <span class="number">0</span>) - <span class="built_in">int</span>(v &lt; <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">seg_intersect</span>(<span class="params">p1, p2, p3, p4</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;线段 p1-p2 与 p3-p4 是否真实相交（含端点接触）。&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">orient</span>(<span class="params">a, b, c</span>):</span><br><span class="line">        v = (b[<span class="number">0</span>] - a[<span class="number">0</span>]) * (c[<span class="number">1</span>] - a[<span class="number">1</span>]) - (b[<span class="number">1</span>] - a[<span class="number">1</span>]) * (c[<span class="number">0</span>] - a[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">int</span>(v &gt; <span class="number">1e-9</span>) - <span class="built_in">int</span>(v &lt; -<span class="number">1e-9</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">on_seg</span>(<span class="params">a, b, c</span>):</span><br><span class="line">        <span class="keyword">return</span> (<span class="built_in">min</span>(a[<span class="number">0</span>], b[<span class="number">0</span>]) - <span class="number">1e-9</span> &lt;= c[<span class="number">0</span>] &lt;= <span class="built_in">max</span>(a[<span class="number">0</span>], b[<span class="number">0</span>]) + <span class="number">1e-9</span> <span class="keyword">and</span></span><br><span class="line">                <span class="built_in">min</span>(a[<span class="number">1</span>], b[<span class="number">1</span>]) - <span class="number">1e-9</span> &lt;= c[<span class="number">1</span>] &lt;= <span class="built_in">max</span>(a[<span class="number">1</span>], b[<span class="number">1</span>]) + <span class="number">1e-9</span>)</span><br><span class="line">    o1, o2, o3, o4 = orient(p1, p2, p3), orient(p1, p2, p4), orient(p3, p4, p1), orient(p3, p4, p2)</span><br><span class="line">    <span class="keyword">if</span> o1 != o2 <span class="keyword">and</span> o3 != o4:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">if</span> o1 == <span class="number">0</span> <span class="keyword">and</span> on_seg(p1, p2, p3): <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="comment"># …（其余三种端点接触情况同理）</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<p>逐帧对每个 tracker_id 维护”上一帧质心”，跨帧判定：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">cur = side(ax, ay, bx, by, cx, cy)</span><br><span class="line">px, py = state[tid]                       <span class="comment"># 上一帧质心</span></span><br><span class="line">moved = np.hypot(cx - px, cy - py)</span><br><span class="line"><span class="keyword">if</span> (side(ax, ay, bx, by, px, py) != <span class="number">0</span> <span class="keyword">and</span> cur != <span class="number">0</span></span><br><span class="line">        <span class="keyword">and</span> side(ax, ay, bx, by, px, py) != cur   <span class="comment"># 两侧符号翻转</span></span><br><span class="line">        <span class="keyword">and</span> moved &gt;= MIN_MOVE                      <span class="comment"># 位移阈值，防抖动</span></span><br><span class="line">        <span class="keyword">and</span> seg_intersect((px, py), (cx, cy), (ax, ay), (bx, by))):</span><br><span class="line">    <span class="comment"># 判定一次过线：方向 = cur 的符号，类别 = 当前检测类别</span></span><br><span class="line">    events.append(&#123;<span class="string">&quot;frame&quot;</span>: idx, <span class="string">&quot;t_s&quot;</span>: idx / fps, <span class="string">&quot;id&quot;</span>: tid,</span><br><span class="line">                   <span class="string">&quot;class&quot;</span>: name, <span class="string">&quot;dir&quot;</span>: <span class="string">&quot;pos&quot;</span> <span class="keyword">if</span> cur &gt; <span class="number">0</span> <span class="keyword">else</span> <span class="string">&quot;neg&quot;</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>为什么这四个条件缺一不可：</p>
+<ul>
+<li><strong>符号翻转</strong>（<code>side(prev) != side(cur)</code>）：过线的本质定义；</li>
+<li><strong>线段求交</strong>：只看符号会误判——被遮挡的检测目标 ID 切换后，新轨迹起点可能”凭空”出现在线的另一侧。要求 prev→cur 的<strong>移动线段真实穿过有限线段</strong>（不是无限延伸的直线），路外跳变、远处瞬移都不算；</li>
+<li><strong>MIN_MOVE&#x3D;8px</strong>：静止排队车辆质心抖动不触发；</li>
+<li><strong>prev 侧非零</strong>：目标第一次上线时 prev 不存在，避免”出生即过线”。</li>
+</ul>
+<p>方向语义按场景定义：cam12 中 <code>pos</code> &#x3D; 迎面驶向路口（approach），<code>neg</code> &#x3D; 驶离（recede）。</p>
+<h2 id="输出格式：一片一个-JSON，事件流可回放"><a href="#输出格式：一片一个-JSON，事件流可回放" class="headerlink" title="输出格式：一片一个 JSON，事件流可回放"></a>输出格式：一片一个 JSON，事件流可回放</h2><p>每个切片输出一个 summary JSON，聚合、对比、重出表全部从事件流现算——<strong>视频删了也不影响任何后续统计</strong>：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;video&quot;</span><span class="punctuation">:</span> <span class="string">&quot;20261118213825_008793AA.MP4&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;resolution&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="number">1920</span><span class="punctuation">,</span> <span class="number">1080</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;line_native&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="number">200</span><span class="punctuation">,</span> <span class="number">750</span><span class="punctuation">,</span> <span class="number">1100</span><span class="punctuation">,</span> <span class="number">350</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;conf&quot;</span><span class="punctuation">:</span> <span class="number">0.25</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;frames&quot;</span><span class="punctuation">:</span> <span class="number">1500</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;pos_by_class&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;car&quot;</span><span class="punctuation">:</span> <span class="number">12</span><span class="punctuation">,</span> <span class="attr">&quot;motorcycle&quot;</span><span class="punctuation">:</span> <span class="number">8</span><span class="punctuation">,</span> <span class="attr">&quot;bus&quot;</span><span class="punctuation">:</span> <span class="number">1</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;neg_by_class&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;car&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span> <span class="attr">&quot;motorcycle&quot;</span><span class="punctuation">:</span> <span class="number">1</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;total_cross&quot;</span><span class="punctuation">:</span> <span class="number">25</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;total_excl_motorcycle&quot;</span><span class="punctuation">:</span> <span class="number">16</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;events&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span> <span class="attr">&quot;frame&quot;</span><span class="punctuation">:</span> <span class="number">37</span><span class="punctuation">,</span>  <span class="attr">&quot;t_s&quot;</span><span class="punctuation">:</span> <span class="number">1.48</span><span class="punctuation">,</span>  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span>   <span class="attr">&quot;class&quot;</span><span class="punctuation">:</span> <span class="string">&quot;car&quot;</span><span class="punctuation">,</span>        <span class="attr">&quot;dir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;neg&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span> <span class="attr">&quot;frame&quot;</span><span class="punctuation">:</span> <span class="number">57</span><span class="punctuation">,</span>  <span class="attr">&quot;t_s&quot;</span><span class="punctuation">:</span> <span class="number">2.28</span><span class="punctuation">,</span>  <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span>   <span class="attr">&quot;class&quot;</span><span class="punctuation">:</span> <span class="string">&quot;car&quot;</span><span class="punctuation">,</span>        <span class="attr">&quot;dir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;pos&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span> <span class="attr">&quot;frame&quot;</span><span class="punctuation">:</span> <span class="number">292</span><span class="punctuation">,</span> <span class="attr">&quot;t_s&quot;</span><span class="punctuation">:</span> <span class="number">11.68</span><span class="punctuation">,</span> <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">280</span><span class="punctuation">,</span> <span class="attr">&quot;class&quot;</span><span class="punctuation">:</span> <span class="string">&quot;motorcycle&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;dir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;pos&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>这一片（21:38 的 cam12）的标注渲染效果，计数线、检测框、实时计数器都在：</p>
+<p><video controls="" preload="metadata" src="/videos/zyx-airoadcount/counted_demo.mp4" width="960"></video></p>
+<p>过线最密集的 6 秒（t&#x3D;50.3s 起，9 次过线）做成 GIF：</p>
+<p><img src="/images/zyx-airoadcount/demo.gif" alt="过线密集段 GIF"></p>
+<p>公交过线瞬间的定格（t&#x3D;45.4s，<code>bus#114 approach</code>，红圈为触发点）：</p>
+<p><img src="/images/zyx-airoadcount/still_cross.jpg" alt="公交过线瞬间"></p>
+<h2 id="性能基准：瓶颈到底在哪"><a href="#性能基准：瓶颈到底在哪" class="headerlink" title="性能基准：瓶颈到底在哪"></a>性能基准：瓶颈到底在哪</h2><p>先给结论矩阵（同一段 60s 1080p 切片，基线计数 &#x3D; 14 次）：</p>
+<p><img src="/images/zyx-airoadcount/perf_matrix.png" alt="性能基准矩阵"></p>
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>实时倍率</th>
+<th>计数</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1080p 基线（stride&#x3D;1, imgsz&#x3D;640）</td>
+<td>1.73x</td>
+<td>14</td>
+<td>参照</td>
+</tr>
+<tr>
+<td>FP16 (half)</td>
+<td>1.60x</td>
+<td>14</td>
+<td>无收益</td>
+</tr>
+<tr>
+<td>imgsz&#x3D;416 + FP16</td>
+<td>1.64x</td>
+<td>15</td>
+<td>无收益</td>
+</tr>
+<tr>
+<td>540p 降分辨率</td>
+<td>2.17x</td>
+<td><strong>9</strong></td>
+<td><strong>计数崩 -5</strong></td>
+</tr>
+<tr>
+<td>stride&#x3D;2（隔帧）</td>
+<td><strong>2.90x</strong></td>
+<td>16 (+2)</td>
+<td>有效</td>
+</tr>
+<tr>
+<td>stride&#x3D;3</td>
+<td><strong>3.79x</strong></td>
+<td>15 (+1)</td>
+<td>有效</td>
+</tr>
+<tr>
+<td>4 worker 并行（摊薄）</td>
+<td><strong>5.10x</strong></td>
+<td>14</td>
+<td>有效</td>
+</tr>
+</tbody></table>
+<p>三个反直觉的发现，每个都有机制解释：</p>
+<p><strong>1. 降分辨率不省算力。</strong> YOLO 推理前反正把每帧 resize 到 640×640，GPU 计算量与输入分辨率无关。单独剖析解码环节：纯 <code>cap.read()</code> 循环 1080p 能跑到 <strong>9.8x 实时</strong>——解码也根本不是瓶颈。真正的开销是逐帧的 Python 循环 + ByteTrack 更新 + 结果对象解析。所以 540p 只换来 25% 提速，却付出计数 -36% 的代价：夜间画面本来就暗，540p 下小车目标直接漏检。</p>
+<p><strong>2. 降分辨率还引爆了一个真 bug。</strong> 540p 首测计数只有 2——排查发现计数线坐标 <code>(200,750)→(1100,350)</code> 是按 1080p 定的，540p 画面里 <code>y=750</code> 已经出画，<strong>线在画面外，悄悄漏数</strong>。修复是把线定义为 1080p 参考坐标、运行时自动缩放到实际分辨率：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">scale_line</span>(<span class="params">line, w, h</span>):</span><br><span class="line">    ax, ay, bx, by = line</span><br><span class="line">    <span class="keyword">if</span> (w, h) != (<span class="number">1920</span>, <span class="number">1080</span>):</span><br><span class="line">        sx, sy = w / <span class="number">1920.0</span>, h / <span class="number">1080.0</span></span><br><span class="line">        ax, ay, bx, by = <span class="built_in">int</span>(ax * sx), <span class="built_in">int</span>(ay * sy), <span class="built_in">int</span>(bx * sx), <span class="built_in">int</span>(by * sy)</span><br><span class="line">    <span class="keyword">return</span> ax, ay, bx, by</span><br></pre></td></tr></table></figure>
+
+<p>这个 bug 的教训比它的修复更值钱：<strong>计数类系统的错误是静默的</strong>——没有报错、没有 NaN，只有数字悄悄变小。cam13 是 2560×1440，靠这个自动缩放才能和 cam12 共用一套批处理。</p>
+<p><strong>3. 跳帧是真杠杆，代价是 ID 漂移。</strong> 车流计数不需要 25fps：stride&#x3D;2 拿 2.9x、stride&#x3D;3 拿 3.8x。代价是低帧率下相邻帧位移变大，ByteTrack 匹配变差，ID 切换导致计数 +1~2 的漂移。对”总量精度优先”的本任务，最终选择 stride&#x3D;1 + 多进程并行，而不是跳帧。</p>
+<p><strong>量化（INT4&#x2F;INT8）为什么全军覆没。</strong> 有人直觉”INT4 甚至都够用”——对 LLM 成立，对 CNN 无从谈起。导出 ONNX 数了一下带权算子直方图：</p>
+<p><img src="/images/zyx-airoadcount/quant_reality.png" alt="量化现实检查"></p>
+<p>90 个带权算子里 <strong>Conv&#x3D;88、MatMul&#x2F;Gemm&#x3D;2</strong>。INT4 内核（MatMul4Bits 等）在 ONNX Runtime &#x2F; TensorRT &#x2F; torchao 里只覆盖矩阵乘类算子，卷积主流最低到 INT8——98% 的权重根本没有 INT4 内核可用。INT8 实测呢？CPU 上 fp32 84ms → INT8 动态量化 **120ms，反而 +43%**：x86 卷积缺少融合路径，逐层量化&#x2F;反量化开销大于收益。GPU 侧 FP16 同样无收益（1.60x vs 1.73x），因为瓶颈不在算力。</p>
+<h2 id="批处理工程：262-个切片的跑法"><a href="#批处理工程：262-个切片的跑法" class="headerlink" title="批处理工程：262 个切片的跑法"></a>批处理工程：262 个切片的跑法</h2><p>单 worker ~31s&#x2F;片要跑 2 小时以上。GPU 利用率只有 28%，说明单进程喂不饱卡——直接上多进程分片：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># batch_count.py：按 worker 序号取模分片，结果存在即跳过（幂等）</span></span><br><span class="line"><span class="keyword">if</span> a.workers &gt; <span class="number">1</span>:</span><br><span class="line">    jobs = jobs[a.worker::a.workers]</span><br><span class="line">...</span><br><span class="line"><span class="keyword">for</span> i, (cam, clip, out, line) <span class="keyword">in</span> <span class="built_in">enumerate</span>(jobs):</span><br><span class="line">    <span class="keyword">if</span> os.path.exists(out):</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    s = count_clip(model, clip, line)</span><br><span class="line">    tmp = out + <span class="string">&quot;.tmp&quot;</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(tmp, <span class="string">&quot;w&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        json.dump(s, f, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line">    os.replace(tmp, out)          <span class="comment"># 原子写，中断不留半截 JSON</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># runner_multi.sh：4 个分离 worker，全部完成才打 DONE 标记</span></span><br><span class="line"><span class="keyword">for</span> w <span class="keyword">in</span> 0 1 2 3; <span class="keyword">do</span></span><br><span class="line">  python -u batch_count.py --workers 4 --worker <span class="variable">$w</span> &gt;&gt; batch.log 2&gt;&amp;1 &amp;</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">wait</span> ... &amp;&amp; <span class="built_in">touch</span> batch.DONE</span><br></pre></td></tr></table></figure>
+
+<p>幂等 + 原子写让”续跑”零成本：中断、重启、改参数，重发 runner 即可，已完成的 262 个 JSON 原样保留。4 worker 后单片耗时涨到 <del>47s（争用），但聚合吞吐 **</del>5.1x 实时**，GPU 利用率 28%→83%。</p>
+<p><strong>内存这条线也值得说。</strong> 机器只有 16GB（WSL2），4 个 worker 各吃 1.86GB。先入为主的优化——限 torch&#x2F;opencv 线程数（<code>torch.set_num_threads(2)</code>）、限 glibc arena（<code>MALLOC_ARENA_MAX=2</code>）、限解码缓冲——实测只省了 <strong>80MB</strong>：RSS 的大头是<strong>每进程独立收费的 CUDA context + torch 运行时</strong>（~1.3-1.5GB&#x2F;进程），Python 侧可调项本来就小。真正的内存杠杆只有一个：worker 数量。每加一个 worker ≈ +1.9GB，”低内存模式”就是 2 worker。</p>
+<p><strong>踩坑实录（工程类）：</strong></p>
+<ul>
+<li><code>pgrep -f &quot;batch_count.py&quot;</code> 会匹配到<strong>执行这条命令的 shell 包装进程自身</strong>，<code>kill $(pgrep …)</code> 把自己 SIGTERM 了。杀进程命令里一律用括号模式 <code>pgrep -f &quot;batch_count[.]py&quot;</code>，并且先杀叶子（python worker）再杀监督（runner.sh）；</li>
+<li>ultralytics 首次运行会<strong>自动 pip 安装</strong> ByteTrack 依赖 <code>lap</code>，本次耗时 156 秒——正好卡在那一次运行里，导致当次 tracker_id 没生效、计数异常。环境准备阶段就该显式装齐；</li>
+<li>WSL2 的分离进程不抗休眠、<code>/tmp</code> 会被清空：长任务日志和中间态全部落工作区，不碰 &#x2F;tmp。</li>
+</ul>
+<h2 id="效果验证：和人工调查对账"><a href="#效果验证：和人工调查对账" class="headerlink" title="效果验证：和人工调查对账"></a>效果验证：和人工调查对账</h2><p>cam13 点位有同步的人工调查表（5 分钟分箱 × 7 车型，方向”东向西”）。取视频窗口内 25 个<strong>完整</strong>分箱（5 个分钟片齐全）对比：</p>
+<p><img src="/images/zyx-airoadcount/gt_compare.png" alt="真值对比"></p>
+<ul>
+<li>**总量：机器 115 vs 人工 117，偏差 -1.7%**；MAE 1.04 辆&#x2F;箱，20&#x2F;25 箱误差 ≤1；</li>
+<li><strong>方向判定与人工一致</strong>：人工记录全为东向西，机器 109 次驶离 + 6 次反向（反向即 ID 切换噪声）；</li>
+<li><strong>但车型构成失真</strong>：人工记录里有 20 辆大客车 + 1 辆中货车，机器 bus&#x3D;0、truck&#x3D;0，car 多了 19——<strong>夜间远距离的大客车被整体误判成小客车</strong>。旁证：同一模型在 cam12（视角更近）正常识别出 66 辆公交。所以不是模型”不会认公交”，是这个机位的目标像素不够。总量准 + 构成错的组合，恰好说明<strong>和真值对账必须对到分类维度，只看总量会掩盖系统性偏差</strong>。</li>
+</ul>
+<p>最终取舍：提交口径以总量为准，车型构成在说明页标注限制（用户拍板”就这样不改了”——修的话首选 yolo11m 重跑 cam13，约 50 分钟）。</p>
+<p>cam12 没有真值，输出它的流量画像（逐分钟过线数，5 分钟滑动均值）：</p>
+<p><img src="/images/zyx-airoadcount/cam12_flow.png" alt="cam12 流量曲线"></p>
+<p>两小时合计 <strong>2804 次过线</strong>：小客 2036 &#x2F; 公交 66 &#x2F; 货车 8 &#x2F; 摩托·电动车 694。机动车流量从 21 点 ~15&#x2F;分钟爬到 22 点后 ~20&#x2F;分钟；摩托车持续衰减（21 点高峰 8-11&#x2F;分钟 → 23 点归零），是典型的外卖通勤潮汐。来车 1974 vs 去车 830 的显著不对称值得注意，方向语义上”来车”覆盖了主路的两个进口方向，与场景相符。</p>
+<h2 id="交付物"><a href="#交付物" class="headerlink" title="交付物"></a>交付物</h2><ul>
+<li><code>results/cam{12,13}/*.json</code>：262 个逐片事件流（聚合、改口径、重出表的数据底座）；</li>
+<li>提交表 xlsx：照调查表模板（5min × 6 车型 + 合计），另附分方向 sheet 和统计说明 sheet——车型映射限制（出租并入小客、货车不分档、摩托单列）全部写在说明页里；</li>
+<li>脚本四件套：<code>count_vehicles.py</code>（原型+标注渲染）、<code>batch_count.py</code>（分片批处理）、<code>aggregate_report.py</code>&#x2F;<code>compare_detail.py</code>（聚合与真值对比）、<code>runner_multi.sh</code>（监督启动）。</li>
+</ul>
+<h2 id="局限与后续"><a href="#局限与后续" class="headerlink" title="局限与后续"></a>局限与后续</h2><ol>
+<li><strong>车型细分</strong>：夜间远距 bus↔car 混淆是当前最大短板，候选方案 yolo11m&#x2F;l 或加 imgsz；</li>
+<li><strong>ID 切换漂移</strong>：跳帧模式和遮挡场景下计数 +1~2 抖动；可用轨迹级二次校验（同一 ID 双向折返剔除）进一步压噪声；</li>
+<li><strong>单线单向假设</strong>：机位固定才成立；换机位需重新标定，多线分车道计数未做；</li>
+<li><strong>RTSP 实时流</strong>：批处理已验证，实时模式（断流重连、时钟对齐）未做。</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这个项目的价值不在模型（yolo11s 开箱即用），而在<strong>把”检测+跟踪”变成”可信计数”的那段工程</strong>：</p>
+<ul>
+<li>计数判定用<strong>质心 × 有限线段求交</strong>，比包围盒触发更适合斜向车流，遮挡跳变天然免疫；</li>
+<li><strong>静默错误</strong>是统计系统的头号敌人——计数线出画 bug 教会我：任何口径变化（分辨率、裁剪）后必须回归已知答案；</li>
+<li>性能优化先剖析再动手：这条管线瓶颈在逐帧 CPU 开销，不在 GPU&#x2F;解码&#x2F;精度，所以跳帧和多进程有效，降分辨率和量化无效甚至有害；</li>
+<li>多进程 CUDA 的内存大头是 <strong>CUDA context 按进程收费</strong>，调 Python 参数省不了几个 G；</li>
+<li><strong>和人工真值对账要对到分类维度</strong>：总量 -1.7% 的漂亮数字底下，藏着 bus 全军覆没的结构性错误。</li>
+</ul>
+<hr>
+<p><em>环境：RTX 4060 Ti 16GB &#x2F; WSL2 &#x2F; conda env <code>vehcount</code>（ultralytics 8.4.216 + torch 2.15.0+cu132 + opencv 5.1.0）。模型权重 yolo11s.pt（GitHub 直连 65KB&#x2F;s，换 gh-proxy 镜像 855KB&#x2F;s）。</em></p>
+<p>Donate</p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://berniedif.github.io/2026/11/22/%E5%A4%9C%E9%97%B4%E8%B7%AF%E5%8F%A3%E8%BD%A6%E6%B5%81%E9%87%8F%E8%87%AA%E5%8A%A8%E7%BB%9F%E8%AE%A1/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/YOLO/" rel="tag">YOLO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BA%A4%E9%80%9A%E7%BB%9F%E8%AE%A1/" rel="tag">交通统计</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA/" rel="tag">目标跟踪</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" rel="tag">计算机视觉</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2026/11/27/%E5%8D%9A%E5%AE%A2%E7%81%BE%E9%9A%BE%E6%81%A2%E5%A4%8D%EF%BC%9A%E4%BB%8E%E9%83%A8%E7%BD%B2%E4%BA%A7%E7%89%A9%E9%87%8C%E6%8A%A2%E6%95%91Hexo%E7%AB%99%E7%82%B9/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            博客灾难恢复：从部署产物里抢救Hexo站点
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2026/11/19/%E4%BD%8F%E9%99%A2%E9%A6%96%E6%AC%A1%E7%97%85%E7%A8%8B%E8%AE%B0%E5%BD%95%E6%99%BA%E8%83%BD%E7%94%9F%E6%88%90/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">住院首次病程记录智能生成</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "DAeOYIeCtfnPwFeKf96Drmpe-MdYXbMMI",
+    app_key: "kTYIzQjQl7fiwPZRR4NMuaEe#",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+  
+    
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2023-2026
+        <i class="ri-heart-fill heart_icon"></i> John Doe
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="老夏十三行"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯茶吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js"></script>
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/config/TeX-AMS-MML_HTMLorMML-full.js"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>

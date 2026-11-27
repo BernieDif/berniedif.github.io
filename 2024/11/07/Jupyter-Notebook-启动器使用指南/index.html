@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+
+
+<html lang="zh">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>Jupyter Notebook 启动器使用指南 |  老夏十三行</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    <!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --></head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-Jupyter-Notebook-启动器使用指南"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Jupyter Notebook 启动器使用指南
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2024/11/07/Jupyter-Notebook-%E5%90%AF%E5%8A%A8%E5%99%A8%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="article-date">
+  <time datetime="2024-11-07T00:40:03.000Z" itemprop="datePublished">2024-11-07</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/">技术分享</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">1.8k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">9 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>Jupyter Notebook 启动器是一个简单的批处理文件，旨在简化在桌面双击即可启动 Jupyter Notebook 的过程。它减去了手动打开命令提示符、导航到目标目录和启动 Jupyter Notebook 的繁琐步骤。</p>
+<span id="more"></span>
+<h4 id="主要功能："><a href="#主要功能：" class="headerlink" title="主要功能："></a>主要功能：</h4><ul>
+<li><strong>一键启动</strong>：只需双击桌面上的 <code>open_jupyter.bat</code> 文件，即可快速启动 Jupyter Notebook。</li>
+<li><strong>自动创建目录</strong>：如果指定的保存目录不存在，批处理文件会自动创建该目录。</li>
+<li><strong>可自定义路径</strong>：用户可以根据需要更改 Jupyter Notebook 的保存目录。</li>
+</ul>
+<h3 id="第一部分：创建批处理文件"><a href="#第一部分：创建批处理文件" class="headerlink" title="第一部分：创建批处理文件"></a>第一部分：创建批处理文件</h3><ol>
+<li><p><strong>打开记事本</strong>：</p>
+<ul>
+<li>在Windows系统中，点击“开始”菜单，搜索并选择“记事本”。</li>
+</ul>
+</li>
+<li><p><strong>复制并粘贴代码</strong>：</p>
+<ul>
+<li>将你提供的批处理代码复制到记事本中。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"> <span class="built_in">echo</span> Jupyter notebook opening...</span><br><span class="line"> <span class="built_in">timeout</span> /t 1 /nobreak &gt;nul</span><br><span class="line"> <span class="built_in">echo</span> Made by Bernie</span><br><span class="line"> <span class="built_in">echo</span> Your files will be saved <span class="keyword">in</span> <span class="string">&quot;D:\add\your\path&quot;</span></span><br><span class="line"> <span class="built_in">set</span> <span class="string">&quot;folderPath=D:\add\your\path&quot;</span></span><br><span class="line"> <span class="keyword">if</span> not exist <span class="string">&quot;%folderPath%&quot;</span> (</span><br><span class="line">     <span class="built_in">mkdir</span> <span class="string">&quot;%folderPath%&quot;</span></span><br><span class="line"> )</span><br><span class="line"></span><br><span class="line"> powershell -Command <span class="string">&quot;Set-Location &#x27;%folderPath%&#x27;; jupyter notebook&quot;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>保存文件</strong>：</p>
+<ul>
+<li><p>点击记事本的“文件”菜单，选择“另存为”。</p>
+</li>
+<li><p>在“另存为”对话框中，将文件类型设置为“所有文件”，文件名命名为<code>open_jupyter.bat</code>（确保文件扩展名为<code>.bat</code>）。</p>
+</li>
+<li><p>选择桌面作为保存位置，然后点击“保存”。</p>
+</li>
+</ul>
+</li>
+<li><h2 id="使用方法："><a href="#使用方法：" class="headerlink" title="使用方法："></a><strong>使用方法</strong>：</h2></li>
+</ol>
+<h3 id="第二部分：更改文件路径"><a href="#第二部分：更改文件路径" class="headerlink" title="第二部分：更改文件路径"></a>第二部分：更改文件路径</h3><p>如果你希望将Jupyter Notebook的文件保存到其他目录，请按照以下步骤操作：</p>
+<ol>
+<li><p><strong>编辑批处理文件</strong>：</p>
+<ul>
+<li>右键点击桌面上的<code>open_jupyter.bat</code>文件，选择“打开方式” -&gt; “记事本”。</li>
+</ul>
+</li>
+<li><p><strong>修改路径</strong>：</p>
+<ul>
+<li>找到以下代码行：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> <span class="string">&quot;folderPath=D:\add\your\path&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li>将其更改为你的目标路径。例如，如果你希望将文件保存在<code>C:\Users\YourName\Documents\JupyterProjects</code>，则修改为：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> <span class="string">&quot;folderPath=C:\Users\YourName\Documents\JupyterProjects&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>保存并关闭</strong>：</p>
+<ul>
+<li>点击记事本的“文件”菜单，选择“保存”。</li>
+<li>关闭记事本。</li>
+</ul>
+</li>
+</ol>
+<h3 id="第三部分：结束Jupyter-Notebook和批处理文件"><a href="#第三部分：结束Jupyter-Notebook和批处理文件" class="headerlink" title="第三部分：结束Jupyter Notebook和批处理文件"></a>第三部分：结束Jupyter Notebook和批处理文件</h3><p>要结束Jupyter Notebook和批处理文件，请按照以下步骤操作：</p>
+<ol>
+<li><strong>快速结束Jupyter Notebook</strong>：<ul>
+<li>打开到正在显示类似以下内容的任务管理器</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">   [I 2024-11-07 08:32:16.961 ServerApp] Extension package aext_assistant took 1.0463s to import</span><br><span class="line">[I 2024-11-07 08:32:17.023 ServerApp] ****************** ENVIRONMENT Environment.PRODUCTION ******************</span><br><span class="line">[I 2024-11-07 08:32:17.038 ServerApp] ****************** ENVIRONMENT Environment.PRODUCTION ******************</span><br><span class="line">[I 2024-11-07 08:32:17.433 ServerApp] Extension package jupyter_lsp took 0.3741s to import</span><br><span class="line">[W 2024-11-07 08:32:17.433 ServerApp] A `_jupyter_server_extension_points` <span class="keyword">function</span> was not found <span class="keyword">in</span> jupyter_lsp. Instead, a `_jupyter_server_extension_paths` <span class="keyword">function</span> was found and will be used <span class="keyword">for</span> now. This <span class="keyword">function</span> name will be deprecated <span class="keyword">in</span> future releases of Jupyter Server.</span><br><span class="line">[I 2024-11-07 08:32:17.780 ServerApp] Extension package jupyter_server_terminals took 0.3336s to import</span><br><span class="line">[W 2024-11-07 08:32:22.698 ServerApp] A `_jupyter_server_extension_points` <span class="keyword">function</span> was not found <span class="keyword">in</span> notebook_shim. Instead, a `_jupyter_server_extension_paths` <span class="keyword">function</span> was found and will be used <span class="keyword">for</span> now. This <span class="keyword">function</span> name will be deprecated <span class="keyword">in</span> future releases of Jupyter Server.</span><br><span class="line">[I 2024-11-07 08:32:35.162 ServerApp] Extension package panel.io.jupyter_server_extension took 12.4562s to import</span><br><span class="line">[I 2024-11-07 08:32:35.175 ServerApp] aext_assistant | extension was successfully linked.</span><br><span class="line">[I 2024-11-07 08:32:35.194 ServerApp] aext_core | extension was successfully linked.</span><br><span class="line">[I 2024-11-07 08:32:35.194 ServerApp] aext_panels | extension was successfully linked.</span><br><span class="line">[I 2024-11-07 08:32:35.194 ServerApp] aext_share_notebook | extension was successfully linked.</span><br><span class="line">[I 2024-11-07 08:32:35.194 ServerApp] jupyter_lsp | extension was successfully linked.</span><br><span class="line">[I 2024-11-07 08:32:35.247 ServerApp] jupyter_server_terminals | extension was successfully linked.</span><br><span class="line">[I 2024-11-07 08:32:35.299 ServerApp] jupyterlab | extension was successfully linked.</span><br><span class="line">[I 2024-11-07 08:32:35.374 ServerApp] notebook | extension was successfully linked.</span><br><span class="line">[I 2024-11-07 08:32:36.949 ServerApp] notebook_shim | extension was successfully linked.</span><br><span class="line">[I 2024-11-07 08:32:36.949 ServerApp] panel.io.jupyter_server_extension | extension was successfully linked.</span><br><span class="line">[I 2024-11-07 08:32:37.264 ServerApp] notebook_shim | extension was successfully loaded.</span><br><span class="line">[I 2024-11-07 08:32:37.266 ServerApp] Registered aext_assistant server extension</span><br><span class="line">[I 2024-11-07 08:32:37.266 ServerApp] aext_assistant | extension was successfully loaded.</span><br><span class="line">[I 2024-11-07 08:32:37.266 ServerApp] Registered aext_core server extension</span><br><span class="line">[I 2024-11-07 08:32:37.266 ServerApp] aext_core | extension was successfully loaded.</span><br><span class="line">[I 2024-11-07 08:32:37.277 ServerApp] Registered aext_panels server extension</span><br><span class="line">[I 2024-11-07 08:32:37.277 ServerApp] aext_panels | extension was successfully loaded.</span><br><span class="line">[I 2024-11-07 08:32:37.280 ServerApp] Registered aext_share_notebook_server server extension</span><br><span class="line">[I 2024-11-07 08:32:37.280 ServerApp] aext_share_notebook | extension was successfully loaded.</span><br><span class="line">[I 2024-11-07 08:32:37.296 ServerApp] jupyter_lsp | extension was successfully loaded.</span><br><span class="line">[I 2024-11-07 08:32:37.296 ServerApp] jupyter_server_terminals | extension was successfully loaded.</span><br><span class="line">[I 2024-11-07 08:32:37.364 LabApp] JupyterLab extension loaded from D:\bernie\ANACONDA\Lib\site-packages\jupyterlab</span><br><span class="line">[I 2024-11-07 08:32:37.364 LabApp] JupyterLab application directory is D:\bernie\ANACONDA\share\jupyter\lab</span><br><span class="line">[I 2024-11-07 08:32:37.364 LabApp] Extension Manager is <span class="string">&#x27;pypi&#x27;</span>.</span><br><span class="line">[I 2024-11-07 08:32:37.832 ServerApp] jupyterlab | extension was successfully loaded.</span><br><span class="line">[I 2024-11-07 08:32:37.863 ServerApp] notebook | extension was successfully loaded.</span><br><span class="line">[I 2024-11-07 08:32:37.879 ServerApp] panel.io.jupyter_server_extension | extension was successfully loaded.</span><br><span class="line">[I 2024-11-07 08:32:37.879 ServerApp] Serving notebooks from <span class="built_in">local</span> directory: D:\programmes\jupyternotbook</span><br><span class="line">[I 2024-11-07 08:32:37.879 ServerApp] Jupyter Server 2.14.1 is running at:</span><br><span class="line">[I 2024-11-07 08:32:37.879 ServerApp] http://localhost:8888/tree?token=c3af23be44c9e2ab1c1df77a33433a88768c87e285b730a8</span><br><span class="line">[I 2024-11-07 08:32:37.879 ServerApp]     http://127.0.0.1:8888/tree?token=c3af23be44c9e2ab1c1df77a33433a88768c87e285b730a8</span><br><span class="line">[I 2024-11-07 08:32:37.879 ServerApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).</span><br><span class="line">[C 2024-11-07 08:32:38.305 ServerApp]</span><br><span class="line"></span><br><span class="line">    To access the server, open this file <span class="keyword">in</span> a browser:</span><br><span class="line">        file:///C:/Users/berni/AppData/Roaming/jupyter/runtime/jpserver-13360-open.html</span><br><span class="line">    Or copy and <span class="built_in">paste</span> one of these URLs:</span><br><span class="line">        http://localhost:8888/tree?token=c3af23be44c9e2ab1c1df77a33433a88768c87e285b730a8</span><br><span class="line">        http://127.0.0.1:8888/tree?token=c3af23be44c9e2ab1c1df77a33433a88768c87e285b730a8</span><br><span class="line">[W 2024-11-07 08:32:38.575 ServerApp] Could not determine npm prefix: [WinError 2] 系统找不到指定的文件。</span><br><span class="line">[I 2024-11-07 08:32:40.102 ServerApp] Skipped non-installed server(s): bash-language-server, dockerfile-language-server-nodejs, javascript-typescript-langserver, jedi-language-server, julia-language-server, pyright, python-language-server, r-languageserver, sql-language-server, texlab, typescript-language-server, unified-language-server, vscode-css-languageserver-bin, vscode-html-languageserver-bin, vscode-json-languageserver-bin, yaml-language-server</span><br><span class="line">0.01s - Debugger warning: It seems that frozen modules are being used, <span class="built_in">which</span> may</span><br><span class="line">0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off</span><br><span class="line">0.00s - to python to <span class="built_in">disable</span> frozen modules.</span><br><span class="line">0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to <span class="built_in">disable</span> this validation.</span><br><span class="line">[W 2024-11-07 08:32:55.081 ServerApp] wrote error: <span class="string">&#x27;Forbidden&#x27;</span></span><br><span class="line">    Traceback (most recent call last):</span><br><span class="line">      File <span class="string">&quot;D:\bernie\ANACONDA\Lib\site-packages\tornado\web.py&quot;</span>, line 1790, <span class="keyword">in</span> _execute</span><br><span class="line">        result = await result</span><br><span class="line">                 ^^^^^^^^^^^^</span><br><span class="line">      File <span class="string">&quot;D:\bernie\ANACONDA\Lib\site-packages\aext_assistant_server\handlers.py&quot;</span>, line 117, <span class="keyword">in</span> get</span><br><span class="line">        raise HTTPError(403, reason=<span class="string">&quot;missing nucleus_token&quot;</span>)</span><br><span class="line">    tornado.web.HTTPError: HTTP 403: missing nucleus_token</span><br><span class="line">[W 2024-11-07 08:32:55.226 ServerApp] 403 GET /aext_assistant_server/nucleus_token?1730939570778 (869ba06468444d0bb7c6d5923176142d@::1) 2372.50ms referer=http://localhost:8888/tree</span><br><span class="line">[W 2024-11-07 08:36:19.905 ServerApp] wrote error: <span class="string">&#x27;Forbidden&#x27;</span></span><br><span class="line">    Traceback (most recent call last):</span><br><span class="line">      File <span class="string">&quot;D:\bernie\ANACONDA\Lib\site-packages\tornado\web.py&quot;</span>, line 1790, <span class="keyword">in</span> _execute</span><br><span class="line">        result = await result</span><br><span class="line">                 ^^^^^^^^^^^^</span><br><span class="line">      File <span class="string">&quot;D:\bernie\ANACONDA\Lib\site-packages\aext_assistant_server\handlers.py&quot;</span>, line 117, <span class="keyword">in</span> get</span><br><span class="line">        raise HTTPError(403, reason=<span class="string">&quot;missing nucleus_token&quot;</span>)</span><br><span class="line">    tornado.web.HTTPError: HTTP 403: missing nucleus_token</span><br><span class="line">[W 2024-11-07 08:36:19.973 ServerApp] 403 GET /aext_assistant_server/nucleus_token?1730939779877 (869ba06468444d0bb7c6d5923176142d@::1) 100.08ms referer=http://localhost:8888/notebooks/Untitled.ipynb</span><br><span class="line">[I 2024-11-07 08:36:24.301 ServerApp] Kernel started: 291f2f0b-ddbc-491e-a777-be9fe844237f</span><br><span class="line">0.00s - Debugger warning: It seems that frozen modules are being used, <span class="built_in">which</span> may</span><br><span class="line">0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off</span><br><span class="line">0.00s - to python to <span class="built_in">disable</span> frozen modules.</span><br><span class="line">0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to <span class="built_in">disable</span> this validation.</span><br><span class="line">[I 2024-11-07 08:36:27.752 ServerApp] Connecting to kernel 291f2f0b-ddbc-491e-a777-be9fe844237f.</span><br><span class="line">[I 2024-11-07 08:36:27.862 ServerApp] Connecting to kernel 291f2f0b-ddbc-491e-a777-be9fe844237f.</span><br><span class="line">[I 2024-11-07 08:36:28.068 ServerApp] Connecting to kernel 291f2f0b-ddbc-491e-a777-be9fe844237f.</span><br><span class="line">[W 2024-11-07 08:36:28.417 ServerApp] Got events <span class="keyword">for</span> closed stream &lt;zmq.eventloop.zmqstream.ZMQStream object at 0x0000016335ACCAD0&gt;</span><br></pre></td></tr></table></figure>
+<p>-然后</p>
+</li>
+</ol>
+<h1 id="狂按Ctrl-c"><a href="#狂按Ctrl-c" class="headerlink" title="狂按Ctrl + c"></a>狂按<code>Ctrl + c</code></h1><ol start="2">
+<li><p><strong>正常结束Jupyter Notebook</strong>：</p>
+<ul>
+<li>打开任务管理器（按<code>Ctrl + Shift + Esc</code>）。</li>
+<li>在“进程”选项卡中，找到名为<code>jupyter-notebook.exe</code>的进程。</li>
+<li>右键点击该进程并选择“结束任务”。</li>
+</ul>
+</li>
+<li><p><strong>正常结束批处理文件</strong>：</p>
+<ul>
+<li>再次打开任务管理器。</li>
+<li>在“进程”选项卡中，找到名为<code>cmd.exe</code>或<code>conhost.exe</code>的进程。</li>
+<li>右键点击该进程并选择“结束任务”。</li>
+</ul>
+</li>
+</ol>
+<p>通过以上步骤，你可以轻松地创建、修改路径和结束Jupyter Notebook及批处理文件。</p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://berniedif.github.io/2024/11/07/Jupyter-Notebook-%E5%90%AF%E5%8A%A8%E5%99%A8%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jupyter/" rel="tag">Jupyter</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2024/11/07/%E2%80%9Cpython%EF%BC%9A%E5%87%BD%E6%95%B01%E2%80%9D%E8%A7%A3%E6%9E%90/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            “python：函数1”解析
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2024/11/06/%E2%80%9Cpython%EF%BC%9A%E5%AD%97%E5%85%B8%E7%9A%84%E7%BB%83%E4%B9%A0%E2%80%9D%E8%A7%A3%E6%9E%90/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">“python：字典的练习”解析</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "DAeOYIeCtfnPwFeKf96Drmpe-MdYXbMMI",
+    app_key: "kTYIzQjQl7fiwPZRR4NMuaEe#",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+  
+    
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2023-2026
+        <i class="ri-heart-fill heart_icon"></i> John Doe
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="老夏十三行"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯茶吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js"></script>
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/config/TeX-AMS-MML_HTMLorMML-full.js"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>

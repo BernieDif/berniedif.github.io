@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+
+
+<html lang="zh">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>DRL-VO Learning to Navigate Through Crowded Dynamic Scenes Using Velocity Obstacles |  老夏十三行</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      
+<link rel="stylesheet" href="/css/fonts/remixicon.css">
+
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    <!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --></head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-DRL-VO Learning to Navigate Through Crowded Dynamic Scenes Using Velocity Obstacles"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  DRL-VO Learning to Navigate Through Crowded Dynamic Scenes Using Velocity Obstacles
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2025/01/31/DRL-VO%20Learning%20to%20Navigate%20Through%20Crowded%20Dynamic%20Scenes%20Using%20Velocity%20Obstacles/" class="article-date">
+  <time datetime="2025-01-31T14:13:47.000Z" itemprop="datePublished">2025-01-31</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E9%98%85%E8%AF%BB/">学术阅读</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2.7k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">9 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h4 id="一、知识点"><a href="#一、知识点" class="headerlink" title="一、知识点"></a>一、知识点</h4><ol>
+<li><p>强化学习（Reinforcement Learning, RL）与深度强化学习（Deep Reinforcement Learning, DRL）</p>
+<ul>
+<li>强化学习是一种机器学习范式，其中智能体（agent）通过与环境交互来学习行为策略，以最大化累积奖励。</li>
+<li>深度强化学习结合了深度学习与强化学习，使用深度神经网络来近似策略或价值函数，从而能够处理高维状态空间和复杂任务。</li>
+</ul>
+</li>
+<li><p>激光雷达（Lidar）数据处理</p>
+<ul>
+<li>激光雷达是一种通过发射激光并测量反射时间来获取周围环境三维信息的传感器。</li>
+<li>在本论文中，激光雷达数据被用于构建观测空间，通过预处理步骤（如下采样、投影到占用网格地图、池化等）来提取有用的特征。</li>
+</ul>
+</li>
+<li><p>速度障碍（Velocity Obstacles, VO）</p>
+<ul>
+<li>速度障碍是一种用于避免碰撞的方法，它定义了一个速度空间，其中任何速度都会导致智能体与障碍物发生碰撞。</li>
+<li>本论文扩展了速度障碍的概念，将其应用于奖励函数中，以指导智能体在避免碰撞的同时向目标移动。</li>
+</ul>
+</li>
+<li><p>观测空间（Observation Space）与行动空间（Action Space）</p>
+<ul>
+<li>观测空间包含了智能体从环境中获取的所有信息，用于决策。</li>
+<li>行动空间定义了智能体可以采取的所有可能行动。</li>
+</ul>
+</li>
+<li><p>数据池化</p>
+<ul>
+<li>数据池化是机器学习中的一种技术，用于减少数据的维度或特征的数量。</li>
+<li>常用的方法包括最小值池化和平均值池化。</li>
+</ul>
+</li>
+<li><p>零阶碰撞避免与一阶碰撞避免</p>
+<ul>
+<li>零阶碰撞避免通常指的是基于距离的碰撞避免方法，它只考虑机器人与障碍物之间的距离，而不考虑障碍物的运动状态。这种方法通常会导致机器人采取被动的碰撞避免行为，即只有当机器人接近障碍物到一定程度时才会采取避让措施。文档中提到，零阶碰撞避免项通常用于DRL（深度强化学习）基础的导航策略中，它包括一个基于距离的碰撞避免项和一个目标达成项，分别指导机器人避免碰撞和到达目标。然而，这种零阶碰撞避免项迫使机器人只能被动地避免碰撞，而不是主动采取避让行动。</li>
+<li>一阶碰撞避免则考虑了障碍物的运动状态，特别是速度信息。通过使用速度障碍（Velocity Obstacles, VO）来创建一阶碰撞避免项，可以引导机器人选择当前和未来都是安全的动作。这种方法允许机器人主动地避免碰撞，而不是仅仅在碰撞即将发生时才做出反应。文档中提到，使用速度障碍作为奖励项可以指导机器人采取安全的行为，并且在实验中显示，这种一阶主动奖励函数极大地提高了机器人导航的安全性和速度。</li>
+</ul>
+</li>
+</ol>
+<h4 id="二、方法"><a href="#二、方法" class="headerlink" title="二、方法"></a>二、方法</h4><ol>
+<li><p>观测数据提取与处理</p>
+<ul>
+<li>从原始激光雷达数据中提取观测数据，包括使用不同的预处理操作（如重塑、投影到占用网格地图、池化等）。</li>
+<li>结合当前附近行人的运动学信息，以及一个短暂的激光雷达数据历史，构建输入到神经网络的观测空间。</li>
+</ul>
+</li>
+<li><p>网络架构</p>
+<ul>
+<li>使用深度神经网络作为控制策略，网络架构允许灵活设计，能够融合来自不同输入源的中间表示。</li>
+<li>网络输出智能体的行动概率，用于指导智能体的导航行为。</li>
+</ul>
+</li>
+<li><p>奖励函数设计</p>
+<ul>
+<li>奖励函数是强化学习中的关键组成部分，用于指导智能体的学习行为。</li>
+<li>本论文设计了一个包含多个奖励项的奖励函数，包括到达目标的奖励、避免碰撞的奖励、以及保持朝向目标方向的奖励。</li>
+<li>特别地，扩展了速度障碍的概念，将其应用于奖励函数中，以指导智能体在避免碰撞的同时高效地向目标移动。</li>
+</ul>
+</li>
+<li><p>深度强化学习算法</p>
+<ul>
+<li>采用深度强化学习算法来训练控制策略，使智能体能够在模拟环境中通过试错学习最佳导航行为。</li>
+<li>算法通过最大化累积奖励来优化策略，使其能够在复杂的动态环境中自主导航。</li>
+</ul>
+</li>
+</ol>
+<h4 id="三、工作"><a href="#三、工作" class="headerlink" title="三、工作"></a>三、工作</h4><h5 id="1-观察空间"><a href="#1-观察空间" class="headerlink" title="1. 观察空间"></a>1. 观察空间</h5><p>使用了三种类型的数据作为观察空间：激光雷达数据、行人动力学数据和子目标点。这些数据通过最大绝对值缩放转换为（-1，1）的浮点形式，从而能够被导航策略有效利用。</p>
+<ol>
+<li><p>激光雷达数据：激光雷达数据用于提供环境的基本结构信息。为了编码这些信息，DRL-VO策略首先对激光雷达数据进行最小值和平均池化处理，以压缩数据并减少过拟合的风险。这些处理后的数据被堆叠成<code>一个80x80的数组</code>，形成一个历史地图，该地图反映了过去<code>0.5秒</code>(经检验训练效果最佳)内的环境变化。这种表示方法使得导航策略能够更好地理解周围环境，并做出适应性的决策。</p>
+</li>
+<li><p>行人动力学数据：行人动力学数据对于在密集人群中导航至关重要。DRL-VO策略通过检测RGB-D相机数据中的对象、测量其位置并使用多假设跟踪（MHT）算法来融合这些信息，从而获取关于行人运动状态的关键数据。这些数据被编码为与激光雷达数据相兼容的格式，并一起输入到导航策略中。这种表示方法使得导航策略能够区分静态障碍物和动态行人，并根据行人的运动状态来调整其导航行为。</p>
+</li>
+<li><p>子目标点：子目标点。这种方法允许机器人在复杂的非凸环境中穿越长路径，并避免了由于到子目标的距离不断变化而产生的标准化问题。选择子目标点gt时，使用了纯追踪算法（pure pursuit algorithm），该算法计算出机器人前方指定距离（本例中为2米）的路径点。通过调整这个距离，机器人可以看得更远或更近。文档中还提到，这种子目标信息将使机器人更准确地导航到最终目标位置。<br><strong>子目标算法</strong><br>接收参数:子目标方向角度（θg）、来自多假设跟踪（MHT）的行人数据（Bpeds）、机器人的线性速度（vAx）和采样数量（N）。<br>输出:<code>最优方向角度（θd）</code>。<br>算法的主要步骤如下：</p>
+</li>
+<li><p>初始化最优方向角度为π&#x2F;2（即90度）。</p>
+</li>
+<li><p>如果没有行人数据（Bpeds为空），则直接设置最优方向角度为子目标方向角度（θg）。</p>
+</li>
+<li><p>如果有行人数据，算法将进行N次采样，每次从-π到π（即-180度到180度）的范围内随机选择一个方向角度（θu）。</p>
+</li>
+<li><p>对于每个采样的方向角度，算法会计算机器人与每个行人的相对角度（θvA,B）。</p>
+</li>
+<li><p>如果机器人与行人之间的相对角度在子目标方向角度的一定范围内（θ − β到θ + β），则认为该方向不安全，需要继续寻找其他方向。</p>
+</li>
+<li><p>如果找到一个安全的方向角度（即没有行人在这个方向上），算法会比较这个方向与子目标方向的差异，选择两者中差异最小的方向作为最优方向。</p>
+</li>
+<li><p>如果所有方向都被行人占据，则最终方向设置为子目标方向。</p>
+</li>
+</ol>
+<h5 id="2-动作空间"><a href="#2-动作空间" class="headerlink" title="2.动作空间"></a>2.动作空间</h5><p>动作空间由两个部分组成：前进速度（vx_t）和旋转速度（ωz_t），这两者都是在局部机器人坐标系中定义的。使用连续动作空间意味着机器人的动作可以是无限多的，而不是离散的几种选择。这样的设计旨在提供更精确的控制。<br>为了确保动作空间符合实际硬件的限制，作者们设定了前进速度和旋转速度的具体范围。前进速度的范围是[0, 0.5] m&#x2F;s，旋转速度的范围是to [−2, 2] rad&#x2F;s秒，这些限制是基于他们使用的硬件平台Turtlebot2的性能和限制，而非模型输入限制。此外，为了标准化处理，动作空间被归一化到了[-1, 1]区间内，这是通过最大绝对值缩放（Max-Abs scaling）实现的。</p>
+<h5 id="3-奖励函数"><a href="#3-奖励函数" class="headerlink" title="3. 奖励函数"></a>3. 奖励函数</h5><ol>
+<li>达到目标：系统在达到目标位置时会收到奖励。如果目标位置的预测与实际目标位置之间的距离小于某个阈值，系统会得到一个较高的奖励；如果超出了设定的最大时间，会根据路径上的位置差异来计算奖励；否则，没有奖励。</li>
+<li>被动碰撞避免：系统在避免与障碍物碰撞时会得到奖励。如果预测的障碍物位置与实际障碍物位置之间的距离小于一个安全距离，系统会得到一个负奖励（即惩罚）；如果预测位置与障碍物的距离在安全距离以上，则没有奖励。</li>
+<li>路径平滑性：系统在保持路径平滑时也会获得奖励。如果机器人的旋转速度超过了某个阈值，系统会得到一个负奖励；如果没有超过，则没有奖励。</li>
+<li>主动朝向控制：系统在朝向控制上也会得到奖励。如果实际朝向与期望朝向之间的偏差小于设定的最大允许偏差，则系统会得到奖励。</li>
+</ol>
+<h4 id="3-训练方法"><a href="#3-训练方法" class="headerlink" title="3. 训练方法"></a>3. 训练方法</h4><p>   他们使用了稳定基线（stable-baselines）3框架来实现PPO算法，使用了Adam优化器，在训练过程中使用了步长衰减作为学习率计划，初始学习率为10^-3，并将小批量大小设置为512。训练控制策略时，他们使用了带有34个行人的Lobby环境，并让机器人反复从地图的自由空间内的随机起点到达随机目标位置。</p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://berniedif.github.io/2025/01/31/DRL-VO%20Learning%20to%20Navigate%20Through%20Crowded%20Dynamic%20Scenes%20Using%20Velocity%20Obstacles/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A7%86%E8%A7%89%E5%AF%BC%E8%88%AA/" rel="tag">视觉导航</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BA%E6%96%87/" rel="tag">论文</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2025/01/31/Multi-Robot%20Collaborative%20Dense%20Scene%20Reconstruction/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            Multi-Robot Collaborative Dense Scene Reconstruction
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2025/01/31/Volumetric%20Environment%20Representation%20for%20Vision-Language%20Navigation/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Volumetric Environment Representation for Vision-Language Navigation</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.staticfile.org/valine/1.4.16/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "DAeOYIeCtfnPwFeKf96Drmpe-MdYXbMMI",
+    app_key: "kTYIzQjQl7fiwPZRR4NMuaEe#",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "给我的文章加点评论吧~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+   
+  
+    
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2023-2026
+        <i class="ri-heart-fill heart_icon"></i> John Doe
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></span>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="老夏十三行"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">旅行</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯茶吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.staticfile.org/jquery-modal/0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.staticfile.org/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/photoswipe/4.1.3/default-skin/default-skin.min.css">
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe.min.js"></script>
+<script src="https://cdn.staticfile.org/photoswipe/4.1.3/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/MathJax.js"></script>
+<script src="https://cdn.staticfile.org/mathjax/2.7.7/config/TeX-AMS-MML_HTMLorMML-full.js"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+ 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+ 
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.staticfile.org/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>
